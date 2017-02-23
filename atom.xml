@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haohaozaici.github.io/"/>
-  <updated>2017-02-21T07:42:47.216Z</updated>
+  <updated>2017-02-23T16:02:13.587Z</updated>
   <id>https://haohaozaici.github.io/</id>
   
   <author>
@@ -16,11 +16,61 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>腾讯Bugly使用初体验</title>
+    <link href="https://haohaozaici.github.io/2017/02/23/%E8%85%BE%E8%AE%AFBugly%E4%BD%BF%E7%94%A8%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    <id>https://haohaozaici.github.io/2017/02/23/腾讯Bugly使用初体验/</id>
+    <published>2017-02-23T15:38:00.000Z</published>
+    <updated>2017-02-23T16:02:13.587Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="腾讯Bugly使用初体验"><a href="#腾讯Bugly使用初体验" class="headerlink" title="腾讯Bugly使用初体验"></a>腾讯Bugly使用初体验</h2><blockquote>
+<p>在拥有了自己的app之后，总是希望别人能够喜欢、下载、传播自己的app，如何追踪app的状态就十分重要了，包含了用户分析，设备分析==，当然信息越全面越好了。bugly帮我解决了用户分析和异常追踪的需求。</p>
+</blockquote>
+<p>初体验里当然只包含了很少的内容，算是入门介绍把，总结提醒自己。</p>
+<h3 id="核心内容"><a href="#核心内容" class="headerlink" title="核心内容"></a>核心内容</h3><ul>
+<li><strong>Android SDK集成</strong>：使用指南，提示。</li>
+<li><strong>异常上报</strong>：在各种异常状态下上报异常信息，发生异常的环境==。</li>
+<li><strong>高级功能</strong>：拓展功能介绍。</li>
+</ul>
+<hr>
+<h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><ul>
+<li>崩溃：闪退</li>
+<li>卡顿：默认卡顿5s以上，可以自定义</li>
+<li>ANR：无响应</li>
+<li>错误：主动上报Exception，Error</li>
+<li>发生次数==<br><a href="https://bugly.qq.com/docs/introduction/bugly-introduction/?v=20170213095331#_6" target="_blank" rel="external">查看完整列表</a></li>
+</ul>
+<h3 id="Bugly基础使用"><a href="#Bugly基础使用" class="headerlink" title="Bugly基础使用"></a>Bugly基础使用</h3><h5 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'com.tencent.bugly:crashreport:2.4.0'</span></div></pre></td></tr></table></figure>
+<h5 id="参数设置"><a href="#参数设置" class="headerlink" title="参数设置"></a>参数设置</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.READ_PHONE_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.READ_LOGS"</span> /&gt;</div></pre></td></tr></table></figure>
+<h5 id="最简单的初始化"><a href="#最简单的初始化" class="headerlink" title="最简单的初始化"></a>最简单的初始化</h5><p>添加Application类，@override onCreate方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CrashReport.initCrashReport(getApplicationContext(), APP_ID, <span class="keyword">true</span>);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>第三个参数为SDK调试模式开关，调试模式的行为特性如下:输出详细的Bugly SDK的Log；每一条Crash都会被立即上报；<br>自定义日志将会在Logcat中输出。<br>建议在测试阶段建议设置成true，发布时设置为false。<br>不要在异步线程初始化Bugly。</p>
+</blockquote>
+<p>或者<a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20170213095331" target="_blank" rel="external">在 AndroidManifest.xml 中配置APP信息</a></p>
+<h5 id="上报进程控制"><a href="#上报进程控制" class="headerlink" title="上报进程控制"></a><a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20170213095331" target="_blank" rel="external">上报进程控制</a></h5><p>防止多进程重复启用bugly服务。</p>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>在初始化Bugly的之后，调用Bugly测Java Crash接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CrashReport.testJavaCrash();</div></pre></td></tr></table></figure></p>
+<p>最后观察logcat。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;腾讯Bugly使用初体验&quot;&gt;&lt;a href=&quot;#腾讯Bugly使用初体验&quot; class=&quot;headerlink&quot; title=&quot;腾讯Bugly使用初体验&quot;&gt;&lt;/a&gt;腾讯Bugly使用初体验&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;在拥有了自己的app之后，总是希望
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/categories/Android/"/>
+    
+    
+      <category term="Bugly" scheme="https://haohaozaici.github.io/tags/Bugly/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
     <link href="https://haohaozaici.github.io/2017/02/21/hello-world/"/>
     <id>https://haohaozaici.github.io/2017/02/21/hello-world/</id>
     <published>2017-02-21T07:42:47.210Z</published>
-    <updated>2017-02-21T07:42:47.216Z</updated>
+    <updated>2017-02-23T08:59:30.634Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
@@ -31,6 +81,7 @@
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<p>##END</p>
 ]]></content>
     
     <summary type="html">
