@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>haohaozaici</title>
   <subtitle>haohaozaici的博客</subtitle>
-  <link href="/blog/atom.xml" rel="self"/>
+  <link href="/atom.xml" rel="self"/>
   
   <link href="https://haohaozaici.github.io/"/>
   <updated>2017-02-21T07:42:47.216Z</updated>
