@@ -18,65 +18,58 @@
     
     
     
-    <title>lcswAPP分析 | haohaozaici | haohaozaici的博客</title>
+    <title>TO-DO APP MVP架构学习 | haohaozaici | haohaozaici的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="笔记">
-    <meta name="description" content="lcpay项目分析
-项目重构了，基础架构更加明确，分析功能模块，逐个击破。
+    <meta name="keywords" content="MVP">
+    <meta name="description" content="TO-DO APP MVP架构学习
+由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。这一次先学习入门的google samples中的TO-DO APP项目。
 
-内容包括：
+本文目录层次：
 
-友盟推送
+项目应用介绍。
+目录结构分析。
+MVP在项目中的应用。
 
-友盟推送
-添加依赖
-manifest设置
-配置Application
 
-manifest设置配置权限，设置android:name=&amp;quot;Application Name&amp;quot;，UMENG_APPKEY
-在Application中处理
-initUmengPush();注册保存静态常量">
+应用介绍TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lcswAPP分析">
-<meta property="og:url" content="https://haohaozaici.github.io/2017/02/28/lcswAPP分析/index.html">
+<meta property="og:title" content="TO-DO APP MVP架构学习">
+<meta property="og:url" content="https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/index.html">
 <meta property="og:site_name" content="haohaozaici">
-<meta property="og:description" content="lcpay项目分析
-项目重构了，基础架构更加明确，分析功能模块，逐个击破。
+<meta property="og:description" content="TO-DO APP MVP架构学习
+由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。这一次先学习入门的google samples中的TO-DO APP项目。
 
-内容包括：
+本文目录层次：
 
-友盟推送
+项目应用介绍。
+目录结构分析。
+MVP在项目中的应用。
 
-友盟推送
-添加依赖
-manifest设置
-配置Application
 
-manifest设置配置权限，设置android:name=&amp;quot;Application Name&amp;quot;，UMENG_APPKEY
-在Application中处理
-initUmengPush();注册保存静态常量">
-<meta property="og:updated_time" content="2017-02-28T10:00:00.000Z">
+应用介绍TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主">
+<meta property="og:image" content="https://haohaozaici.github.io/pageimg/TO-DO">
+<meta property="og:image" content="https://haohaozaici.github.io/pageimg/TO-DO">
+<meta property="og:image" content="https://haohaozaici.github.io/pageimg/TO-DO">
+<meta property="og:image" content="https://haohaozaici.github.io/pageimg/TO-DO">
+<meta property="og:updated_time" content="2017-03-01T08:53:57.080Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lcswAPP分析">
-<meta name="twitter:description" content="lcpay项目分析
-项目重构了，基础架构更加明确，分析功能模块，逐个击破。
+<meta name="twitter:title" content="TO-DO APP MVP架构学习">
+<meta name="twitter:description" content="TO-DO APP MVP架构学习
+由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。这一次先学习入门的google samples中的TO-DO APP项目。
 
-内容包括：
+本文目录层次：
 
-友盟推送
+项目应用介绍。
+目录结构分析。
+MVP在项目中的应用。
 
-友盟推送
-添加依赖
-manifest设置
-配置Application
 
-manifest设置配置权限，设置android:name=&amp;quot;Application Name&amp;quot;，UMENG_APPKEY
-在Application中处理
-initUmengPush();注册保存静态常量">
+应用介绍TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主">
+<meta name="twitter:image" content="https://haohaozaici.github.io/pageimg/TO-DO">
     
         <link rel="alternative" href="/atom.xml" title="haohaozaici" type="application/atom+xml">
     
@@ -160,7 +153,7 @@ initUmengPush();注册保存静态常量">
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">lcswAPP分析</div>
+        <div class="flex-col header-title ellipsis">TO-DO APP MVP架构学习</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -182,11 +175,11 @@ initUmengPush();注册保存静态常量">
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">lcswAPP分析</h1>
+        <h1 class="title">TO-DO APP MVP架构学习</h1>
         <h5 class="subtitle">
             
-                <time datetime="2017-02-28T08:57:49.000Z" itemprop="datePublished" class="page-time">
-  2017-02-28
+                <time datetime="2017-03-01T08:28:28.000Z" itemprop="datePublished" class="page-time">
+  2017-03-01
 </time>
 
 
@@ -206,17 +199,17 @@ initUmengPush();注册保存静态常量">
     <aside class="post-widget">
         <nav class="post-toc-wrap" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#lcpay项目分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">lcpay项目分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#友盟推送"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">友盟推送</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#manifest设置"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">manifest设置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在Application中处理"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">在Application中处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NotificationService"><span class="post-toc-number">1.1.2.1.</span> <span class="post-toc-text">NotificationService</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TO-DO-APP-MVP架构学习"><span class="post-toc-number">1.</span> <span class="post-toc-text">TO-DO APP MVP架构学习</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用介绍"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">应用介绍</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
-<article id="post-lcswAPP分析"
+<article id="post-TO-DO APP MVP架构学习"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">lcswAPP分析</h1>
+        <h1 class="post-card-title">TO-DO APP MVP架构学习</h1>
         <div class="post-meta">
-            <time class="post-time" title="2017年02月28日 16:57" datetime="2017-02-28T08:57:49.000Z"  itemprop="datePublished">2017-02-28</time>
+            <time class="post-time" title="2017年03月01日 16:28" datetime="2017-03-01T08:28:28.000Z"  itemprop="datePublished">2017-03-01</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
@@ -233,29 +226,41 @@ initUmengPush();注册保存静态常量">
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="lcpay项目分析"><a href="#lcpay项目分析" class="headerlink" title="lcpay项目分析"></a>lcpay项目分析</h1><blockquote>
-<p>项目重构了，基础架构更加明确，分析功能模块，逐个击破。</p>
+            <h1 id="TO-DO-APP-MVP架构学习"><a href="#TO-DO-APP-MVP架构学习" class="headerlink" title="TO-DO APP MVP架构学习"></a>TO-DO APP MVP架构学习</h1><blockquote>
+<p>由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。<br>这一次先学习入门的<code>google samples</code>中的<code>TO-DO APP</code>项目。</p>
 </blockquote>
-<p>内容包括：</p>
+<p>本文目录层次：</p>
 <ul>
-<li>友盟推送</li>
+<li>项目应用介绍。</li>
+<li>目录结构分析。</li>
+<li>MVP在项目中的应用。</li>
 </ul>
-<h2 id="友盟推送"><a href="#友盟推送" class="headerlink" title="友盟推送"></a>友盟推送</h2><ul>
-<li>添加依赖</li>
-<li>manifest设置</li>
-<li>配置Application</li>
-</ul>
-<h3 id="manifest设置"><a href="#manifest设置" class="headerlink" title="manifest设置"></a>manifest设置</h3><p>配置权限，设置<code>android:name=&quot;Application Name&quot;</code>，<code>UMENG_APPKEY</code></p>
-<h3 id="在Application中处理"><a href="#在Application中处理" class="headerlink" title="在Application中处理"></a>在Application中处理</h3><ul>
-<li><code>initUmengPush();</code>注册保存静态常量，配置完全自定义推送服务。</li>
-<li>在<code>PushIntentService.class</code>类中，取得消息体，读取消息到自定义类当中，<strong>序列化</strong>创建的对象<code>bundle.putParcelable(&quot;msg&quot;, pushMessage);</code>。</li>
-<li>启动服务<code>NotificationService.class</code><br>设置了<code>PendingIntent.FLAG_UPDATE_CURRENT</code>参数更新旧消息的<code>extras</code>。</li>
-<li>语音合成<code>AppApplication.mTts.startSpeaking(msg.text, null);</code></li>
-</ul>
-<h4 id="NotificationService"><a href="#NotificationService" class="headerlink" title="NotificationService"></a>NotificationService</h4><p>通知配置：</p>
-<ul>
-<li>获取<code>extras</code>，读取消息内容，处理推送，设置标题，内容，跳转Activity。</li>
-</ul>
+<hr>
+<h2 id="应用介绍"><a href="#应用介绍" class="headerlink" title="应用介绍"></a>应用介绍</h2><p>TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主要功能截图。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure></p>
 
         </div>
 
@@ -263,11 +268,11 @@ initUmengPush();注册保存静态常量">
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2017-02-28T10:00:00.000Z" itemprop="dateUpdated">2017年2月28日 18:00</time>
+    最后更新时间：<time datetime="2017-03-01T08:53:57.080Z" itemprop="dateUpdated">2017年3月1日 16:53</time>
 </span><br>
 
 
-        转载注明来自：<a href="/2017/02/28/lcswAPP分析/" target="_blank" rel="external">https://haohaozaici.github.io/2017/02/28/lcswAPP分析/</a>
+        转载注明来自：<a href="/2017/03/01/TO-DO APP MVP架构学习/" target="_blank" rel="external">https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/</a>
     </div>
     <footer>
         <a href="https://haohaozaici.github.io">
@@ -282,7 +287,7 @@ initUmengPush();注册保存静态常量">
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVP/">MVP</a></li></ul>
 
 
             
@@ -292,7 +297,7 @@ initUmengPush();注册保存静态常量">
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/&title=《TO-DO APP MVP架构学习》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -302,22 +307,22 @@ initUmengPush();注册保存静态常量">
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/&title=《TO-DO APP MVP架构学习》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lcswAPP分析》 — haohaozaici&url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&via=https://haohaozaici.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《TO-DO APP MVP架构学习》 — haohaozaici&url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/&via=https://haohaozaici.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -337,21 +342,14 @@ initUmengPush();注册保存静态常量">
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2017/03/01/TO-DO APP MVP架构学习/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">TO-DO APP MVP架构学习</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2017/02/23/腾讯Bugly使用初体验/" id="post-next" class="post-nav-link">
+      <a href="/2017/02/28/lcswAPP分析/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">腾讯Bugly使用初体验</h4>
+        <h4 class="title">lcswAPP分析</h4>
       </a>
     </div>
   
@@ -362,7 +360,7 @@ initUmengPush();注册保存静态常量">
     
 
 <div class="comments" id="comments">
-    <div class="ds-thread" data-thread-key="lcswAPP分析" data-title="lcswAPP分析" data-url="https://haohaozaici.github.io/2017/02/28/lcswAPP分析/"></div>
+    <div class="ds-thread" data-thread-key="TO-DO APP MVP架构学习" data-title="TO-DO APP MVP架构学习" data-url="https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/"></div>
 </div>
 <script>
 lazyScripts.push('//cdn.bootcss.com/marked/0.3.6/marked.min.js');
@@ -420,7 +418,7 @@ lazyScripts.push('/js/embed.min.js?v=1.4.7');
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/&title=《TO-DO APP MVP架构学习》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -430,22 +428,22 @@ lazyScripts.push('/js/embed.min.js?v=1.4.7');
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/&title=《TO-DO APP MVP架构学习》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lcswAPP分析》 — haohaozaici&url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&via=https://haohaozaici.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《TO-DO APP MVP架构学习》 — haohaozaici&url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/&via=https://haohaozaici.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -456,7 +454,7 @@ lazyScripts.push('/js/embed.min.js?v=1.4.7');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/" alt="微信分享二维码">
 </div>
 
 

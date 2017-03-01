@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haohaozaici.github.io/"/>
-  <updated>2017-02-28T10:00:00.000Z</updated>
+  <updated>2017-03-01T08:53:57.080Z</updated>
   <id>https://haohaozaici.github.io/</id>
   
   <author>
@@ -14,6 +14,64 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TO-DO APP MVP架构学习</title>
+    <link href="https://haohaozaici.github.io/2017/03/01/TO-DO%20APP%20MVP%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/</id>
+    <published>2017-03-01T08:28:28.000Z</published>
+    <updated>2017-03-01T08:53:57.080Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="TO-DO-APP-MVP架构学习"><a href="#TO-DO-APP-MVP架构学习" class="headerlink" title="TO-DO APP MVP架构学习"></a>TO-DO APP MVP架构学习</h1><blockquote>
+<p>由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。<br>这一次先学习入门的<code>google samples</code>中的<code>TO-DO APP</code>项目。</p>
+</blockquote>
+<p>本文目录层次：</p>
+<ul>
+<li>项目应用介绍。</li>
+<li>目录结构分析。</li>
+<li>MVP在项目中的应用。</li>
+</ul>
+<hr>
+<h2 id="应用介绍"><a href="#应用介绍" class="headerlink" title="应用介绍"></a>应用介绍</h2><p>TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主要功能截图。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/pageimg/TO-DO" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;TO-DO-APP-MVP架构学习&quot;&gt;&lt;a href=&quot;#TO-DO-APP-MVP架构学习&quot; class=&quot;headerlink&quot; title=&quot;TO-DO APP MVP架构学习&quot;&gt;&lt;/a&gt;TO-DO APP MVP架构学习&lt;/h1&gt;&lt;blockquote&gt;
+
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/categories/Android/"/>
+    
+    
+      <category term="MVP" scheme="https://haohaozaici.github.io/tags/MVP/"/>
+    
+  </entry>
   
   <entry>
     <title>lcswAPP分析</title>
