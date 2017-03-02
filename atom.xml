@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haohaozaici.github.io/"/>
-  <updated>2017-03-01T08:53:57.080Z</updated>
+  <updated>2017-03-02T02:51:10.163Z</updated>
   <id>https://haohaozaici.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://haohaozaici.github.io/2017/03/01/TO-DO%20APP%20MVP%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0/"/>
     <id>https://haohaozaici.github.io/2017/03/01/TO-DO APP MVP架构学习/</id>
     <published>2017-03-01T08:28:28.000Z</published>
-    <updated>2017-03-01T08:53:57.080Z</updated>
+    <updated>2017-03-02T02:51:10.163Z</updated>
     
     <content type="html"><![CDATA[<h1 id="TO-DO-APP-MVP架构学习"><a href="#TO-DO-APP-MVP架构学习" class="headerlink" title="TO-DO APP MVP架构学习"></a>TO-DO APP MVP架构学习</h1><blockquote>
 <p>由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。<br>这一次先学习入门的<code>google samples</code>中的<code>TO-DO APP</code>项目。</p>
@@ -30,33 +30,50 @@
 <li>项目应用介绍。</li>
 <li>目录结构分析。</li>
 <li>MVP在项目中的应用。</li>
+<li>Model层分析。</li>
 </ul>
 <hr>
-<h2 id="应用介绍"><a href="#应用介绍" class="headerlink" title="应用介绍"></a>应用介绍</h2><p>TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主要功能截图。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/pageimg/TO-DO" alt="img" title="">
-                </div>
-                <div class="image-caption">img</div>
-            </figure><br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/pageimg/TO-DO" alt="img" title="">
-                </div>
-                <div class="image-caption">img</div>
-            </figure><br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/pageimg/TO-DO" alt="img" title="">
-                </div>
-                <div class="image-caption">img</div>
-            </figure><br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/pageimg/TO-DO" alt="img" title="">
-                </div>
-                <div class="image-caption">img</div>
-            </figure></p>
+<h2 id="应用介绍"><a href="#应用介绍" class="headerlink" title="应用介绍"></a>应用介绍</h2><p>TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主要功能截图。</p>
+<div style="text-align: center;"><br>     <img style="margin-right: 20px" title="主页面" src="/img/pageimg/TO-DOAPPMVP架构学习/tasks.png"> <img title="任务详情" src="/img/pageimg/TO-DOAPPMVP架构学习/task_detail.png"><br></div>
+
+<div style="text-align: center;"><br>     <img title="编辑页面" style="margin-right: 20px" src="/img/pageimg/TO-DOAPPMVP架构学习/add_edit_task.png"> <img title="统计分析" src="/img/pageimg/TO-DOAPPMVP架构学习/statistics.png"><br></div>
+
+<p>APP主要包括了<strong>四个功能界面</strong>：</p>
+<ul>
+<li>主页面列表页面</li>
+<li>任务详情页面</li>
+<li>添加编辑任务页面</li>
+<li>统计数据页面</li>
+</ul>
+<hr>
+<h2 id="目录结构分析"><a href="#目录结构分析" class="headerlink" title="目录结构分析"></a>目录结构分析</h2><p>再来看看项目的<strong>目录结构</strong>：</p>
+<div style="text-align: center;"><br>     <img title="目录结构" src="/img/pageimg/TO-DOAPPMVP架构学习/项目结构.png"><br></div>
+
+<p>运行着app的demo，再看项目源码就相当轻松，而且项目的<strong>目录是按照功能来区分</strong>，这样的好处显而易见。其他的测试类暂时不看。</p>
+<hr>
+<h2 id="MVP的应用"><a href="#MVP的应用" class="headerlink" title="MVP的应用"></a>MVP的应用</h2><p>在所有界面中，<strong>统计界面的功能最少</strong>，以此作为切入点。<br>目录中，每个界面的包下都包含了<strong>4个文件</strong>，<code>Activity</code>，<code>Fragment</code>，<code>Presenter</code>，<code>Contract</code>。<br>接下来阅读源码，在statistics目录中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Activity继承AppCompatActivity。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatisticsActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//Fragment继承Fragment，实现了StatisticsContract.View接口。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatisticsFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">StatisticsContract</span>.<span class="title">View</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//Presenter实现了StatisticsContract.Presenter接口。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatisticsPresenter</span> <span class="keyword">implements</span> <span class="title">StatisticsContract</span>.<span class="title">Presenter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//契约类中定义了View和Presenter的接口。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StatisticsContract</span> </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">View</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">Presenter</span>&gt; </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//两个Base接口类中</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseView</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">// 规定View必须要实现setPresenter方法，则View中保持对Presenter的引用。</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(T presenter)</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BasePresenter</span> </span>&#123;</div><div class="line">    <span class="comment">// 规定Presenter必须要实现start方法。</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>先忽略接口类中的具体方法，看看每个部分的<strong>具体职责</strong>。</p>
+<ul>
+<li><p>Activity托管了fragment，创建了presenter的实例。</p>
+</li>
+<li><p>Fragment通过<code>mPresenter.start();</code>拿到了StatisticsContract.Presenter的引用，然后实现了StatisticsContract.View接口中的所有方法。</p>
+</li>
+<li><p>Presenter通过<code>mStatisticsView.setPresenter(this);</code>方法拿到了StatisticsContract.View引用，因为在这个页面中没有交互，所以只实现了StatisticsContract.Presenter中的start()方法。</p>
+</li>
+<li><p>StatisticsContract定义了View和Presenter的接口。</p>
+</li>
+</ul>
+<hr>
+<p>熟悉了每个部分的行为，那Fragment和Presenter是怎么<strong>联系</strong>起来的呢，先看看Activity中创建presenter的方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> StatisticsPresenter(</div><div class="line">      Injection.provideTasksRepository(getApplicationContext()), statisticsFragment);</div></pre></td></tr></table></figure></p>
+<p>在presenter的构造方法中传入了fragment的引用，调用了<code>mStatisticsView.setPresenter(this);</code>。<br>在fragment的onResume()方法中调用了<code>mPresenter.start();</code>方法，以此建立了联系。</p>
+<p>所有就这样V和P建立的完整的联系，M层和V层之间被presenter隔离开。</p>
+<hr>
+<h2 id="Model层分析"><a href="#Model层分析" class="headerlink" title="Model层分析"></a>Model层分析</h2><blockquote>
+<p>待完成。</p>
+</blockquote>
+<p>理解了V层和P层之间的关系，现在可以看看项目的结构。</p>
+<p><img src="/img/pageimg/TO-DOAPPMVP架构学习/mvp.png"></p>
 ]]></content>
     
     <summary type="html">
