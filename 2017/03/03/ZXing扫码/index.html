@@ -18,68 +18,59 @@
     
     
     
-    <title>lcswAPP分析 | haohaozaici | haohaozaici的博客</title>
+    <title>ZXing扫码 | haohaozaici | haohaozaici的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="笔记">
-    <meta name="description" content="lcpay项目分析
-项目重构了，基础架构更加明确，分析功能模块，逐个击破。
+    <meta name="keywords" content="二维码">
+    <meta name="description" content="ZXing扫码实践
+项目中的一个核心功能就是扫码，生成二维码。因此学习google的ZXing库是不二选择。
 
-内容包括：
+核心内容：
 
-友盟推送
-ZXing 扫码
+集成ZXing依赖库
+选择需要的功能
+填坑，自定义需求
 
-友盟推送
-添加依赖
-manifest设置
-配置Application
+集成ZXing库集成方式：
 
-manifest设置配置权限，设置android:name=&amp;quot;Application Name&amp;quot;，UMENG_APPKEY
-在Application中处理
-initUmengPush()">
+官方提供JAR文件下载，复制到项目的libs文件夹下面，一定别忘了添加add as library。
+在dependencies中搜索com.google.zxing，添加com.goo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lcswAPP分析">
-<meta property="og:url" content="https://haohaozaici.github.io/2017/02/28/lcswAPP分析/index.html">
+<meta property="og:title" content="ZXing扫码">
+<meta property="og:url" content="https://haohaozaici.github.io/2017/03/03/ZXing扫码/index.html">
 <meta property="og:site_name" content="haohaozaici">
-<meta property="og:description" content="lcpay项目分析
-项目重构了，基础架构更加明确，分析功能模块，逐个击破。
+<meta property="og:description" content="ZXing扫码实践
+项目中的一个核心功能就是扫码，生成二维码。因此学习google的ZXing库是不二选择。
 
-内容包括：
+核心内容：
 
-友盟推送
-ZXing 扫码
+集成ZXing依赖库
+选择需要的功能
+填坑，自定义需求
 
-友盟推送
-添加依赖
-manifest设置
-配置Application
+集成ZXing库集成方式：
 
-manifest设置配置权限，设置android:name=&amp;quot;Application Name&amp;quot;，UMENG_APPKEY
-在Application中处理
-initUmengPush()">
-<meta property="og:updated_time" content="2017-02-28T10:00:00.000Z">
+官方提供JAR文件下载，复制到项目的libs文件夹下面，一定别忘了添加add as library。
+在dependencies中搜索com.google.zxing，添加com.goo">
+<meta property="og:updated_time" content="2017-03-03T02:44:01.605Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lcswAPP分析">
-<meta name="twitter:description" content="lcpay项目分析
-项目重构了，基础架构更加明确，分析功能模块，逐个击破。
+<meta name="twitter:title" content="ZXing扫码">
+<meta name="twitter:description" content="ZXing扫码实践
+项目中的一个核心功能就是扫码，生成二维码。因此学习google的ZXing库是不二选择。
 
-内容包括：
+核心内容：
 
-友盟推送
-ZXing 扫码
+集成ZXing依赖库
+选择需要的功能
+填坑，自定义需求
 
-友盟推送
-添加依赖
-manifest设置
-配置Application
+集成ZXing库集成方式：
 
-manifest设置配置权限，设置android:name=&amp;quot;Application Name&amp;quot;，UMENG_APPKEY
-在Application中处理
-initUmengPush()">
+官方提供JAR文件下载，复制到项目的libs文件夹下面，一定别忘了添加add as library。
+在dependencies中搜索com.google.zxing，添加com.goo">
     
         <link rel="alternative" href="/atom.xml" title="haohaozaici" type="application/atom+xml">
     
@@ -163,7 +154,7 @@ initUmengPush()">
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">lcswAPP分析</div>
+        <div class="flex-col header-title ellipsis">ZXing扫码</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -185,11 +176,11 @@ initUmengPush()">
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">lcswAPP分析</h1>
+        <h1 class="title">ZXing扫码</h1>
         <h5 class="subtitle">
             
-                <time datetime="2017-02-28T08:57:49.000Z" itemprop="datePublished" class="page-time">
-  2017-02-28
+                <time datetime="2017-03-03T01:06:55.000Z" itemprop="datePublished" class="page-time">
+  2017-03-03
 </time>
 
 
@@ -209,17 +200,17 @@ initUmengPush()">
     <aside class="post-widget">
         <nav class="post-toc-wrap" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#lcpay项目分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">lcpay项目分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#友盟推送"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">友盟推送</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#manifest设置"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">manifest设置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在Application中处理"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">在Application中处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NotificationService"><span class="post-toc-number">1.1.2.1.</span> <span class="post-toc-text">NotificationService</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ZXing扫码实践"><span class="post-toc-number">1.</span> <span class="post-toc-text">ZXing扫码实践</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#集成ZXing库"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">集成ZXing库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#选择核心功能"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">选择核心功能</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
-<article id="post-lcswAPP分析"
+<article id="post-ZXing扫码"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">lcswAPP分析</h1>
+        <h1 class="post-card-title">ZXing扫码</h1>
         <div class="post-meta">
-            <time class="post-time" title="2017年02月28日 16:57" datetime="2017-02-28T08:57:49.000Z"  itemprop="datePublished">2017-02-28</time>
+            <time class="post-time" title="2017年03月03日 9:06" datetime="2017-03-03T01:06:55.000Z"  itemprop="datePublished">2017-03-03</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
@@ -236,42 +227,33 @@ initUmengPush()">
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="lcpay项目分析"><a href="#lcpay项目分析" class="headerlink" title="lcpay项目分析"></a>lcpay项目分析</h1><blockquote>
-<p>项目重构了，基础架构更加明确，分析功能模块，逐个击破。</p>
+            <h1 id="ZXing扫码实践"><a href="#ZXing扫码实践" class="headerlink" title="ZXing扫码实践"></a>ZXing扫码实践</h1><blockquote>
+<p>项目中的一个核心功能就是扫码，生成二维码。因此学习google的ZXing库是不二选择。</p>
 </blockquote>
-<p>内容包括：</p>
+<p>核心内容：</p>
 <ul>
-<li>友盟推送</li>
-<li><a href="http://localhost:4000/2017/03/03/ZXing%E6%89%AB%E7%A0%81/" target="_blank" rel="external">ZXing 扫码</a></li>
+<li>集成ZXing依赖库</li>
+<li>选择需要的功能</li>
+<li>填坑，自定义需求</li>
 </ul>
-<h2 id="友盟推送"><a href="#友盟推送" class="headerlink" title="友盟推送"></a>友盟推送</h2><ul>
-<li>添加依赖</li>
-<li>manifest设置</li>
-<li>配置Application</li>
-</ul>
-<h3 id="manifest设置"><a href="#manifest设置" class="headerlink" title="manifest设置"></a>manifest设置</h3><p>配置权限，设置<code>android:name=&quot;Application Name&quot;</code>，<code>UMENG_APPKEY</code></p>
-<h3 id="在Application中处理"><a href="#在Application中处理" class="headerlink" title="在Application中处理"></a>在Application中处理</h3><ul>
-<li><code>initUmengPush();</code>注册保存静态常量，配置完全自定义推送服务。</li>
-<li>在<code>PushIntentService.class</code>类中，取得消息体，读取消息到自定义类当中，<strong>序列化</strong>创建的对象<code>bundle.putParcelable(&quot;msg&quot;, pushMessage);</code>。</li>
-<li>启动服务<code>NotificationService.class</code><br>设置了<code>PendingIntent.FLAG_UPDATE_CURRENT</code>参数更新旧消息的<code>extras</code>。</li>
-<li>语音合成<code>AppApplication.mTts.startSpeaking(msg.text, null);</code></li>
-</ul>
-<h4 id="NotificationService"><a href="#NotificationService" class="headerlink" title="NotificationService"></a>NotificationService</h4><p>通知配置：</p>
-<ul>
-<li>获取<code>extras</code>，读取消息内容，处理推送，设置标题，内容，跳转Activity。</li>
-</ul>
-
+<h2 id="集成ZXing库"><a href="#集成ZXing库" class="headerlink" title="集成ZXing库"></a>集成ZXing库</h2><p>集成方式：</p>
+<ol>
+<li>官方提供<a href="https://repo1.maven.org/maven2/com/google/zxing/android-core/3.3.0/android-core-3.3.0.jar" target="_blank" rel="external">JAR文件下载</a>，复制到项目的libs文件夹下面，<strong>一定别忘了添加</strong><code>add as library</code>。</li>
+<li>在dependencies中搜索<code>com.google.zxing</code>，添加<code>com.google.zxing:core:3.3.0</code>和<code>com.google.zxing:android-core:3.3.0</code>，rebuild。</li>
+</ol>
+<hr>
+<h2 id="选择核心功能"><a href="#选择核心功能" class="headerlink" title="选择核心功能"></a>选择核心功能</h2>
         </div>
 
         <blockquote class="post-copyright">
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2017-02-28T10:00:00.000Z" itemprop="dateUpdated">2017年2月28日 18:00</time>
+    最后更新时间：<time datetime="2017-03-03T02:44:01.605Z" itemprop="dateUpdated">2017年3月3日 10:44</time>
 </span><br>
 
 
-        转载注明来自：<a href="/2017/02/28/lcswAPP分析/" target="_blank" rel="external">https://haohaozaici.github.io/2017/02/28/lcswAPP分析/</a>
+        转载注明来自：<a href="/2017/03/03/ZXing扫码/" target="_blank" rel="external">https://haohaozaici.github.io/2017/03/03/ZXing扫码/</a>
     </div>
     <footer>
         <a href="https://haohaozaici.github.io">
@@ -286,7 +268,7 @@ initUmengPush()">
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/二维码/">二维码</a></li></ul>
 
 
             
@@ -296,7 +278,7 @@ initUmengPush()">
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/&title=《ZXing扫码》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -306,22 +288,22 @@ initUmengPush()">
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/&title=《ZXing扫码》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/03/03/ZXing扫码/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lcswAPP分析》 — haohaozaici&url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&via=https://haohaozaici.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ZXing扫码》 — haohaozaici&url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/&via=https://haohaozaici.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -344,18 +326,18 @@ initUmengPush()">
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2017/03/01/TO-DO APP MVP架构学习/" id="post-prev" class="post-nav-link">
+      <a href="/2017/03/03/PermissionsDispatcher/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">TO-DO APP MVP架构学习</h4>
+        <h4 class="title">PermissionsDispatcher处理android 6.0+运行时权限</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2017/02/23/腾讯Bugly使用初体验/" id="post-next" class="post-nav-link">
+      <a href="/2017/03/01/TO-DO APP MVP架构学习/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">腾讯Bugly使用初体验</h4>
+        <h4 class="title">TO-DO APP MVP架构学习</h4>
       </a>
     </div>
   
@@ -366,7 +348,7 @@ initUmengPush()">
     
 
 <div class="comments" id="comments">
-    <div class="ds-thread" data-thread-key="lcswAPP分析" data-title="lcswAPP分析" data-url="https://haohaozaici.github.io/2017/02/28/lcswAPP分析/"></div>
+    <div class="ds-thread" data-thread-key="ZXing扫码" data-title="ZXing扫码" data-url="https://haohaozaici.github.io/2017/03/03/ZXing扫码/"></div>
 </div>
 <script>
 lazyScripts.push('//cdn.bootcss.com/marked/0.3.6/marked.min.js');
@@ -424,7 +406,7 @@ lazyScripts.push('/js/embed.min.js?v=1.4.7');
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/&title=《ZXing扫码》 — haohaozaici&pic=https://haohaozaici.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -434,22 +416,22 @@ lazyScripts.push('/js/embed.min.js?v=1.4.7');
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&title=《lcswAPP分析》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/&title=《ZXing扫码》 — haohaozaici&source=haohaozaici的博客" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://haohaozaici.github.io/2017/03/03/ZXing扫码/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lcswAPP分析》 — haohaozaici&url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/&via=https://haohaozaici.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ZXing扫码》 — haohaozaici&url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/&via=https://haohaozaici.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://haohaozaici.github.io/2017/03/03/ZXing扫码/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -460,7 +442,7 @@ lazyScripts.push('/js/embed.min.js?v=1.4.7');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://haohaozaici.github.io/2017/02/28/lcswAPP分析/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://haohaozaici.github.io/2017/03/03/ZXing扫码/" alt="微信分享二维码">
 </div>
 
 
