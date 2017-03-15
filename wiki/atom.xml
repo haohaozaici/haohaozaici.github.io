@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>haohaozaici</title>
+  <subtitle>haohaozaici的博客</subtitle>
+  <link href="/wiki/atom.xml" rel="self"/>
+  
+  <link href="https://haohaozaici.github.io/wiki/"/>
+  <updated>2017-03-08T07:42:30.752Z</updated>
+  <id>https://haohaozaici.github.io/wiki/</id>
+  
+  <author>
+    <name>haohaozaici</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>动画组件库</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/03/08/%E5%8A%A8%E7%94%BB%E7%BB%84%E4%BB%B6%E5%BA%93/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/03/08/动画组件库/</id>
+    <published>2017-03-08T07:38:00.000Z</published>
+    <updated>2017-03-08T07:42:30.752Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>随着积累了越来越多的动画组件，记录下来以后随时查阅使用。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;随着积累了越来越多的动画组件，记录下来以后随时查阅使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/wiki/categories/Android/"/>
+    
+      <category term="widget" scheme="https://haohaozaici.github.io/wiki/categories/Android/widget/"/>
+    
+    
+      <category term="widget" scheme="https://haohaozaici.github.io/wiki/tags/widget/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PermissionsDispatcher处理android 6.0+运行时权限</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/03/03/PermissionsDispatcher/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/03/03/PermissionsDispatcher/</id>
+    <published>2017-03-03T02:50:28.000Z</published>
+    <updated>2017-03-03T07:27:49.365Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Android-6-0-运行时权限"><a href="#Android-6-0-运行时权限" class="headerlink" title="Android 6.0+运行时权限"></a>Android 6.0+运行时权限</h1><blockquote>
+<p>6.0之后都需要控制危险权限，本文使用PermissionsDispatcher来控制，记下此文，快速集成使用。</p>
+</blockquote>
+<p>目录结构：</p>
+<ul>
+<li>集成依赖库</li>
+<li>基本使用</li>
+<li>填坑，使用经验</li>
+</ul>
+<hr>
+<h2 id="集成依赖库"><a href="#集成依赖库" class="headerlink" title="集成依赖库"></a>集成依赖库</h2><p>访问 <a href="https://github.com/hotchemi/PermissionsDispatcher" target="_blank" rel="external">PermissionsDispatcher</a>了解最新信息。</p>
+<p>添加dependencies， <a href="https://bintray.com/hotchemi/maven/permissionsdispatcher/_latestVersion" target="_blank" rel="external"><code>latest.version</code></a> 当前是 <strong>2.3.1</strong> ，请使用<a href="https://bintray.com/android/android-tools/com.android.tools.build.gradle" target="_blank" rel="external">最新版gradle</a>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">  compile <span class="string">'com.github.hotchemi:permissionsdispatcher:$&#123;latest.version&#125;'</span></div><div class="line">  annotationProcessor <span class="string">'com.github.hotchemi:permissionsdispatcher-processor:$&#123;latest.version&#125;'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><ol>
+<li><p>非<a href="https://developer.android.com/guide/topics/security/permissions.html?hl=zh-cn#normal-dangerous" target="_blank" rel="external">危险权限</a>直接在 <a href="https://developer.android.com/reference/android/Manifest.permission.html" target="_blank" rel="external"><code>manifest</code></a>中添加。</p>
+</li>
+<li><p>在BaseActivity中控制危险权限。</p>
+</li>
+</ol>
+<h3 id="危险权限"><a href="#危险权限" class="headerlink" title="危险权限"></a>危险权限</h3><p><strong>以下注解为必须</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RuntimePermissions</span>  <span class="comment">//添加注解</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line"><span class="comment">//请求指定权限</span></div><div class="line"><span class="meta">@NeedsPermission</span>(Manifest.permission.CAMERA) </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clickCamera</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// <span class="doctag">TODO:</span> 2017/2/21 handle onclick</span></div><div class="line">        Snackbar.make(camera, <span class="string">"相机授权成功"</span>, Snackbar.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>添加完成后，build项目，自动生成Activity相关类，在需要请求权限的位置使用相关方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MainActivityPermissionsDispatcher.clickCameraWithCheck(<span class="keyword">this</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="人性化控制"><a href="#人性化控制" class="headerlink" title="人性化控制"></a>人性化控制</h3><p>其他回调方法，人性化控制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//请求权限前提示消息</span></div><div class="line"><span class="meta">@OnShowRationale</span>(Manifest.permission.CAMERA)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">showRationaleForCamera</span><span class="params">(<span class="keyword">final</span> PermissionRequest request)</span> </span>&#123;</div><div class="line">    <span class="keyword">new</span> AlertDialog.Builder(<span class="keyword">this</span>)</div><div class="line">            .setMessage(<span class="string">"我们需要相机！"</span>)</div><div class="line">            .setPositiveButton(<span class="string">"允许"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialogInterface, <span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">                    request.proceed();</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">            .setNegativeButton(<span class="string">"拒绝"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialogInterface, <span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">                    request.cancel();</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">            .show();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//权限被拒绝提醒</span></div><div class="line"><span class="meta">@OnPermissionDenied</span>(Manifest.permission.CAMERA)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">showDeniedForCamera</span><span class="params">()</span> </span>&#123;</div><div class="line">    Snackbar.make(camera, <span class="string">"相机权限被拒绝"</span>, Snackbar.LENGTH_LONG)</div><div class="line">            .setAction(<span class="string">"允许"</span>, <span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">                    MainActivityPermissionsDispatcher.clickCameraWithCheck(MainActivity.<span class="keyword">this</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;).show();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//权限被永久拒绝提醒</span></div><div class="line"><span class="meta">@OnNeverAskAgain</span>(Manifest.permission.CAMERA)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">showNeverAskForCamera</span><span class="params">()</span> </span>&#123;</div><div class="line">    Toast.makeText(<span class="keyword">this</span>, R.string.permission_camera_neverask, Toast.LENGTH_SHORT).show();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="同时请求多个权限"><a href="#同时请求多个权限" class="headerlink" title="同时请求多个权限"></a>同时请求多个权限</h3><p>不建议直接请求多个权限，最好在功能需要时再请求。不同的权限控制方法之间通过<code>Manifest.permission.CAMERA注解</code>来区分。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//以此类推</span></div><div class="line"><span class="meta">@NeedsPermission</span>(&#123;Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS&#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="填坑，使用经验"><a href="#填坑，使用经验" class="headerlink" title="填坑，使用经验"></a>填坑，使用经验</h2><ol>
+<li>Android 6.0以下权限是在安装时全部申请，manifest中不能忘记添加权限申请，撤销权限的唯一方式是卸载应用。</li>
+<li>权限组：如果应用请求危险权限，在同一权限组中已经授予了另一项危险权限，系统会立即授予，无需与用户进行任何交互。</li>
+</ol>
+<h3 id="其他参考文章"><a href="#其他参考文章" class="headerlink" title="其他参考文章"></a>其他参考文章</h3><p><a href="http://mp.weixin.qq.com/s?__biz=MzI1NjEwMTM4OA==&amp;mid=2651232379&amp;idx=1&amp;sn=b606cea54aafdcce30972cec62df45f0&amp;chksm=f1d9e518c6ae6c0e41bbf5c6bed1dbd37ca6b97b2a93d3ec18dc9ca4959e55121e0a89b26d38&amp;mpshare=1&amp;scene=23&amp;srcid=0224Dlm7T6eLuyIw54pqEyWn#rd" target="_blank" rel="external">Android权限机制与适配经验—QQ音乐技术团队</a></p>
+<p>其他特殊使用详情<a href="https://github.com/hotchemi/PermissionsDispatcher#usage" target="_blank" rel="external">访问官方usage</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Android-6-0-运行时权限&quot;&gt;&lt;a href=&quot;#Android-6-0-运行时权限&quot; class=&quot;headerlink&quot; title=&quot;Android 6.0+运行时权限&quot;&gt;&lt;/a&gt;Android 6.0+运行时权限&lt;/h1&gt;&lt;blockquote&gt;
+
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/wiki/categories/Android/"/>
+    
+    
+      <category term="Permissions" scheme="https://haohaozaici.github.io/wiki/tags/Permissions/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ZXing扫码</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/03/03/ZXing%E6%89%AB%E7%A0%81/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/03/03/ZXing扫码/</id>
+    <published>2017-03-03T01:06:55.000Z</published>
+    <updated>2017-03-03T02:44:01.605Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ZXing扫码实践"><a href="#ZXing扫码实践" class="headerlink" title="ZXing扫码实践"></a>ZXing扫码实践</h1><blockquote>
+<p>项目中的一个核心功能就是扫码，生成二维码。因此学习google的ZXing库是不二选择。</p>
+</blockquote>
+<p>核心内容：</p>
+<ul>
+<li>集成ZXing依赖库</li>
+<li>选择需要的功能</li>
+<li>填坑，自定义需求</li>
+</ul>
+<h2 id="集成ZXing库"><a href="#集成ZXing库" class="headerlink" title="集成ZXing库"></a>集成ZXing库</h2><p>集成方式：</p>
+<ol>
+<li>官方提供<a href="https://repo1.maven.org/maven2/com/google/zxing/android-core/3.3.0/android-core-3.3.0.jar" target="_blank" rel="external">JAR文件下载</a>，复制到项目的libs文件夹下面，<strong>一定别忘了添加</strong><code>add as library</code>。</li>
+<li>在dependencies中搜索<code>com.google.zxing</code>，添加<code>com.google.zxing:core:3.3.0</code>和<code>com.google.zxing:android-core:3.3.0</code>，rebuild。</li>
+</ol>
+<hr>
+<h2 id="选择核心功能"><a href="#选择核心功能" class="headerlink" title="选择核心功能"></a>选择核心功能</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ZXing扫码实践&quot;&gt;&lt;a href=&quot;#ZXing扫码实践&quot; class=&quot;headerlink&quot; title=&quot;ZXing扫码实践&quot;&gt;&lt;/a&gt;ZXing扫码实践&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;项目中的一个核心功能就是扫码，生成二维码。因此学习goog
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/wiki/categories/Android/"/>
+    
+    
+      <category term="二维码" scheme="https://haohaozaici.github.io/wiki/tags/%E4%BA%8C%E7%BB%B4%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TO-DO APP MVP架构学习</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/03/01/TO-DO%20APP%20MVP%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/03/01/TO-DO APP MVP架构学习/</id>
+    <published>2017-03-01T08:28:28.000Z</published>
+    <updated>2017-03-03T07:32:26.057Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="TO-DO-APP-MVP架构学习"><a href="#TO-DO-APP-MVP架构学习" class="headerlink" title="TO-DO APP MVP架构学习"></a>TO-DO APP MVP架构学习</h1><blockquote>
+<p>由于新的项目中引入了MVP架构，加上MVP作为基础的解耦model和View的框架，必须得学习，是通往高级开发的必经之路。<br>这一次先学习入门的<code>google samples</code>中的<code>TO-DO APP</code>项目。</p>
+</blockquote>
+<p>本文目录层次：</p>
+<ul>
+<li>项目应用介绍。</li>
+<li>目录结构分析。</li>
+<li>MVP在项目中的应用。</li>
+<li>Model层分析。</li>
+</ul>
+<hr>
+<h2 id="应用介绍"><a href="#应用介绍" class="headerlink" title="应用介绍"></a>应用介绍</h2><p>TO-DO APP就是字面上的意思，记录待办事项的应用。首先我们来看看应用的主要功能截图。</p>
+<div style="text-align: center;"><br>     <img style="margin-right: 20px" title="主页面" src="/img/pageimg/TO-DOAPPMVP架构学习/tasks.webp"> <img title="任务详情" src="/img/pageimg/TO-DOAPPMVP架构学习/task_detail.webp"><br></div>
+
+<div style="text-align: center;"><br>     <img title="编辑页面" style="margin-right: 20px" src="/img/pageimg/TO-DOAPPMVP架构学习/add_edit_task.webp"> <img title="统计分析" src="/img/pageimg/TO-DOAPPMVP架构学习/statistics.webp"><br></div>
+
+<p>APP主要包括了<strong>四个功能界面</strong>：</p>
+<ul>
+<li>主页面列表页面</li>
+<li>任务详情页面</li>
+<li>添加编辑任务页面</li>
+<li>统计数据页面</li>
+</ul>
+<hr>
+<h2 id="目录结构分析"><a href="#目录结构分析" class="headerlink" title="目录结构分析"></a>目录结构分析</h2><p>再来看看项目的<strong>目录结构</strong>：</p>
+<div style="text-align: center;"><br>     <img title="目录结构" src="/img/pageimg/TO-DOAPPMVP架构学习/项目结构.webp"><br></div>
+
+<p>运行着app的demo，再看项目源码就相当轻松了，而且项目的<strong>目录是按照功能来区分</strong>，这样的好处显而易见。其他的测试类暂时不看。</p>
+<hr>
+<h2 id="MVP的应用"><a href="#MVP的应用" class="headerlink" title="MVP的应用"></a>MVP的应用</h2><p>在所有界面中，<strong>统计界面的功能最少</strong>，以此作为切入点。<br>目录中，每个界面的包下都包含了<strong>4个文件</strong>，<code>Activity</code>，<code>Fragment</code>，<code>Presenter</code>，<code>Contract</code>。<br>接下来阅读源码，在statistics目录中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Activity继承AppCompatActivity。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatisticsActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//Fragment继承Fragment，实现了StatisticsContract.View接口。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatisticsFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">StatisticsContract</span>.<span class="title">View</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//Presenter实现了StatisticsContract.Presenter接口。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatisticsPresenter</span> <span class="keyword">implements</span> <span class="title">StatisticsContract</span>.<span class="title">Presenter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//契约类中定义了View和Presenter的接口。</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StatisticsContract</span> </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">View</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">Presenter</span>&gt; </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//两个Base接口类中</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseView</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">// 规定View必须要实现setPresenter方法，则View中保持对Presenter的引用。</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setPresenter</span><span class="params">(T presenter)</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BasePresenter</span> </span>&#123;</div><div class="line">    <span class="comment">// 规定Presenter必须要实现start方法。</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>先忽略接口类中的具体方法，看看每个部分的<strong>具体职责</strong>。</p>
+<ul>
+<li><p>Activity托管了fragment，创建了presenter的实例。</p>
+</li>
+<li><p>Fragment通过<code>mPresenter.start();</code>拿到了StatisticsContract.Presenter的引用，然后实现了StatisticsContract.View接口中的所有方法。</p>
+</li>
+<li><p>Presenter通过<code>mStatisticsView.setPresenter(this);</code>方法拿到了StatisticsContract.View引用，因为在这个页面中没有交互，所以只实现了StatisticsContract.Presenter中的start()方法。</p>
+</li>
+<li><p>StatisticsContract定义了View和Presenter的接口。</p>
+</li>
+</ul>
+<hr>
+<p>熟悉了每个部分的行为，那Fragment和Presenter是怎么<strong>联系</strong>起来的呢，先看看Activity中创建presenter的方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> StatisticsPresenter(</div><div class="line">      Injection.provideTasksRepository(getApplicationContext()), statisticsFragment);</div></pre></td></tr></table></figure></p>
+<p>在presenter的构造方法中传入了fragment的引用，调用了<code>mStatisticsView.setPresenter(this);</code>。<br>在fragment的onResume()方法中调用了<code>mPresenter.start();</code>方法，以此建立了联系。</p>
+<p>所以就这样V和P建立了完整的联系，M层和V层之间被presenter隔离开。</p>
+<hr>
+<h2 id="Model层分析"><a href="#Model层分析" class="headerlink" title="Model层分析"></a>Model层分析</h2><blockquote>
+<p>待完成。</p>
+</blockquote>
+<p>理解了V层和P层之间的关系，现在可以看看项目的结构。</p>
+<p><img src="/img/pageimg/TO-DOAPPMVP架构学习/mvp.webp"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;TO-DO-APP-MVP架构学习&quot;&gt;&lt;a href=&quot;#TO-DO-APP-MVP架构学习&quot; class=&quot;headerlink&quot; title=&quot;TO-DO APP MVP架构学习&quot;&gt;&lt;/a&gt;TO-DO APP MVP架构学习&lt;/h1&gt;&lt;blockquote&gt;
+
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/wiki/categories/Android/"/>
+    
+    
+      <category term="MVP" scheme="https://haohaozaici.github.io/wiki/tags/MVP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>lcswAPP分析</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/02/28/lcswAPP%E5%88%86%E6%9E%90/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/02/28/lcswAPP分析/</id>
+    <published>2017-02-28T08:57:49.000Z</published>
+    <updated>2017-02-28T10:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="lcpay项目分析"><a href="#lcpay项目分析" class="headerlink" title="lcpay项目分析"></a>lcpay项目分析</h1><blockquote>
+<p>项目重构了，基础架构更加明确，分析功能模块，逐个击破。</p>
+</blockquote>
+<p>内容包括：</p>
+<ul>
+<li>友盟推送</li>
+<li><a href="https://haohaozaici.github.io/2017/03/03/ZXing%E6%89%AB%E7%A0%81/">ZXing 扫码</a></li>
+</ul>
+<h2 id="友盟推送"><a href="#友盟推送" class="headerlink" title="友盟推送"></a>友盟推送</h2><ul>
+<li>添加依赖</li>
+<li>manifest设置</li>
+<li>配置Application</li>
+</ul>
+<h3 id="manifest设置"><a href="#manifest设置" class="headerlink" title="manifest设置"></a>manifest设置</h3><p>配置权限，设置<code>android:name=&quot;Application Name&quot;</code>，<code>UMENG_APPKEY</code></p>
+<h3 id="在Application中处理"><a href="#在Application中处理" class="headerlink" title="在Application中处理"></a>在Application中处理</h3><ul>
+<li><code>initUmengPush();</code>注册保存静态常量，配置完全自定义推送服务。</li>
+<li>在<code>PushIntentService.class</code>类中，取得消息体，读取消息到自定义类当中，<strong>序列化</strong>创建的对象<code>bundle.putParcelable(&quot;msg&quot;, pushMessage);</code>。</li>
+<li>启动服务<code>NotificationService.class</code><br>设置了<code>PendingIntent.FLAG_UPDATE_CURRENT</code>参数更新旧消息的<code>extras</code>。</li>
+<li>语音合成<code>AppApplication.mTts.startSpeaking(msg.text, null);</code></li>
+</ul>
+<h4 id="NotificationService"><a href="#NotificationService" class="headerlink" title="NotificationService"></a>NotificationService</h4><p>通知配置：</p>
+<ul>
+<li>获取<code>extras</code>，读取消息内容，处理推送，设置标题，内容，跳转Activity。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;lcpay项目分析&quot;&gt;&lt;a href=&quot;#lcpay项目分析&quot; class=&quot;headerlink&quot; title=&quot;lcpay项目分析&quot;&gt;&lt;/a&gt;lcpay项目分析&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;项目重构了，基础架构更加明确，分析功能模块，逐个击破。&lt;/
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/wiki/categories/Android/"/>
+    
+    
+      <category term="笔记" scheme="https://haohaozaici.github.io/wiki/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>腾讯Bugly使用初体验</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/02/23/%E8%85%BE%E8%AE%AFBugly%E4%BD%BF%E7%94%A8%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/02/23/腾讯Bugly使用初体验/</id>
+    <published>2017-02-23T15:38:00.000Z</published>
+    <updated>2017-02-23T16:02:13.587Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="腾讯Bugly使用初体验"><a href="#腾讯Bugly使用初体验" class="headerlink" title="腾讯Bugly使用初体验"></a>腾讯Bugly使用初体验</h2><blockquote>
+<p>在拥有了自己的app之后，总是希望别人能够喜欢、下载、传播自己的app，如何追踪app的状态就十分重要了，包含了用户分析，设备分析==，当然信息越全面越好了。bugly帮我解决了用户分析和异常追踪的需求。</p>
+</blockquote>
+<p>初体验里当然只包含了很少的内容，算是入门介绍把，总结提醒自己。</p>
+<h3 id="核心内容"><a href="#核心内容" class="headerlink" title="核心内容"></a>核心内容</h3><ul>
+<li><strong>Android SDK集成</strong>：使用指南，提示。</li>
+<li><strong>异常上报</strong>：在各种异常状态下上报异常信息，发生异常的环境==。</li>
+<li><strong>高级功能</strong>：拓展功能介绍。</li>
+</ul>
+<hr>
+<h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><ul>
+<li>崩溃：闪退</li>
+<li>卡顿：默认卡顿5s以上，可以自定义</li>
+<li>ANR：无响应</li>
+<li>错误：主动上报Exception，Error</li>
+<li>发生次数==<br><a href="https://bugly.qq.com/docs/introduction/bugly-introduction/?v=20170213095331#_6" target="_blank" rel="external">查看完整列表</a></li>
+</ul>
+<h3 id="Bugly基础使用"><a href="#Bugly基础使用" class="headerlink" title="Bugly基础使用"></a>Bugly基础使用</h3><h5 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'com.tencent.bugly:crashreport:2.4.0'</span></div></pre></td></tr></table></figure>
+<h5 id="参数设置"><a href="#参数设置" class="headerlink" title="参数设置"></a>参数设置</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.READ_PHONE_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.READ_LOGS"</span> /&gt;</div></pre></td></tr></table></figure>
+<h5 id="最简单的初始化"><a href="#最简单的初始化" class="headerlink" title="最简单的初始化"></a>最简单的初始化</h5><p>添加Application类，@override onCreate方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CrashReport.initCrashReport(getApplicationContext(), APP_ID, <span class="keyword">true</span>);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>第三个参数为SDK调试模式开关，调试模式的行为特性如下:输出详细的Bugly SDK的Log；每一条Crash都会被立即上报；<br>自定义日志将会在Logcat中输出。<br>建议在测试阶段建议设置成true，发布时设置为false。<br>不要在异步线程初始化Bugly。</p>
+</blockquote>
+<p>或者<a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20170213095331" target="_blank" rel="external">在 AndroidManifest.xml 中配置APP信息</a></p>
+<h5 id="上报进程控制"><a href="#上报进程控制" class="headerlink" title="上报进程控制"></a><a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20170213095331" target="_blank" rel="external">上报进程控制</a></h5><p>防止多进程重复启用bugly服务。</p>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>在初始化Bugly的之后，调用Bugly测Java Crash接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CrashReport.testJavaCrash();</div></pre></td></tr></table></figure></p>
+<p>最后观察logcat。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;腾讯Bugly使用初体验&quot;&gt;&lt;a href=&quot;#腾讯Bugly使用初体验&quot; class=&quot;headerlink&quot; title=&quot;腾讯Bugly使用初体验&quot;&gt;&lt;/a&gt;腾讯Bugly使用初体验&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;在拥有了自己的app之后，总是希望
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/wiki/categories/Android/"/>
+    
+    
+      <category term="Bugly" scheme="https://haohaozaici.github.io/wiki/tags/Bugly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://haohaozaici.github.io/wiki/2017/02/21/hello-world/"/>
+    <id>https://haohaozaici.github.io/wiki/2017/02/21/hello-world/</id>
+    <published>2017-02-21T07:42:47.210Z</published>
+    <updated>2017-02-23T08:59:30.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<p>##END</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

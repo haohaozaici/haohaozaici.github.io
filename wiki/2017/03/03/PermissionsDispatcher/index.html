@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>PermissionsDispatcher处理android 6.0+运行时权限 | haohaozaici</title>
+    
+    
+        <meta name="keywords" content="Permissions" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Android 6.0+运行时权限
+6.0之后都需要控制危险权限，本文使用PermissionsDispatcher来控制，记下此文，快速集成使用。
+
+目录结构：
+
+集成依赖库
+基本使用
+填坑，使用经验
+
+
+集成依赖库访问 PermissionsDispatcher了解最新信息。
+添加dependencies， latest.version 当前是 2.3.1 ，请使用最新版gradle。1234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PermissionsDispatcher处理android 6.0+运行时权限">
+<meta property="og:url" content="https://haohaozaici.github.io/wiki/2017/03/03/PermissionsDispatcher/index.html">
+<meta property="og:site_name" content="haohaozaici">
+<meta property="og:description" content="Android 6.0+运行时权限
+6.0之后都需要控制危险权限，本文使用PermissionsDispatcher来控制，记下此文，快速集成使用。
+
+目录结构：
+
+集成依赖库
+基本使用
+填坑，使用经验
+
+
+集成依赖库访问 PermissionsDispatcher了解最新信息。
+添加dependencies， latest.version 当前是 2.3.1 ，请使用最新版gradle。1234">
+<meta property="og:updated_time" content="2017-03-03T07:27:49.365Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PermissionsDispatcher处理android 6.0+运行时权限">
+<meta name="twitter:description" content="Android 6.0+运行时权限
+6.0之后都需要控制危险权限，本文使用PermissionsDispatcher来控制，记下此文，快速集成使用。
+
+目录结构：
+
+集成依赖库
+基本使用
+填坑，使用经验
+
+
+集成依赖库访问 PermissionsDispatcher了解最新信息。
+添加dependencies， latest.version 当前是 2.3.1 ，请使用最新版gradle。1234">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="haohaozaici" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">haohaozaici</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>Categorias</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            widget
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/2017/03/08/动画组件库/">动画组件库</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/2017/02/23/腾讯Bugly使用初体验/">腾讯Bugly使用初体验</a></li>  <li class="file"><a href="/wiki/2017/02/28/lcswAPP分析/">lcswAPP分析</a></li>  <li class="file"><a href="/wiki/2017/03/01/TO-DO APP MVP架构学习/">TO-DO APP MVP架构学习</a></li>  <li class="file"><a href="/wiki/2017/03/03/ZXing扫码/">ZXing扫码</a></li>  <li class="file active"><a href="/wiki/2017/03/03/PermissionsDispatcher/">PermissionsDispatcher处理android 6.0+运行时权限</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/2017/02/21/hello-world/">Hello World</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+         
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-PermissionsDispatcher" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Permissions/">Permissions</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/2017/03/03/PermissionsDispatcher/">
+            <time datetime="2017-03-03T02:50:28.000Z" itemprop="datePublished">2017-03-03</time>
+        </a>
+    </div>
+
+
+                        
+                            <div class="article-meta-button">
+                                <a href='https://github.com/zthxxx/Wiki-site/raw/writing/source/_posts/PermissionsDispatcher.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href='https://github.com/zthxxx/Wiki-site/edit/writing/source/_posts/PermissionsDispatcher.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href='https://github.com/zthxxx/Wiki-site/commits/writing/source/_posts/PermissionsDispatcher.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            PermissionsDispatcher处理android 6.0+运行时权限
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h1 id="Android-6-0-运行时权限"><a href="#Android-6-0-运行时权限" class="headerlink" title="Android 6.0+运行时权限"></a>Android 6.0+运行时权限</h1><blockquote>
+<p>6.0之后都需要控制危险权限，本文使用PermissionsDispatcher来控制，记下此文，快速集成使用。</p>
+</blockquote>
+<p>目录结构：</p>
+<ul>
+<li>集成依赖库</li>
+<li>基本使用</li>
+<li>填坑，使用经验</li>
+</ul>
+<hr>
+<h2 id="集成依赖库"><a href="#集成依赖库" class="headerlink" title="集成依赖库"></a>集成依赖库</h2><p>访问 <a href="https://github.com/hotchemi/PermissionsDispatcher" target="_blank" rel="external">PermissionsDispatcher</a>了解最新信息。</p>
+<p>添加dependencies， <a href="https://bintray.com/hotchemi/maven/permissionsdispatcher/_latestVersion" target="_blank" rel="external"><code>latest.version</code></a> 当前是 <strong>2.3.1</strong> ，请使用<a href="https://bintray.com/android/android-tools/com.android.tools.build.gradle" target="_blank" rel="external">最新版gradle</a>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">  compile <span class="string">'com.github.hotchemi:permissionsdispatcher:$&#123;latest.version&#125;'</span></div><div class="line">  annotationProcessor <span class="string">'com.github.hotchemi:permissionsdispatcher-processor:$&#123;latest.version&#125;'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><ol>
+<li><p>非<a href="https://developer.android.com/guide/topics/security/permissions.html?hl=zh-cn#normal-dangerous" target="_blank" rel="external">危险权限</a>直接在 <a href="https://developer.android.com/reference/android/Manifest.permission.html" target="_blank" rel="external"><code>manifest</code></a>中添加。</p>
+</li>
+<li><p>在BaseActivity中控制危险权限。</p>
+</li>
+</ol>
+<h3 id="危险权限"><a href="#危险权限" class="headerlink" title="危险权限"></a>危险权限</h3><p><strong>以下注解为必须</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RuntimePermissions</span>  <span class="comment">//添加注解</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line"><span class="comment">//请求指定权限</span></div><div class="line"><span class="meta">@NeedsPermission</span>(Manifest.permission.CAMERA) </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clickCamera</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// <span class="doctag">TODO:</span> 2017/2/21 handle onclick</span></div><div class="line">        Snackbar.make(camera, <span class="string">"相机授权成功"</span>, Snackbar.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>添加完成后，build项目，自动生成Activity相关类，在需要请求权限的位置使用相关方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MainActivityPermissionsDispatcher.clickCameraWithCheck(<span class="keyword">this</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="人性化控制"><a href="#人性化控制" class="headerlink" title="人性化控制"></a>人性化控制</h3><p>其他回调方法，人性化控制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//请求权限前提示消息</span></div><div class="line"><span class="meta">@OnShowRationale</span>(Manifest.permission.CAMERA)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">showRationaleForCamera</span><span class="params">(<span class="keyword">final</span> PermissionRequest request)</span> </span>&#123;</div><div class="line">    <span class="keyword">new</span> AlertDialog.Builder(<span class="keyword">this</span>)</div><div class="line">            .setMessage(<span class="string">"我们需要相机！"</span>)</div><div class="line">            .setPositiveButton(<span class="string">"允许"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialogInterface, <span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">                    request.proceed();</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">            .setNegativeButton(<span class="string">"拒绝"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialogInterface, <span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">                    request.cancel();</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">            .show();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//权限被拒绝提醒</span></div><div class="line"><span class="meta">@OnPermissionDenied</span>(Manifest.permission.CAMERA)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">showDeniedForCamera</span><span class="params">()</span> </span>&#123;</div><div class="line">    Snackbar.make(camera, <span class="string">"相机权限被拒绝"</span>, Snackbar.LENGTH_LONG)</div><div class="line">            .setAction(<span class="string">"允许"</span>, <span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">                    MainActivityPermissionsDispatcher.clickCameraWithCheck(MainActivity.<span class="keyword">this</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;).show();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//权限被永久拒绝提醒</span></div><div class="line"><span class="meta">@OnNeverAskAgain</span>(Manifest.permission.CAMERA)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">showNeverAskForCamera</span><span class="params">()</span> </span>&#123;</div><div class="line">    Toast.makeText(<span class="keyword">this</span>, R.string.permission_camera_neverask, Toast.LENGTH_SHORT).show();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="同时请求多个权限"><a href="#同时请求多个权限" class="headerlink" title="同时请求多个权限"></a>同时请求多个权限</h3><p>不建议直接请求多个权限，最好在功能需要时再请求。不同的权限控制方法之间通过<code>Manifest.permission.CAMERA注解</code>来区分。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//以此类推</span></div><div class="line"><span class="meta">@NeedsPermission</span>(&#123;Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS&#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="填坑，使用经验"><a href="#填坑，使用经验" class="headerlink" title="填坑，使用经验"></a>填坑，使用经验</h2><ol>
+<li>Android 6.0以下权限是在安装时全部申请，manifest中不能忘记添加权限申请，撤销权限的唯一方式是卸载应用。</li>
+<li>权限组：如果应用请求危险权限，在同一权限组中已经授予了另一项危险权限，系统会立即授予，无需与用户进行任何交互。</li>
+</ol>
+<h3 id="其他参考文章"><a href="#其他参考文章" class="headerlink" title="其他参考文章"></a>其他参考文章</h3><p><a href="http://mp.weixin.qq.com/s?__biz=MzI1NjEwMTM4OA==&amp;mid=2651232379&amp;idx=1&amp;sn=b606cea54aafdcce30972cec62df45f0&amp;chksm=f1d9e518c6ae6c0e41bbf5c6bed1dbd37ca6b97b2a93d3ec18dc9ca4959e55121e0a89b26d38&amp;mpshare=1&amp;scene=23&amp;srcid=0224Dlm7T6eLuyIw54pqEyWn#rd" target="_blank" rel="external">Android权限机制与适配经验—QQ音乐技术团队</a></p>
+<p>其他特殊使用详情<a href="https://github.com/hotchemi/PermissionsDispatcher#usage" target="_blank" rel="external">访问官方usage</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/2017/03/08/动画组件库/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    动画组件库
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/2017/03/03/ZXing扫码/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">ZXing扫码</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            haohaozaici &copy; 2017 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/zthxxx">zthxxx</a>
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
