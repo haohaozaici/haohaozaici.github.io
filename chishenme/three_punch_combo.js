@@ -7,6 +7,6 @@
             }
         })
         $('#stop').click(function(){
-            alert('这么作？今天别吃了！')
+            Android.showToast('这么作？今天别吃了！')
             $(this).hide();
         })
