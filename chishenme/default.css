@@ -45,6 +45,15 @@ body {
     cursor: pointer;
 }
 
+#stop {
+    display:none;
+    width: 120px;
+    height: 40px;
+    vertical-align: middle;
+    font-family: 微软雅黑;
+    cursor: pointer;
+}
+
 #cfg {
     color: #666;
     text-shadow: 1px 1px 1px #eee;
@@ -83,10 +92,4 @@ body {
     cursor: pointer;
     width: 50px;
     height: 22px;
-}
-
-#weibo {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
 }
