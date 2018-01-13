@@ -153,7 +153,7 @@
 
 
 
-  <title>Categories | 浩浩的被窝</title>
+  <title>创建和销毁对象 | 浩浩的被窝</title>
   
 
 
@@ -312,33 +312,183 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://haohaozaici.github.io/blog/blog/2017/12/19/create-and-destroy-objects/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="haohaozaici">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩浩的被窝">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">创建和销毁对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T15:12:41+08:00">2017-12-19</time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Java/Effective-Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Effective Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="创建和销毁对象"><a href="#创建和销毁对象" class="headerlink" title="创建和销毁对象"></a>创建和销毁对象</h2><h3 id="静态工厂方法代替构造器"><a href="#静态工厂方法代替构造器" class="headerlink" title="静态工厂方法代替构造器"></a>静态工厂方法代替构造器</h3><p>静态工厂方法与设计模式中的<code>工厂方法</code>不同。</p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>静态工厂方法有名称，</li>
+</ol>
+<h3 id="遇到多个构造器参数时，使用构建器-Builder模式"><a href="#遇到多个构造器参数时，使用构建器-Builder模式" class="headerlink" title="遇到多个构造器参数时，使用构建器-Builder模式"></a>遇到多个构造器参数时，使用构建器-Builder模式</h3><h4 id="1-使用构造方法创建对象"><a href="#1-使用构造方法创建对象" class="headerlink" title="1.使用构造方法创建对象"></a>1.使用构造方法创建对象</h4><p>重叠构造器</p>
+<h4 id="2-JavaBeans模式"><a href="#2-JavaBeans模式" class="headerlink" title="2.JavaBeans模式"></a>2.JavaBeans模式</h4><p>通过setter方法设置必要参数，拥有良好的可读性。<br><em>缺点</em>：构造过程中容易被改变，处于不一致的状态。</p>
+<h4 id="3-Builder模式"><a href="#3-Builder模式" class="headerlink" title="3.Builder模式"></a>3.Builder模式</h4><p>通过公开的Builder内部类，私有的构造方法，构造必传参数和可选参数。Builder模式模拟了具名的可选参数，可以加强约束条件，在对象域中进行检验。可以在编译时进行异常检查。 </p>
+<p><em>缺点</em>：特殊情况下额外的性能开销，冗长。<br><em>适用情况</em>：多个参数(大于4个)，需要比JavaBeans模式更加安全的情况。</p>
+<p>参见 <code>Notification</code> 或 <code>Alertdialog</code>类。</p>
+<h3 id="用私有构造器或者枚举类型强化singleton属性"><a href="#用私有构造器或者枚举类型强化singleton属性" class="headerlink" title="用私有构造器或者枚举类型强化singleton属性"></a>用私有构造器或者枚举类型强化singleton属性</h3><p>为了防止反射调用私有构造方法、反序列化时创建新的实例，直接使用 <code>包含单个元素的枚举类型</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Elvis&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="避免创建不必要的对象"><a href="#避免创建不必要的对象" class="headerlink" title="避免创建不必要的对象"></a>避免创建不必要的对象</h3><p>39条 应该创建新对象时，不要重用现有对象<br>创建不必要的对象只会影响程序的风格和性能，没有实施保护性拷贝将会导致潜在的错误和安全漏洞。</p>
+<h3 id="消除过期的对象引用"><a href="#消除过期的对象引用" class="headerlink" title="消除过期的对象引用"></a>消除过期的对象引用</h3><p><code>内存泄露</code></p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/12/19/java_servlet/" rel="next" title="Java Servlet">
+                <i class="fa fa-chevron-left"></i> Java Servlet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -368,8 +518,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -437,6 +596,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建和销毁对象"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;&#x5BF9;&#x8C61;" class="headerlink" title="&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;&#x5BF9;&#x8C61;"></a>&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;&#x5BF9;&#x8C61;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态工厂方法代替构造器"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x4EE3;&#x66FF;&#x6784;&#x9020;&#x5668;" class="headerlink" title="&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x4EE3;&#x66FF;&#x6784;&#x9020;&#x5668;"></a>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x4EE3;&#x66FF;&#x6784;&#x9020;&#x5668;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优势"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#&#x4F18;&#x52BF;" class="headerlink" title="&#x4F18;&#x52BF;"></a>&#x4F18;&#x52BF;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到多个构造器参数时，使用构建器-Builder模式"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x9047;&#x5230;&#x591A;&#x4E2A;&#x6784;&#x9020;&#x5668;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x6784;&#x5EFA;&#x5668;-Builder&#x6A21;&#x5F0F;" class="headerlink" title="&#x9047;&#x5230;&#x591A;&#x4E2A;&#x6784;&#x9020;&#x5668;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x6784;&#x5EFA;&#x5668;-Builder&#x6A21;&#x5F0F;"></a>&#x9047;&#x5230;&#x591A;&#x4E2A;&#x6784;&#x9020;&#x5668;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x6784;&#x5EFA;&#x5668;-Builder&#x6A21;&#x5F0F;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-使用构造方法创建对象"><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#1-&#x4F7F;&#x7528;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;" class="headerlink" title="1.&#x4F7F;&#x7528;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;"></a>1.&#x4F7F;&#x7528;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-JavaBeans模式"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#2-JavaBeans&#x6A21;&#x5F0F;" class="headerlink" title="2.JavaBeans&#x6A21;&#x5F0F;"></a>2.JavaBeans&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Builder模式"><span class="nav-number">1.2.3.</span> <span class="nav-text"><a href="#3-Builder&#x6A21;&#x5F0F;" class="headerlink" title="3.Builder&#x6A21;&#x5F0F;"></a>3.Builder&#x6A21;&#x5F0F;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用私有构造器或者枚举类型强化singleton属性"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x7528;&#x79C1;&#x6709;&#x6784;&#x9020;&#x5668;&#x6216;&#x8005;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x5F3A;&#x5316;singleton&#x5C5E;&#x6027;" class="headerlink" title="&#x7528;&#x79C1;&#x6709;&#x6784;&#x9020;&#x5668;&#x6216;&#x8005;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x5F3A;&#x5316;singleton&#x5C5E;&#x6027;"></a>&#x7528;&#x79C1;&#x6709;&#x6784;&#x9020;&#x5668;&#x6216;&#x8005;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x5F3A;&#x5316;singleton&#x5C5E;&#x6027;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免创建不必要的对象"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x907F;&#x514D;&#x521B;&#x5EFA;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x5BF9;&#x8C61;" class="headerlink" title="&#x907F;&#x514D;&#x521B;&#x5EFA;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x5BF9;&#x8C61;"></a>&#x907F;&#x514D;&#x521B;&#x5EFA;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x5BF9;&#x8C61;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消除过期的对象引用"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x6D88;&#x9664;&#x8FC7;&#x671F;&#x7684;&#x5BF9;&#x8C61;&#x5F15;&#x7528;" class="headerlink" title="&#x6D88;&#x9664;&#x8FC7;&#x671F;&#x7684;&#x5BF9;&#x8C61;&#x5F15;&#x7528;"></a>&#x6D88;&#x9664;&#x8FC7;&#x671F;&#x7684;&#x5BF9;&#x8C61;&#x5F15;&#x7528;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

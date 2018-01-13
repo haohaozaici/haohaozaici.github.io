@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[创建和销毁对象]]></title>
+    <url>%2Fblog%2F2017%2F12%2F19%2Fcreate-and-destroy-objects%2F</url>
+    <content type="text"><![CDATA[创建和销毁对象静态工厂方法代替构造器静态工厂方法与设计模式中的工厂方法不同。 优势 静态工厂方法有名称， 遇到多个构造器参数时，使用构建器-Builder模式1.使用构造方法创建对象重叠构造器 2.JavaBeans模式通过setter方法设置必要参数，拥有良好的可读性。缺点：构造过程中容易被改变，处于不一致的状态。 3.Builder模式通过公开的Builder内部类，私有的构造方法，构造必传参数和可选参数。Builder模式模拟了具名的可选参数，可以加强约束条件，在对象域中进行检验。可以在编译时进行异常检查。 缺点：特殊情况下额外的性能开销，冗长。适用情况：多个参数(大于4个)，需要比JavaBeans模式更加安全的情况。 参见 Notification 或 Alertdialog类。 用私有构造器或者枚举类型强化singleton属性为了防止反射调用私有构造方法、反序列化时创建新的实例，直接使用 包含单个元素的枚举类型. 12345public enum Elvis&#123; INSTANCE; ...&#125; 避免创建不必要的对象39条 应该创建新对象时，不要重用现有对象创建不必要的对象只会影响程序的风格和性能，没有实施保护性拷贝将会导致潜在的错误和安全漏洞。 消除过期的对象引用内存泄露]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Effective Java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Java Servlet]]></title>
+    <url>%2Fblog%2F2017%2F12%2F19%2Fjava_servlet%2F</url>
+    <content type="text"><![CDATA[Java Servlet Http Servlet处理http请求 会话管理 URL重写 隐藏域 Cookies HttpSession对象 JSP (JavaServer Page)JSP 标签、listener、Filters异步处理、异步监听区分耗时任务与异步处理 安全声明性安全 对称加密 RSA非对称加密 通过HTTPS和安全证书构建安全通道，SSL再通过对称加密高速传输信息，MD5校验数据准确性和完整性。]]></content>
+      <categories>
+        <category>server</category>
+        <category>Servlet</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Android自定义锁屏页]]></title>
+    <url>%2Fblog%2F2017%2F12%2F13%2F%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%81%E5%B1%8F%2F</url>
+    <content type="text"><![CDATA[自定义锁屏页类似于QQ音乐在锁屏、亮屏后显示完全自定义的锁屏内容。简单来说就是在锁屏之后收到锁屏广播，启动自定义锁屏Activity，同时取消系统锁屏（有密码时无法关闭），模拟滑动解锁，不是系统级的行为。]]></content>
+      <categories>
+        <category>Android</category>
+        <category>View</category>
+        <category>自定义锁屏</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Mifare 1k S50卡]]></title>
+    <url>%2Fblog%2F2017%2F12%2F13%2FM1%20card%2F</url>
+    <content type="text"><![CDATA[背景：最近的项目中涉及到读写M1卡，之前完全没接触过一脸懵逼，却没意识到，生活中常用的公交卡、门禁卡、开水卡、会员卡等等大多数都是M1类的射频卡，如Mifare 1k S50系列。熟悉了相关知识后，发现原理如此简单，感谢开源也因此能做很多方便的事情了。记录一下，面对陌生的事物不要害怕，了解熟悉，探索乐趣。 基础知识M1卡M1卡结构 从上面可以看到，扇区0 块0固化了厂家代码，32位16进制数，一般作为ID使用。 每一个扇区的块3用于保存KEY A,存取控制,KEY B，除了扇区0的块0之外的其他的块0~块2都用于存储数据。KEY A不可读、可写，KEY B可读可写. 一般的门禁卡中，不存储任何数据，门禁系统只读取卡ID，学校里使用的开水卡，一般是离线使用，卡的余额或者使用次数是存储在卡中的，使用时进行读写。在武汉通中，存储了卡余额，储值、消费记录，具体的余额存储在服务器上。所以理论上可以模拟卡ID来模拟门禁卡，或者是读取修改水卡值来修改卡。 读写卡工具MIFARE Classic Tool, MifareClassicTool - GitHub 模拟卡工具NFC卡模拟 相关文章Mifare 1k S50 卡的简单探讨与破解]]></content>
+      <categories>
+        <category>生活</category>
+        <category>乱七八糟的技巧</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2Fblog%2F2017%2F12%2F12%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+      <categories>
+        <category>test</category>
+        <category>test2</category>
+      </categories>
+  </entry>
+</search>

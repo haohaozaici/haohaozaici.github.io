@@ -153,7 +153,7 @@
 
 
 
-  <title>Categories | 浩浩的被窝</title>
+  <title>Mifare 1k S50卡 | 浩浩的被窝</title>
   
 
 
@@ -312,33 +312,186 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://haohaozaici.github.io/blog/blog/2017/12/13/M1 card/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="haohaozaici">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩浩的被窝">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">Mifare 1k S50卡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T16:41:43+08:00">2017-12-13</time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/生活/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/生活/乱七八糟的技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">乱七八糟的技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <blockquote>
+<p>背景：最近的项目中涉及到读写M1卡，之前完全没接触过一脸懵逼，却没意识到，生活中常用的公交卡、门禁卡、开水卡、会员卡等等大多数都是M1类的射频卡，如Mifare 1k S50系列。熟悉了相关知识后，发现原理如此简单，感谢开源也因此能做很多方便的事情了。记录一下，面对陌生的事物不要害怕，了解熟悉，探索乐趣。</p>
+</blockquote>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="M1卡"><a href="#M1卡" class="headerlink" title="M1卡"></a>M1卡</h3><p>M1卡结构</p>
+<div style="align: center"><img src="/blog/img/m1card.webp" alt="M1卡结构"> </div>
+
+<p>从上面可以看到，<code>扇区0 块0</code>固化了厂家代码，32位16进制数，一般作为<code>ID</code>使用。</p>
+<p>每一个扇区的块3用于保存<code>KEY A,存取控制,KEY B</code>，除了扇区0的块0之外的其他的<code>块0~块2</code>都用于存储数据。<code>KEY A</code>不可读、可写，<code>KEY B</code>可读可写.</p>
+<p>一般的门禁卡中，不存储任何数据，门禁系统只读取卡ID，学校里使用的开水卡，一般是离线使用，卡的余额或者使用次数是存储在卡中的，使用时进行读写。在武汉通中，存储了卡余额，储值、消费记录，具体的余额存储在服务器上。所以理论上可以模拟卡ID来模拟门禁卡，或者是读取修改水卡值来修改卡。</p>
+<p>读写卡工具<a href="https://play.google.com/store/apps/details?id=de.syss.MifareClassicTool" target="_blank" rel="noopener">MIFARE Classic Tool</a>, <a href="https://github.com/ikarus23/MifareClassicTool" target="_blank" rel="noopener">MifareClassicTool - GitHub</a></p>
+<p>模拟卡工具<a href="https://play.google.com/store/apps/details?id=com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a></p>
+<h4 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h4><p><a href="https://www.null17.com/blog/coding/NFC/20151019-nfc-mod/" target="_blank" rel="noopener">Mifare 1k S50 卡的简单探讨与破解</a></p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/12/12/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/12/13/自定义锁屏/" rel="prev" title="Android自定义锁屏页">
+                Android自定义锁屏页 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -368,8 +521,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -437,6 +599,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x57FA;&#x7840;&#x77E5;&#x8BC6;" class="headerlink" title="&#x57FA;&#x7840;&#x77E5;&#x8BC6;"></a>&#x57FA;&#x7840;&#x77E5;&#x8BC6;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#M1卡"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#M1&#x5361;" class="headerlink" title="M1&#x5361;"></a>M1&#x5361;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关文章"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#&#x76F8;&#x5173;&#x6587;&#x7AE0;" class="headerlink" title="&#x76F8;&#x5173;&#x6587;&#x7AE0;"></a>&#x76F8;&#x5173;&#x6587;&#x7AE0;</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
