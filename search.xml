@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Android音频焦点与声音重叠]]></title>
+    <url>%2F2018%2F04%2F24%2FAndroid%20Sound%20overlap%2F</url>
+    <content type="text"><![CDATA[音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。 这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。 音频焦点相关的讲解参考以下文章 Android音频焦点详解Managing Audio Focus Managing Audio Focus不同的APP可以同时播放音频，系统会将他们混合在一起，但为了避免同时播放，Android提供了audio focus机制来合理使用音频播放资源。同一时间只能有一个APP获取音频焦点，当需要播放音频时，应该立即请求音频焦点，同样的，在你的APP获取到音频焦点后，其他APP也可以抢占音频焦点，这时你的APP就需要暂停播放或降低声音。音频焦点是合作类型的，APP拥有完全自主的控制权，系统无法阻止，但应用应该遵守音频焦点的指导规则。 好的音频APP在播放时应该遵守以下规则： 开始播放后立即调用requestAudioFocus()方法，并验证返回值为AUDIOFOCUS_REQUEST_GRANTED 当其他app占用音频焦点时，暂停或停止播放，或者降低声音 当播放停止时，放弃音频焦点 在不同的Android版本下，需要使用不同的方法来处理音频焦点： API level 8以后，使用requestAudioFocus()和abandonAudioFocus()方法，并注册AudioManager.OnAudioFocusChangeListener接收回调。 API level 21以后，需要使用AudioAttributes来描述播放音频的类型。 API level 26以后，需要使用AudioFocusRequest参数，它携带了音频的context和相关功能，系统会根据这些自动管理音频焦点。 Android8.0以前参考官方文档获取焦点的方法如下： 123456// Request audio focus for playbackint result = am.requestAudioFocus(afChangeListener, // Use the music stream. AudioManager.STREAM_MUSIC, // Request permanent focus. AudioManager.AUDIOFOCUS_GAIN); 但在听音乐的时候播放音频或视频，依旧出现了重叠的声音，实际上有效的做法是这样的12345//下面两个常量参数试过很多 都无效，最终反编译了其他app才搞定，汗~ int requestFocusResult = mAudioManager.requestAudioFocus( mAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT); 具体参考文章Android MediaPlayer音频焦点问题，抢占声道 最后在对应的播放状态下获取和释放音频焦点。 Android8.0之后和之前一样，Android8.0中也使用了requestAudioFocus()来请求音频焦点，不一样的是，使用abandonAudioFocusRequest()释放音频焦点，并且请求和释放都需要传入同一个AudioFocusRequest实例。使用AudioFocusRequest.Builder来创建，具体实现代码参考官方文档Audio focus in Android 8.0 and later。 123456789101112mAudioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) .setAudioAttributes(new AudioAttributes.Builder() .setUsage(AudioAttributes.USAGE_MEDIA) .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE) .build()) .setAcceptsDelayedFocusGain(true) .setOnAudioFocusChangeListener(mAudioFocusChangeListener) .build();//请求音频焦点 requestFocusResult = mAudioManager.requestAudioFocus(mAudioFocusRequest);//释放音频焦点abandonFocusResult = mAudioManager.abandonAudioFocusRequest(mAudioFocusRequest); 注意事项： Android8.0中其他APP使用AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK参数获取焦点时，将不会回调本APP的onAudioFocusChange()方法。 焦点延迟获取，当焦点被其他APP“锁”住时，requestAudioFocus()会返回AUDIOFOCUS_REQUEST_FAILED，比如正在打电话时，焦点就会被锁住。如果使用了setAcceptsDelayedFocusGain(true)方法，请求将会返回AUDIOFOCUS_REQUEST_DELAYED，在锁解除后，系统会继续处理未完成的焦点请求，并回调onAudioFocusChange()方法。 处理音频焦点变化了解相应的请求、释放方法后，还需要进一步处理音频焦点变化问题，也就是优化跟其他APP或者是系统APP合作的过程。主要是处理onAudioFocusChange方法：12345678910111213141516171819202122232425262728293031323334private AudioManager.OnAudioFocusChangeListener mAudioFocusChange = new AudioManager.OnAudioFocusChangeListener() &#123; @Override public void onAudioFocusChange(int focusChange) &#123; switch (focusChange)&#123; case AudioManager.AUDIOFOCUS_GAIN: //当其他应用申请焦点之后又释放焦点会触发此回调 //可重新播放音乐 Log.d(TAG, "AUDIOFOCUS_GAIN"); start(); break; case AudioManager.AUDIOFOCUS_LOSS: //长时间丢失焦点,当其他应用申请的焦点为AUDIOFOCUS_GAIN时， //会触发此回调事件，例如播放QQ音乐，网易云音乐等 //通常需要暂停音乐播放，若没有暂停播放就会出现和其他音乐同时输出声音 Log.d(TAG, "AUDIOFOCUS_LOSS"); stop(); //释放焦点，该方法可根据需要来决定是否调用 //若焦点释放掉之后，将不会再自动获得 mAudioManager.abandonAudioFocus(mAudioFocusChange); break; case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT: //短暂性丢失焦点，当其他应用申请AUDIOFOCUS_GAIN_TRANSIENT或AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE时， //会触发此回调事件，例如播放短视频，拨打电话等。 //通常需要暂停音乐播放 stop(); Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT"); break; case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK: //短暂性丢失焦点并作降音处理 Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK"); break; &#125; &#125; &#125;; 最后音频相关的API常常让人疑惑，明明已经根据注释的描述和官方文档中的方法实现了，却达不到预期的效果。还有就是随着Android更新的推送速度越来越快，更新普及率也水涨船高，高版本API随时在发生变化，适配时需要注意这些细节，以及进行完善的测试。 工具类参见AudioFocusManager 未完成内容源码简单分析 在不同机型中进行测试]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[ARouter]]></title>
     <url>%2F2018%2F04%2F23%2FARouter%2F</url>
     <content type="text"><![CDATA[ARouter典型应用 从外部URL映射到内部页面，以及参数传递与解析 跨模块页面跳转，模块间解耦 拦截跳转过程，处理登陆、埋点等逻辑 跨模块API调用，通过控制反转来做组件解耦 ARouter拦截器面向切面编程面向切面编程（AOP是Aspect Oriented Program的首字母缩写） ，我们知道，面向对象的特点是继承、多态和封装。而封装就要求将功能分散到不同的对象中去，这在软件设计中往往称为职责分配。实际上也就是说，让不同的类设计不同的方法。这样代码就分散到一个个的类中去了。这样做的好处是降低了代码的复杂程度，使类可重用。 但是人们也发现，在分散代码的同时，也增加了代码的重复性。什么意思呢？比如说，我们在两个类中，可能都需要在每个方法中做日志。按面向对象的设计方法，我们就必须在两个类的方法中都加入日志的内容。也许他们是完全相同的，但就是因为面向对象的设计让类与类之间无法联系，而不能将这些重复的代码统一起来。 也许有人会说，那好办啊，我们可以将这段代码写在一个独立的类独立的方法里，然后再在这两个类中调用。但是，这样一来，这两个类跟我们上面提到的独立的类就有耦合了，它的改变会影响这两个类。那么，有没有什么办法，能让我们在需要的时候，随意地加入代码呢？这种在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程。 一般而言，我们管切入到指定类指定方法的代码片段称为切面，而切入到哪些类、哪些方法则叫切入点。有了AOP，我们就可以把几个类共有的代码，抽取到一个切片中，等到需要时再切入对象中去，从而改变其原有的行为。这样看来，AOP其实只是OOP的补充而已。OOP从横向上区分出一个个的类来，而AOP则从纵向上向对象中加入特定的代码。有了AOP，OOP变得立体了。如果加上时间维度，AOP使OOP由原来的二维变为三维了，由平面变成立体了。从技术上来说，AOP基本上是通过代理机制实现的。]]></content>
       <categories>
         <category>Android</category>
         <category>组件化</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[Android音频焦点与声音重叠]]></title>
-    <url>%2F2018%2F04%2F23%2FAndroid%20Sound%20overlap%2F</url>
-    <content type="text"><![CDATA[音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。 这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。 音频焦点相关的讲解参考以下文章 Android音频焦点详解Managing Audio Focus Managing Audio Focus不同的APP可以同时播放音频，系统会将他们混合在一起，但为了避免同时播放，Android提供了audio focus机制来合理使用音频播放资源。同一时间只能有一个APP获取音频焦点，当需要播放音频时，应该立即请求音频焦点，同样的，在你的APP获取到音频焦点后，其他APP也可以抢占音频焦点，这时你的APP就需要暂停播放或降低声音。音频焦点是合作类型的，APP拥有完全自主的控制权，系统无法阻止，但应用应该遵守音频焦点的指导规则。 好的音频APP在播放时应该遵守以下规则： 开始播放后立即调用requestAudioFocus()方法，并验证返回值为AUDIOFOCUS_REQUEST_GRANTED 当其他app占用音频焦点时，暂停或停止播放，或者降低声音 当播放停止时，放弃音频焦点 在不同的Android版本下，需要使用不同的方法来处理音频焦点： API level 8以后，使用requestAudioFocus()和abandonAudioFocus()方法，并注册AudioManager.OnAudioFocusChangeListener接收回调。 API level 21以后，需要使用AudioAttributes来描述播放音频的类型。 API level 26以后，需要使用AudioFocusRequest参数，它携带了音频的context和相关功能，系统会根据这些自动管理音频焦点。 具体实现处理音频焦点问题主要是处理onAudioFocusChange方法：12345678910111213141516171819202122232425262728293031323334private AudioManager.OnAudioFocusChangeListener mAudioFocusChange = new AudioManager.OnAudioFocusChangeListener() &#123; @Override public void onAudioFocusChange(int focusChange) &#123; switch (focusChange)&#123; case AudioManager.AUDIOFOCUS_GAIN: //当其他应用申请焦点之后又释放焦点会触发此回调 //可重新播放音乐 Log.d(TAG, "AUDIOFOCUS_GAIN"); start(); break; case AudioManager.AUDIOFOCUS_LOSS: //长时间丢失焦点,当其他应用申请的焦点为AUDIOFOCUS_GAIN时， //会触发此回调事件，例如播放QQ音乐，网易云音乐等 //通常需要暂停音乐播放，若没有暂停播放就会出现和其他音乐同时输出声音 Log.d(TAG, "AUDIOFOCUS_LOSS"); stop(); //释放焦点，该方法可根据需要来决定是否调用 //若焦点释放掉之后，将不会再自动获得 mAudioManager.abandonAudioFocus(mAudioFocusChange); break; case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT: //短暂性丢失焦点，当其他应用申请AUDIOFOCUS_GAIN_TRANSIENT或AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE时， //会触发此回调事件，例如播放短视频，拨打电话等。 //通常需要暂停音乐播放 stop(); Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT"); break; case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK: //短暂性丢失焦点并作降音处理 Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK"); break; &#125; &#125; &#125;; Android8.0以前参考官方文档获取焦点的方法如下： 123456// Request audio focus for playbackint result = am.requestAudioFocus(afChangeListener, // Use the music stream. AudioManager.STREAM_MUSIC, // Request permanent focus. AudioManager.AUDIOFOCUS_GAIN); 但在听音乐的时候播放音频或视频，依旧出现了重叠的声音，实际上有效的做法是这样的12345//下面两个常量参数试过很多 都无效，最终反编译了其他app才搞定，汗~ int requestFocusResult = mAudioManager.requestAudioFocus( mAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT); 具体参考文章Android MediaPlayer音频焦点问题，抢占声道 最后在对应的播放状态下获取和释放音频焦点。 Android8.0之后在Android8.0中一样使用了requestAudioFocus()来请求音频焦点，不一样的是，使用abandonAudioFocusRequest()释放音频焦点，请求和释放都需要传入同一个AudioFocusRequest实例。使用AudioFocusRequest.Builder来创建，具体实现代码参考官方文档Audio focus in Android 8.0 and later。 123456789101112mAudioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) .setAudioAttributes(new AudioAttributes.Builder() .setUsage(AudioAttributes.USAGE_MEDIA) .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE) .build()) .setAcceptsDelayedFocusGain(true) .setOnAudioFocusChangeListener(mAudioFocusChangeListener) .build();//请求音频焦点 requestFocusResult = mAudioManager.requestAudioFocus(mAudioFocusRequest);//释放音频焦点abandonFocusResult = mAudioManager.abandonAudioFocusRequest(mAudioFocusRequest); 注意事项： Android8.0中其他APP使用AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK参数获取焦点时，将不会回调本APP的onAudioFocusChange()方法。 焦点延迟获取，当焦点被其他APP“锁”住时，requestAudioFocus()会返回AUDIOFOCUS_REQUEST_FAILED，比如正在打电话时，焦点就会被锁住。如果使用了setAcceptsDelayedFocusGain(true)方法，请求将会返回AUDIOFOCUS_REQUEST_DELAYED，在锁解除后，系统会继续处理未完成的焦点请求，并回调onAudioFocusChange()方法。 最后音频相关的API常常让人疑惑，明明已经根据注释的描述和官方文档中的方法实现了，却达不到预期的效果。还有就是随着Android更新的推广越来越快，高版本API也在随时发生变化，在的适配时需要注意这些细节，以及进行完善的测试。 工具类参见AudioFocusManager 未完成内容源码简单分析 在不同机型中进行测试]]></content>
-      <categories>
-        <category>Android</category>
-        <category>Media</category>
       </categories>
   </entry>
   <entry>
@@ -27,21 +26,21 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[创建和销毁对象]]></title>
-    <url>%2F2017%2F12%2F19%2Fcreate-and-destroy-objects%2F</url>
-    <content type="text"><![CDATA[创建和销毁对象静态工厂方法代替构造器静态工厂方法与设计模式中的工厂方法不同。 优势 静态工厂方法有名称， 遇到多个构造器参数时，使用构建器-Builder模式1.使用构造方法创建对象重叠构造器 2.JavaBeans模式通过setter方法设置必要参数，拥有良好的可读性。缺点：构造过程中容易被改变，处于不一致的状态。 3.Builder模式通过公开的Builder内部类，私有的构造方法，构造必传参数和可选参数。Builder模式模拟了具名的可选参数，可以加强约束条件，在对象域中进行检验。可以在编译时进行异常检查。 缺点：特殊情况下额外的性能开销，冗长。适用情况：多个参数(大于4个)，需要比JavaBeans模式更加安全的情况。 参见 Notification 或 Alertdialog类。 用私有构造器或者枚举类型强化singleton属性为了防止反射调用私有构造方法、反序列化时创建新的实例，直接使用 包含单个元素的枚举类型. 12345public enum Elvis&#123; INSTANCE; ...&#125; 避免创建不必要的对象39条 应该创建新对象时，不要重用现有对象创建不必要的对象只会影响程序的风格和性能，没有实施保护性拷贝将会导致潜在的错误和安全漏洞。 消除过期的对象引用内存泄露]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Effective Java</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[Java Servlet]]></title>
     <url>%2F2017%2F12%2F19%2Fjava_servlet%2F</url>
     <content type="text"><![CDATA[Java Servlet Http Servlet处理http请求 会话管理 URL重写 隐藏域 Cookies HttpSession对象 JSP (JavaServer Page)JSP 标签、listener、Filters异步处理、异步监听区分耗时任务与异步处理 安全声明性安全 对称加密 RSA非对称加密 通过HTTPS和安全证书构建安全通道，SSL再通过对称加密高速传输信息，MD5校验数据准确性和完整性。]]></content>
       <categories>
         <category>server</category>
         <category>Servlet</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[创建和销毁对象]]></title>
+    <url>%2F2017%2F12%2F19%2Fcreate-and-destroy-objects%2F</url>
+    <content type="text"><![CDATA[创建和销毁对象静态工厂方法代替构造器静态工厂方法与设计模式中的工厂方法不同。 优势 静态工厂方法有名称， 遇到多个构造器参数时，使用构建器-Builder模式1.使用构造方法创建对象重叠构造器 2.JavaBeans模式通过setter方法设置必要参数，拥有良好的可读性。缺点：构造过程中容易被改变，处于不一致的状态。 3.Builder模式通过公开的Builder内部类，私有的构造方法，构造必传参数和可选参数。Builder模式模拟了具名的可选参数，可以加强约束条件，在对象域中进行检验。可以在编译时进行异常检查。 缺点：特殊情况下额外的性能开销，冗长。适用情况：多个参数(大于4个)，需要比JavaBeans模式更加安全的情况。 参见 Notification 或 Alertdialog类。 用私有构造器或者枚举类型强化singleton属性为了防止反射调用私有构造方法、反序列化时创建新的实例，直接使用 包含单个元素的枚举类型. 12345public enum Elvis&#123; INSTANCE; ...&#125; 避免创建不必要的对象39条 应该创建新对象时，不要重用现有对象创建不必要的对象只会影响程序的风格和性能，没有实施保护性拷贝将会导致潜在的错误和安全漏洞。 消除过期的对象引用内存泄露]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Effective Java</category>
       </categories>
   </entry>
   <entry>

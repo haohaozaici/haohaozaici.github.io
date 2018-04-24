@@ -122,8 +122,24 @@ sub {
   bottom: -0.25em;
 }
 
-img {
+/* img {
   border: 0;
+} */
+
+img {
+  display: block;
+  box-shadow: 0 0 10px #555;
+  border-radius: 6px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0 0 10px #555;
+}
+
+img.displayed {
+  text-align: center;
+  display: block;
 }
 
 svg:not(:root) {
@@ -356,7 +372,7 @@ hr {
   cursor: pointer;
 }
 
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -485,7 +501,7 @@ h6,
 
 p {
   margin: 0 0 10px;
-}
+} */
 
 .lead {
   margin-bottom: 20px;
@@ -5734,6 +5750,7 @@ body.no-sidebar .sidebar {
 
 .main-nav > li .menu-title {
   margin-left: 15px;
+  font-weight: 400;
 }
 
 .main-nav > .active a,
@@ -5902,9 +5919,9 @@ body.no-sidebar .sidebar {
   margin-top: 0;
 }
 
-.main .article-list article {
+/* .main .article-list article {
   border-bottom: 1px solid #f2f2f2;
-}
+} */
 
 .main .article-list article:last-child {
   border-bottom: 0;
@@ -5969,12 +5986,15 @@ body.no-sidebar .sidebar {
 
 .widget p {
   margin-bottom: 0;
+  font-weight: 400;
 }
 
 .widget ul {
   margin-left: 0;
   padding-left: 0;
   list-style: none;
+  font-weight: 400;
+  font-size: 0.96em;
 }
 
 .widget .category-link {
@@ -6452,7 +6472,7 @@ body.no-sidebar .sidebar {
   padding: 14px 0;
 }
 
-.markdown-body h1,
+/* .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
 .markdown-body h4,
@@ -6485,13 +6505,13 @@ body.no-sidebar .sidebar {
 .markdown-body a:hover {
   color: #0a6ebd;
   text-decoration: none;
-}
+} */
 
 .markdown-body ul,
 .markdown-body ol {
   padding-left: 0;
   margin-left: 20px;
-}
+} */
 
 /*
  * We are hiding the invisible nav outside the screen
@@ -7832,6 +7852,7 @@ body.okayNav-loaded {
 
   body.main-center .main {
     margin-left: 4.16667%;
+    padding-left: 48px;
   }
 
   body.main-left .sidebar {

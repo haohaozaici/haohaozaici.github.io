@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
-main {
+html {
   color: #333;
   background: #fff;
   -webkit-text-size-adjust: 100%;
@@ -33,8 +33,8 @@ audio, canvas, video {
 }
 
 /* 要注意表单元素并不继承父级 font 的问题 */
-main, button, input, select, textarea {
-  font: 300 16px/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+body, button, input, select, textarea {
+  font: 300 1.6em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
 }
 
 button::-moz-focus-inner,
@@ -133,11 +133,9 @@ a:hover {
   text-decoration: underline;
 }
 
-/*
-.typo a {
+/* .typo a {
   border-bottom: 1px solid #1abc9c;
-}
-*/
+} */
 
 .typo a:hover {
   border-bottom-color: #555;
@@ -244,7 +242,6 @@ strong, b {
 h1, h2, h3, h4, h5, h6 {
   font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   font-weight: 100;
-  /* color: #000; */
   line-height: 1.35;
 }
 
@@ -277,12 +274,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* 在文章中，应该还原 ul 和 ol 的样式 */
-/*
 .typo ul, .typo-ul {
   margin-left: 1.3em;
   list-style: disc;
 }
-*/
 
 .typo ol, .typo-ol {
   list-style: decimal;
@@ -344,49 +339,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Responsive images */
-.article-entry img {
-  margin-top: 1em;
-  border: solid;
+.typo img {
   max-width: 100%;
-}
-
-.media-body h4{
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.main.has-sticky .content{
-  margin-bottom: 100px;
-}
-
-.article-footer{
-  margin-top: 80px;
-}
-
-.widget p{
-  margin-bottom: 1px;
-}
-
-@media screen and (min-device-width: 600px){
-  .main .content{
-    margin: 16px;
-  }
-}
-
-::selection{
-  background: #CC3;
-  color: black;
-}
-
-code::selection{
-  color: orange;
-  background: black;
-}
-
-.main .article-list article{
-  border-bottom: none;
-}
-
-h4.media-heading{
-  font-size: 1.1em;
 }
