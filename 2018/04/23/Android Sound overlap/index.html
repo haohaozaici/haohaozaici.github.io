@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Android音频焦点与声音重叠 | 浩浩的被窝</title>
+  <meta name="description" content="音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。  这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。 音频焦点相关的讲解参考以下文章  Android音频焦点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android音频焦点与声音重叠">
+<meta property="og:url" content="https://haohaozaici.github.io/2018/04/23/Android Sound overlap/index.html">
+<meta property="og:site_name" content="浩浩的被窝">
+<meta property="og:description" content="音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。  这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。 音频焦点相关的讲解参考以下文章  Android音频焦点">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img.mukewang.com/5aded21b0001ab9210801920.png">
+<meta property="og:updated_time" content="2018-04-24T08:06:11.834Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android音频焦点与声音重叠">
+<meta name="twitter:description" content="音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。  这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。 音频焦点相关的讲解参考以下文章  Android音频焦点">
+<meta name="twitter:image" content="https://img.mukewang.com/5aded21b0001ab9210801920.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://haohaozaici.github.io/2018/04/23/Android Sound overlap/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="浩浩的被窝" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/ic_launcher.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+  <link rel="stylesheet" href="/css/typo.css">
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/haohaozaici" target="_blank">
+          <img class="img-circle img-rotate" src="/img/head_icon.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">浩浩在此</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/haohaozaici" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title typo-h3">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>不写下来好像永远都记不住？！</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Media/">Media</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/View/">View</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/View/自定义锁屏/">自定义锁屏</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/组件化/">组件化</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/server/Servlet/">Servlet</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/总结/">总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/Android/组件化/">组件化</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/04/23/ARouter/" class="title">ARouter</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-23T06:09:25.000Z" itemprop="datePublished">2018-04-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/Android/Media/">Media</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/04/23/Android Sound overlap/" class="title">Android音频焦点与声音重叠</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-23T06:09:25.000Z" itemprop="datePublished">2018-04-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/总结/">总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/01/14/2017-summary/" class="title">2017年终总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-01-13T18:20:23.000Z" itemprop="datePublished">2018-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Java/">Java</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/Java/Effective-Java/">Effective Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/19/create-and-destroy-objects/" class="title">创建和销毁对象</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-19T07:12:41.000Z" itemprop="datePublished">2017-12-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/server/">server</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/server/Servlet/">Servlet</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/19/java_servlet/" class="title">Java Servlet</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-19T07:12:41.000Z" itemprop="datePublished">2017-12-19</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main typo" role="main">
+  <div class="content">
+  <article id="post-Android Sound overlap" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android音频焦点与声音重叠
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/04/23/Android Sound overlap/" class="article-date">
+	  <time datetime="2018-04-23T06:09:25.000Z" itemprop="datePublished">2018-04-23</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>►<a class="article-category-link" href="/categories/Android/Media/">Media</a>
+  </span>
+
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/04/23/Android Sound overlap/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,360(字)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。</p>
+<p><div align="center"><br><img src="https://img.mukewang.com/5aded21b0001ab9210801920.png" width="240" height="427" alt="中断后继续播放"><br></div><br><br></p>
+<p>这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。</p>
+<p>音频焦点相关的讲解参考以下文章</p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/5d8d7b677690" target="_blank" rel="noopener">Android音频焦点详解</a><br><a href="https://developer.android.com/guide/topics/media-apps/audio-focus.html" target="_blank" rel="noopener">Managing Audio Focus</a></p>
+</blockquote>
+<h2 id="Managing-Audio-Focus"><a href="#Managing-Audio-Focus" class="headerlink" title="Managing Audio Focus"></a>Managing Audio Focus</h2><p>不同的APP可以同时播放音频，系统会将他们混合在一起，但为了避免同时播放，Android提供了<strong>audio focus</strong>机制来合理使用音频播放资源。同一时间只能有一个APP获取音频焦点，当需要播放音频时，应该立即请求音频焦点，同样的，在你的APP获取到音频焦点后，其他APP也可以抢占音频焦点，这时你的APP就需要暂停播放或降低声音。音频焦点是合作类型的，APP拥有完全自主的控制权，系统无法阻止，但应用应该遵守音频焦点的指导规则。</p>
+<p>好的音频APP在播放时应该遵守以下规则：</p>
+<ul>
+<li>开始播放后立即调用<code>requestAudioFocus()</code>方法，并验证返回值为<code>AUDIOFOCUS_REQUEST_GRANTED</code></li>
+<li>当其他app占用音频焦点时，暂停或停止播放，或者降低声音</li>
+<li>当播放停止时，放弃音频焦点</li>
+</ul>
+<p>在不同的Android版本下，需要使用不同的方法来处理音频焦点：</p>
+<ul>
+<li><em>API level 8</em>以后，使用<code>requestAudioFocus()</code>和<code>abandonAudioFocus()</code>方法，并注册<code>AudioManager.OnAudioFocusChangeListener</code>接收回调。</li>
+<li><em>API level 21</em>以后，需要使用<code>AudioAttributes</code>来描述播放音频的类型。</li>
+<li><em>API level 26</em>以后，需要使用<code>AudioFocusRequest</code>参数，它携带了音频的context和相关功能，系统会根据这些自动管理音频焦点。</li>
+</ul>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>处理音频焦点问题主要是处理<code>onAudioFocusChange</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> AudioManager.OnAudioFocusChangeListener mAudioFocusChange = <span class="keyword">new</span> AudioManager.OnAudioFocusChangeListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAudioFocusChange</span><span class="params">(<span class="keyword">int</span> focusChange)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">switch</span> (focusChange)&#123;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_GAIN:</span><br><span class="line">                    <span class="comment">//当其他应用申请焦点之后又释放焦点会触发此回调</span></span><br><span class="line">                    <span class="comment">//可重新播放音乐</span></span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_GAIN"</span>);</span><br><span class="line">                    start();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS:</span><br><span class="line">                    <span class="comment">//长时间丢失焦点,当其他应用申请的焦点为AUDIOFOCUS_GAIN时，</span></span><br><span class="line">                    <span class="comment">//会触发此回调事件，例如播放QQ音乐，网易云音乐等</span></span><br><span class="line">                    <span class="comment">//通常需要暂停音乐播放，若没有暂停播放就会出现和其他音乐同时输出声音</span></span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_LOSS"</span>);</span><br><span class="line">                    stop();</span><br><span class="line">                    <span class="comment">//释放焦点，该方法可根据需要来决定是否调用</span></span><br><span class="line">                    <span class="comment">//若焦点释放掉之后，将不会再自动获得</span></span><br><span class="line">                    mAudioManager.abandonAudioFocus(mAudioFocusChange);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:</span><br><span class="line">                    <span class="comment">//短暂性丢失焦点，当其他应用申请AUDIOFOCUS_GAIN_TRANSIENT或AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE时，</span></span><br><span class="line">                    <span class="comment">//会触发此回调事件，例如播放短视频，拨打电话等。</span></span><br><span class="line">                    <span class="comment">//通常需要暂停音乐播放</span></span><br><span class="line">                    stop();</span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_LOSS_TRANSIENT"</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:</span><br><span class="line">                    <span class="comment">//短暂性丢失焦点并作降音处理</span></span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK"</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Android8-0以前"><a href="#Android8-0以前" class="headerlink" title="Android8.0以前"></a>Android8.0以前</h3><p>参考官方文档获取焦点的方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Request audio focus for playback</span></span><br><span class="line"><span class="keyword">int</span> result = am.requestAudioFocus(afChangeListener,</span><br><span class="line">        <span class="comment">// Use the music stream.</span></span><br><span class="line">        AudioManager.STREAM_MUSIC,</span><br><span class="line">        <span class="comment">// Request permanent focus.</span></span><br><span class="line">        AudioManager.AUDIOFOCUS_GAIN);</span><br></pre></td></tr></table></figure>
+<p>但在听音乐的时候播放音频或视频，依旧出现了重叠的声音，实际上有效的做法是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下面两个常量参数试过很多 都无效，最终反编译了其他app才搞定，汗~  </span></span><br><span class="line"><span class="keyword">int</span> requestFocusResult = mAudioManager.requestAudioFocus(</span><br><span class="line">        mAudioFocusChangeListener,</span><br><span class="line">        AudioManager.STREAM_MUSIC,</span><br><span class="line">        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);</span><br></pre></td></tr></table></figure></p>
+<p>具体参考文章<a href="https://blog.csdn.net/SYIF88/article/details/68064866" target="_blank" rel="noopener">Android MediaPlayer音频焦点问题，抢占声道</a></p>
+<p>最后在对应的播放状态下获取和释放音频焦点。</p>
+<h3 id="Android8-0之后"><a href="#Android8-0之后" class="headerlink" title="Android8.0之后"></a>Android8.0之后</h3><p>在Android8.0中一样使用了<code>requestAudioFocus()</code>来请求音频焦点，不一样的是，使用<code>abandonAudioFocusRequest()</code>释放音频焦点，请求和释放都需要传入同一个<code>AudioFocusRequest</code>实例。使用<code>AudioFocusRequest.Builder</code>来创建，具体实现代码参考官方文档<a href="https://developer.android.com/guide/topics/media-apps/audio-focus.html#audio-focus-8-0" target="_blank" rel="noopener">Audio focus in Android 8.0 and later</a>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mAudioFocusRequest = <span class="keyword">new</span> AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)</span><br><span class="line">        .setAudioAttributes(<span class="keyword">new</span> AudioAttributes.Builder()</span><br><span class="line">                .setUsage(AudioAttributes.USAGE_MEDIA)</span><br><span class="line">                .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)</span><br><span class="line">                .build())</span><br><span class="line">        .setAcceptsDelayedFocusGain(<span class="keyword">true</span>)</span><br><span class="line">        .setOnAudioFocusChangeListener(mAudioFocusChangeListener)</span><br><span class="line">        .build();</span><br><span class="line"><span class="comment">//请求音频焦点      </span></span><br><span class="line">requestFocusResult = mAudioManager.requestAudioFocus(mAudioFocusRequest);</span><br><span class="line"><span class="comment">//释放音频焦点</span></span><br><span class="line">abandonFocusResult = mAudioManager.abandonAudioFocusRequest(mAudioFocusRequest);</span><br></pre></td></tr></table></figure>
+<p>注意事项：</p>
+<ul>
+<li>Android8.0中其他APP使用<code>AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK</code>参数获取焦点时，将不会回调本APP的<code>onAudioFocusChange()</code>方法。</li>
+<li>焦点延迟获取，当焦点被其他APP<strong>“锁”</strong>住时，<code>requestAudioFocus()</code>会返回<code>AUDIOFOCUS_REQUEST_FAILED</code>，比如正在打电话时，焦点就会被锁住。如果使用了<code>setAcceptsDelayedFocusGain(true)</code>方法，请求将会返回<code>AUDIOFOCUS_REQUEST_DELAYED</code>，在锁解除后，系统会继续处理未完成的焦点请求，并回调<code>onAudioFocusChange()</code>方法。</li>
+</ul>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>音频相关的API常常让人疑惑，明明已经根据注释的描述和官方文档中的方法实现了，却达不到预期的效果。还有就是随着Android更新的推广越来越快，高版本API也在随时发生变化，在的适配时需要注意这些细节，以及进行完善的测试。</p>
+<p>工具类参见<a href="https://gist.github.com/haohaozaici/baaa022e6ea5f61f37112135fe1cac07" target="_blank" rel="noopener">AudioFocusManager</a></p>
+<h4 id="未完成内容"><a href="#未完成内容" class="headerlink" title="未完成内容"></a>未完成内容</h4><p>源码简单分析</p>
+<p>在不同机型中进行测试</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://haohaozaici.github.io/2018/04/23/Android Sound overlap/" title="Android音频焦点与声音重叠" target="_blank" rel="external">https://haohaozaici.github.io/2018/04/23/Android Sound overlap/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/haohaozaici" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/img/head_icon.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading"><a href="https://github.com/haohaozaici" target="_blank"><span class="text-dark">浩浩在此</span><small class="ml-1x"></small></a></h4>
+        <small>疯狂修仙~</small>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/04/23/ARouter/" title="ARouter"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/01/14/2017-summary/" title="2017年终总结"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/haohaozaici" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+    
+
+
+
+</body>
+</html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haohaozaici.github.io/"/>
-  <updated>2017-12-29T15:17:35.184Z</updated>
+  <updated>2018-04-23T09:53:32.910Z</updated>
   <id>https://haohaozaici.github.io/</id>
   
   <author>
@@ -15,6 +15,84 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ARouter</title>
+    <link href="https://haohaozaici.github.io/2018/04/23/ARouter/"/>
+    <id>https://haohaozaici.github.io/2018/04/23/ARouter/</id>
+    <published>2018-04-23T06:09:25.000Z</published>
+    <updated>2018-04-23T09:53:32.910Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="ARouter典型应用"><a href="#ARouter典型应用" class="headerlink" title="ARouter典型应用"></a>ARouter典型应用</h2><ol><li>从外部URL映射到内部页面，以及参数传递与解析</li><li>跨模块页面跳转，模块间解耦</li><li>拦截跳转过程，处理登陆、埋点等逻辑</li><li>跨模块API调用，通过控制反转来做组件解耦</li></ol><h2 id="ARouter拦截器"><a href="#ARouter拦截器" class="headerlink" title="ARouter拦截器"></a>ARouter拦截器</h2><h3 id="面向切面编程"><a href="#面向切面编程" class="headerlink" title="面向切面编程"></a>面向切面编程</h3><p>面向切面编程（AOP是Aspect Oriented Program的首字母缩写） ，我们知道，面向对象的特点是继承、多态和封装。而封装就要求将功能分散到不同的对象中去，这在软件设计中往往称为职责分配。实际上也就是说，让不同的类设计不同的方法。这样代码就分散到一个个的类中去了。这样做的好处是降低了代码的复杂程度，使类可重用。      但是人们也发现，在分散代码的同时，也增加了代码的重复性。什么意思呢？比如说，我们在两个类中，可能都需要在每个方法中做日志。按面向对象的设计方法，我们就必须在两个类的方法中都加入日志的内容。也许他们是完全相同的，但就是因为面向对象的设计让类与类之间无法联系，而不能将这些重复的代码统一起来。    也许有人会说，那好办啊，我们可以将这段代码写在一个独立的类独立的方法里，然后再在这两个类中调用。但是，这样一来，这两个类跟我们上面提到的独立的类就有耦合了，它的改变会影响这两个类。那么，有没有什么办法，能让我们在需要的时候，随意地加入代码呢？这种在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程。       一般而言，我们管切入到指定类指定方法的代码片段称为切面，而切入到哪些类、哪些方法则叫切入点。有了AOP，我们就可以把几个类共有的代码，抽取到一个切片中，等到需要时再切入对象中去，从而改变其原有的行为。这样看来，AOP其实只是OOP的补充而已。OOP从横向上区分出一个个的类来，而AOP则从纵向上向对象中加入特定的代码。有了AOP，OOP变得立体了。如果加上时间维度，AOP使OOP由原来的二维变为三维了，由平面变成立体了。从技术上来说，AOP基本上是通过代理机制实现的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;ARouter典型应用&quot;&gt;&lt;a href=&quot;#ARouter典型应用&quot; class=&quot;headerlink&quot; title=&quot;ARouter典型应用&quot;&gt;&lt;/a&gt;ARouter典型应用&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;从外部URL映射到内部页面，以及参数传递与解析&lt;/li&gt;
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/categories/Android/"/>
+    
+      <category term="组件化" scheme="https://haohaozaici.github.io/categories/Android/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Android音频焦点与声音重叠</title>
+    <link href="https://haohaozaici.github.io/2018/04/23/Android%20Sound%20overlap/"/>
+    <id>https://haohaozaici.github.io/2018/04/23/Android Sound overlap/</id>
+    <published>2018-04-23T06:09:25.000Z</published>
+    <updated>2018-04-24T08:06:11.834Z</updated>
+    
+    <content type="html"><![CDATA[<p>音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。</p><p><div align="center"><br><img src="https://img.mukewang.com/5aded21b0001ab9210801920.png" width="240" height="427" alt="中断后继续播放"><br></div><br><br></p><p>这一系列流畅自然的操作不是理所应当的吗~当然如果处理不好的话就会出现声音重叠，音频焦点长期被占用的问题，下面我们来看看具体的功能逻辑。</p><p>音频焦点相关的讲解参考以下文章</p><blockquote><p><a href="https://www.jianshu.com/p/5d8d7b677690" target="_blank" rel="noopener">Android音频焦点详解</a><br><a href="https://developer.android.com/guide/topics/media-apps/audio-focus.html" target="_blank" rel="noopener">Managing Audio Focus</a></p></blockquote><h2 id="Managing-Audio-Focus"><a href="#Managing-Audio-Focus" class="headerlink" title="Managing Audio Focus"></a>Managing Audio Focus</h2><p>不同的APP可以同时播放音频，系统会将他们混合在一起，但为了避免同时播放，Android提供了<strong>audio focus</strong>机制来合理使用音频播放资源。同一时间只能有一个APP获取音频焦点，当需要播放音频时，应该立即请求音频焦点，同样的，在你的APP获取到音频焦点后，其他APP也可以抢占音频焦点，这时你的APP就需要暂停播放或降低声音。音频焦点是合作类型的，APP拥有完全自主的控制权，系统无法阻止，但应用应该遵守音频焦点的指导规则。</p><p>好的音频APP在播放时应该遵守以下规则：</p><ul><li>开始播放后立即调用<code>requestAudioFocus()</code>方法，并验证返回值为<code>AUDIOFOCUS_REQUEST_GRANTED</code></li><li>当其他app占用音频焦点时，暂停或停止播放，或者降低声音</li><li>当播放停止时，放弃音频焦点</li></ul><p>在不同的Android版本下，需要使用不同的方法来处理音频焦点：</p><ul><li><em>API level 8</em>以后，使用<code>requestAudioFocus()</code>和<code>abandonAudioFocus()</code>方法，并注册<code>AudioManager.OnAudioFocusChangeListener</code>接收回调。</li><li><em>API level 21</em>以后，需要使用<code>AudioAttributes</code>来描述播放音频的类型。</li><li><em>API level 26</em>以后，需要使用<code>AudioFocusRequest</code>参数，它携带了音频的context和相关功能，系统会根据这些自动管理音频焦点。</li></ul><h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>处理音频焦点问题主要是处理<code>onAudioFocusChange</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> AudioManager.OnAudioFocusChangeListener mAudioFocusChange = <span class="keyword">new</span> AudioManager.OnAudioFocusChangeListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAudioFocusChange</span><span class="params">(<span class="keyword">int</span> focusChange)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">switch</span> (focusChange)&#123;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_GAIN:</span><br><span class="line">                    <span class="comment">//当其他应用申请焦点之后又释放焦点会触发此回调</span></span><br><span class="line">                    <span class="comment">//可重新播放音乐</span></span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_GAIN"</span>);</span><br><span class="line">                    start();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS:</span><br><span class="line">                    <span class="comment">//长时间丢失焦点,当其他应用申请的焦点为AUDIOFOCUS_GAIN时，</span></span><br><span class="line">                    <span class="comment">//会触发此回调事件，例如播放QQ音乐，网易云音乐等</span></span><br><span class="line">                    <span class="comment">//通常需要暂停音乐播放，若没有暂停播放就会出现和其他音乐同时输出声音</span></span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_LOSS"</span>);</span><br><span class="line">                    stop();</span><br><span class="line">                    <span class="comment">//释放焦点，该方法可根据需要来决定是否调用</span></span><br><span class="line">                    <span class="comment">//若焦点释放掉之后，将不会再自动获得</span></span><br><span class="line">                    mAudioManager.abandonAudioFocus(mAudioFocusChange);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:</span><br><span class="line">                    <span class="comment">//短暂性丢失焦点，当其他应用申请AUDIOFOCUS_GAIN_TRANSIENT或AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE时，</span></span><br><span class="line">                    <span class="comment">//会触发此回调事件，例如播放短视频，拨打电话等。</span></span><br><span class="line">                    <span class="comment">//通常需要暂停音乐播放</span></span><br><span class="line">                    stop();</span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_LOSS_TRANSIENT"</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:</span><br><span class="line">                    <span class="comment">//短暂性丢失焦点并作降音处理</span></span><br><span class="line">                    Log.d(TAG, <span class="string">"AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK"</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure></p><h3 id="Android8-0以前"><a href="#Android8-0以前" class="headerlink" title="Android8.0以前"></a>Android8.0以前</h3><p>参考官方文档获取焦点的方法如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Request audio focus for playback</span></span><br><span class="line"><span class="keyword">int</span> result = am.requestAudioFocus(afChangeListener,</span><br><span class="line">        <span class="comment">// Use the music stream.</span></span><br><span class="line">        AudioManager.STREAM_MUSIC,</span><br><span class="line">        <span class="comment">// Request permanent focus.</span></span><br><span class="line">        AudioManager.AUDIOFOCUS_GAIN);</span><br></pre></td></tr></table></figure><p>但在听音乐的时候播放音频或视频，依旧出现了重叠的声音，实际上有效的做法是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下面两个常量参数试过很多 都无效，最终反编译了其他app才搞定，汗~  </span></span><br><span class="line"><span class="keyword">int</span> requestFocusResult = mAudioManager.requestAudioFocus(</span><br><span class="line">        mAudioFocusChangeListener,</span><br><span class="line">        AudioManager.STREAM_MUSIC,</span><br><span class="line">        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);</span><br></pre></td></tr></table></figure></p><p>具体参考文章<a href="https://blog.csdn.net/SYIF88/article/details/68064866" target="_blank" rel="noopener">Android MediaPlayer音频焦点问题，抢占声道</a></p><p>最后在对应的播放状态下获取和释放音频焦点。</p><h3 id="Android8-0之后"><a href="#Android8-0之后" class="headerlink" title="Android8.0之后"></a>Android8.0之后</h3><p>在Android8.0中一样使用了<code>requestAudioFocus()</code>来请求音频焦点，不一样的是，使用<code>abandonAudioFocusRequest()</code>释放音频焦点，请求和释放都需要传入同一个<code>AudioFocusRequest</code>实例。使用<code>AudioFocusRequest.Builder</code>来创建，具体实现代码参考官方文档<a href="https://developer.android.com/guide/topics/media-apps/audio-focus.html#audio-focus-8-0" target="_blank" rel="noopener">Audio focus in Android 8.0 and later</a>。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mAudioFocusRequest = <span class="keyword">new</span> AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)</span><br><span class="line">        .setAudioAttributes(<span class="keyword">new</span> AudioAttributes.Builder()</span><br><span class="line">                .setUsage(AudioAttributes.USAGE_MEDIA)</span><br><span class="line">                .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)</span><br><span class="line">                .build())</span><br><span class="line">        .setAcceptsDelayedFocusGain(<span class="keyword">true</span>)</span><br><span class="line">        .setOnAudioFocusChangeListener(mAudioFocusChangeListener)</span><br><span class="line">        .build();</span><br><span class="line"><span class="comment">//请求音频焦点      </span></span><br><span class="line">requestFocusResult = mAudioManager.requestAudioFocus(mAudioFocusRequest);</span><br><span class="line"><span class="comment">//释放音频焦点</span></span><br><span class="line">abandonFocusResult = mAudioManager.abandonAudioFocusRequest(mAudioFocusRequest);</span><br></pre></td></tr></table></figure><p>注意事项：</p><ul><li>Android8.0中其他APP使用<code>AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK</code>参数获取焦点时，将不会回调本APP的<code>onAudioFocusChange()</code>方法。</li><li>焦点延迟获取，当焦点被其他APP<strong>“锁”</strong>住时，<code>requestAudioFocus()</code>会返回<code>AUDIOFOCUS_REQUEST_FAILED</code>，比如正在打电话时，焦点就会被锁住。如果使用了<code>setAcceptsDelayedFocusGain(true)</code>方法，请求将会返回<code>AUDIOFOCUS_REQUEST_DELAYED</code>，在锁解除后，系统会继续处理未完成的焦点请求，并回调<code>onAudioFocusChange()</code>方法。</li></ul><h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>音频相关的API常常让人疑惑，明明已经根据注释的描述和官方文档中的方法实现了，却达不到预期的效果。还有就是随着Android更新的推广越来越快，高版本API也在随时发生变化，在的适配时需要注意这些细节，以及进行完善的测试。</p><p>工具类参见<a href="https://gist.github.com/haohaozaici/baaa022e6ea5f61f37112135fe1cac07" target="_blank" rel="noopener">AudioFocusManager</a></p><h4 id="未完成内容"><a href="#未完成内容" class="headerlink" title="未完成内容"></a>未完成内容</h4><p>源码简单分析</p><p>在不同机型中进行测试</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;音视频播放在手机日常使用中非常频繁，当我们听着音乐刷着微博时，看到有趣的视频点击开始播放，音乐自动暂停，退出视频时音乐又自动恢复了播放(如果没有自动恢复的话，比如QQ音乐就会提示是否设置中断后继续播放)。&lt;/p&gt;
+&lt;p&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;&lt;im
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="https://haohaozaici.github.io/categories/Android/"/>
+    
+      <category term="Media" scheme="https://haohaozaici.github.io/categories/Android/Media/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2017年终总结</title>
+    <link href="https://haohaozaici.github.io/2018/01/14/2017-summary/"/>
+    <id>https://haohaozaici.github.io/2018/01/14/2017-summary/</id>
+    <published>2018-01-13T18:20:23.000Z</published>
+    <updated>2018-04-20T02:04:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>没想到还是要写年终总结了。。。<br>此刻正在我的小桌子上，用键盘和mac写下这篇年终总结。。<br>时间: 2018-01-14 00:24:09</p></blockquote><p>第一次写年终总结有点懵。。。不过刚刚看了一集生活大爆炸中的内容感触很深，Sheldon被问及最近在研究什么的时候，不知道怎么回答，只能用愤怒来掩饰。</p><p>掩饰什么呢？懈怠了吗？</p><p>肯定不是啦，Sheldon怎么会是懒惰的人呢。原来是因为开始研究暗物质，但最近一无所获，有点迷失。经过这么一问，加上penny的「倾听」和「配合」，Sheldon突然发现自己最喜欢的还是弦理论，研究暗物质可能只是因大家都在讨论，看起来很cool而已。</p><p>是啊，很多喊得热火朝天，趋之若鹜的东西，最终反而会迷失了自己。</p><p>Leonard和amy在回忆小时候的科学实验，找到共同话题，开心的不得了；<br><br>Howard和rajesh又一起组建了乐队，berni发现Howard是真的喜欢之后也默默同意，虽然最后唱的悲剧了。。。haha<br><br>Sheldon也在弦理论中找到新的思路</p><p>他们都在做自己喜欢的事，热爱的东西。无论结果好坏，却愿意付出真正的行动与热情。</p><p>这一切，让我想起了还在东一食堂的时候，高中学习累的不行，周末下午在家里躺在床上睡着了，快吃饭的时候，妈妈喊我也不想起来，突然电视里在放虚拟现实的内容，他们开始讨论这个，隐约听见有人问我。。。然后我就感觉到大脑异常的兴奋，开始向他们介绍和解释VR，但当时还是迷糊状态。。。眼睛都睁不开。或许这就是热情，喜欢吧。（现在已经没那么感兴趣了。。。zz）</p><p>以上也是我现在的困惑，工作中找不到重心，也找不到成就感。</p><p>有点跑偏了。。。回归正题，一年都干了些什么呢</p><h2 id="年初的目标"><a href="#年初的目标" class="headerlink" title="年初的目标"></a>年初的目标</h2><p>大概就是「工作」、「想买的xxx」、「礼物」、加上某个不存在的东西…哈哈。</p><p>想买的电子产品都买啦~ Mac、耳机、键盘。最满意的是「键盘」，使用率最高，也符合预期。今年应该会考虑换个手机 +「AirPods」。</p><p>礼物的话，爸爸的眼镜、「mi note3」，哥哥的iPad的支援了一半，还差两个不知道送啥。。。</p><p>工作基本上是满足的，学习状态、同事关系、部门活动都很不错。</p><p>不存在的就不说了。。。</p><h2 id="学习上的成长"><a href="#学习上的成长" class="headerlink" title="学习上的成长"></a>学习上的成长</h2><p>开发经验的积累，开始注意理财</p><h3 id="开发经验"><a href="#开发经验" class="headerlink" title="开发经验"></a>开发经验</h3><p>今年真是写了几个大bug，造成了一些比较严重的后果。。。最大的感受应该是<code>思路的严谨</code>，对于所有预期的异常情况都需要处理，喜欢drakeet的比喻「绝不会让咖啡洒在Mac上」。知道水会造成严重的伤害，就绝不会让它靠近。不考虑异常是不负责任。</p><p>意识到：学习一门新的语言或者是接触新的领域 = 语言基础（语言特性） + API + 实践经验（踩坑）</p><p>今年的技术积累大概就是这张图了吧。。。都在书签里了</p><p><img src="http://ww1.sinaimg.cn/large/a328671cgy1fnfi1u1k9nj210j145n5l.jpg" alt="Android书签"></p><p>也不知道该总结什么。。。虽然感觉学习了很多，但有太多的不足。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Java基础</span><br><span class="line">数据结构和算法</span><br><span class="line">网络</span><br><span class="line">Android View相关</span><br><span class="line">Android架构</span><br><span class="line"></span><br><span class="line">web</span><br><span class="line">server</span><br></pre></td></tr></table></figure><p>不过经过了生产环境的实践，已经逐渐意识到不足的部分，也开始有计划的学习。</p><p>感觉2017年学习的知识很多，甚至有些杂乱，其中主要的原因应该是没有总结、积累，实践也稍显不足。利用保存书签来记录看来是有些幼稚了。。。</p><p>已经意识到「临时工作区」、「灵感」、「实践记录」、「阶段性总结」、「文章」的区别。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;没想到还是要写年终总结了。。。&lt;br&gt;此刻正在我的小桌子上，用键盘和mac写下这篇年终总结。。&lt;br&gt;时间: 2018-01-14 00:24:09&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第一次写年终总结有点懵。。。不过刚刚看了一集生活大爆
+      
+    
+    </summary>
+    
+      <category term="总结" scheme="https://haohaozaici.github.io/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>创建和销毁对象</title>
@@ -69,8 +147,8 @@
   
   <entry>
     <title>Android自定义锁屏页</title>
-    <link href="https://haohaozaici.github.io/2017/12/13/%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%81%E5%B1%8F/"/>
-    <id>https://haohaozaici.github.io/2017/12/13/自定义锁屏/</id>
+    <link href="https://haohaozaici.github.io/2017/12/13/custom-lock-screen/"/>
+    <id>https://haohaozaici.github.io/2017/12/13/custom-lock-screen/</id>
     <published>2017-12-13T12:24:07.000Z</published>
     <updated>2017-12-13T12:39:17.034Z</updated>
     
@@ -102,9 +180,9 @@
     <link href="https://haohaozaici.github.io/2017/12/13/M1%20card/"/>
     <id>https://haohaozaici.github.io/2017/12/13/M1 card/</id>
     <published>2017-12-13T08:41:43.000Z</published>
-    <updated>2018-01-13T14:30:48.109Z</updated>
+    <updated>2018-04-20T02:05:08.000Z</updated>
     
-    <content type="html"><![CDATA[<blockquote><p>背景：最近的项目中涉及到读写M1卡，之前完全没接触过一脸懵逼，却没意识到，生活中常用的公交卡、门禁卡、开水卡、会员卡等等大多数都是M1类的射频卡，如Mifare 1k S50系列。熟悉了相关知识后，发现原理如此简单，感谢开源也因此能做很多方便的事情了。记录一下，面对陌生的事物不要害怕，了解熟悉，探索乐趣。</p></blockquote><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="M1卡"><a href="#M1卡" class="headerlink" title="M1卡"></a>M1卡</h3><p>M1卡结构</p><div style="align: center"><img src="/blog/img/m1card.webp" alt="M1卡结构"> </div><p>从上面可以看到，<code>扇区0 块0</code>固化了厂家代码，32位16进制数，一般作为<code>ID</code>使用。</p><p>每一个扇区的块3用于保存<code>KEY A,存取控制,KEY B</code>，除了扇区0的块0之外的其他的<code>块0~块2</code>都用于存储数据。<code>KEY A</code>不可读、可写，<code>KEY B</code>可读可写.</p><p>一般的门禁卡中，不存储任何数据，门禁系统只读取卡ID，学校里使用的开水卡，一般是离线使用，卡的余额或者使用次数是存储在卡中的，使用时进行读写。在武汉通中，存储了卡余额，储值、消费记录，具体的余额存储在服务器上。所以理论上可以模拟卡ID来模拟门禁卡，或者是读取修改水卡值来修改卡。</p><p>读写卡工具<a href="https://play.google.com/store/apps/details?id=de.syss.MifareClassicTool" target="_blank" rel="noopener">MIFARE Classic Tool</a>, <a href="https://github.com/ikarus23/MifareClassicTool" target="_blank" rel="noopener">MifareClassicTool - GitHub</a></p><p>模拟卡工具<a href="https://play.google.com/store/apps/details?id=com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a></p><h4 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h4><p><a href="https://www.null17.com/blog/coding/NFC/20151019-nfc-mod/" target="_blank" rel="noopener">Mifare 1k S50 卡的简单探讨与破解</a></p>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>背景：最近的项目中涉及到读写M1卡，之前完全没接触过一脸懵逼，却没意识到，生活中常用的公交卡、门禁卡、开水卡、会员卡等等大多数都是M1类的射频卡，如Mifare 1k S50系列。熟悉了相关知识后，发现原理如此简单，感谢开源也因此能做很多方便的事情了。记录一下，面对陌生的事物不要害怕，了解熟悉，探索乐趣。</p></blockquote><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="M1卡"><a href="#M1卡" class="headerlink" title="M1卡"></a>M1卡</h3><p>M1卡结构</p><div style="align: center"><img src="/img/m1card.webp" alt="M1卡结构"> </div><p>从上面可以看到，<code>扇区0 块0</code>固化了厂家代码，32位16进制数，一般作为<code>ID</code>使用。</p><p>每一个扇区的块3用于保存<code>KEY A,存取控制,KEY B</code>，除了扇区0的块0之外的其他的<code>块0~块2</code>都用于存储数据。<code>KEY A</code>不可读、可写，<code>KEY B</code>可读可写.</p><p>一般的门禁卡中，不存储任何数据，门禁系统只读取卡ID，学校里使用的开水卡，一般是离线使用，卡的余额或者使用次数是存储在卡中的，使用时进行读写。在武汉通中，存储了卡余额，储值、消费记录，具体的余额存储在服务器上。所以理论上可以模拟卡ID来模拟门禁卡，或者是读取修改水卡值来修改卡。</p><p>读写卡工具<a href="https://play.google.com/store/apps/details?id=de.syss.MifareClassicTool" target="_blank" rel="noopener">MIFARE Classic Tool</a>, <a href="https://github.com/ikarus23/MifareClassicTool" target="_blank" rel="noopener">MifareClassicTool - GitHub</a></p><p>模拟卡工具<a href="https://play.google.com/store/apps/details?id=com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a></p><h4 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h4><p><a href="https://www.null17.com/blog/coding/NFC/20151019-nfc-mod/" target="_blank" rel="noopener">Mifare 1k S50 卡的简单探讨与破解</a></p>]]></content>
     
     <summary type="html">
     
@@ -119,31 +197,6 @@
       <category term="生活" scheme="https://haohaozaici.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
     
       <category term="乱七八糟的技巧" scheme="https://haohaozaici.github.io/categories/%E7%94%9F%E6%B4%BB/%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F%E7%9A%84%E6%8A%80%E5%B7%A7/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://haohaozaici.github.io/2017/12/12/hello-world/"/>
-    <id>https://haohaozaici.github.io/2017/12/12/hello-world/</id>
-    <published>2017-12-12T07:00:12.000Z</published>
-    <updated>2017-12-13T07:01:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-      <category term="test" scheme="https://haohaozaici.github.io/categories/test/"/>
-    
-      <category term="test2" scheme="https://haohaozaici.github.io/categories/test/test2/"/>
     
     
   </entry>
