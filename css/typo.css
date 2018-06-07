@@ -167,17 +167,17 @@ mark {
 }
 
 /* 代码片断 */
-pre, code, pre tt {
+/* pre, code, pre tt {
   font-family: Courier, 'Courier New', monospace;
-}
+} */
 
-pre {
+/* pre {
   background: #f8f8f8;
   border: 1px solid #ddd;
   padding: 1em 1.5em;
   display: block;
   -webkit-overflow-scrolling: touch;
-}
+} */
 
 /* 一致化 horizontal rule */
 hr {
@@ -234,8 +234,8 @@ strong, b {
 }
 
 /* 保证块/段落之间的空白隔行 */
-.typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
-.typo-p, .typo-pre, .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table, blockquote {
+.typo p,  .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
+.typo-p,  .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table, blockquote {
   margin-bottom: 1.2em
 }
 
@@ -294,11 +294,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* 同 ul/ol，在文章中应用 table 基本格式 */
-.typo table th, .typo table td, .typo-table th, .typo-table td, .typo table caption {
+/* .typo table th, .typo table td, .typo-table th, .typo-table td, .typo table caption {
   border: 1px solid #ddd;
   padding: 0.5em 1em;
   color: #666;
-}
+} */
 
 .typo table th, .typo-table th {
   background: #fbfbfb;
@@ -341,4 +341,23 @@ h1, h2, h3, h4, h5, h6 {
 /* Responsive images */
 .typo img {
   max-width: 100%;
+}
+
+pre {
+  font-family: Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy, monospace;
+  font-size: 90%;
+  background-color: #F4F4F4;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 10px;   
+  line-height: 1.6;
+
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+
+code {
+  font-family: Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy, monospace;
 }

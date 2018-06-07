@@ -50,6 +50,7 @@ nav,
 section,
 summary {
   display: block;
+  overflow: auto
 }
 
 audio,
@@ -160,13 +161,13 @@ pre {
   overflow: auto;
 }
 
-code,
+/* code,
 kbd,
 pre,
 samp {
   font-family: monospace,monospace;
   font-size: 1em;
-}
+} */
 
 button,
 input,
@@ -5023,14 +5024,14 @@ table {
   border: 1px solid #f2f2f2;
 }
 
-table > thead > tr > th,
+/* table > thead > tr > th,
 table > thead > tr > td,
 table > tbody > tr > th,
 table > tbody > tr > td,
 table > tfoot > tr > th,
 table > tfoot > tr > td {
   border: 1px solid #f2f2f2;
-}
+} */
 
 table > tbody > tr:nth-of-type(odd) {
   background-color: #f8f8f8;
@@ -5047,14 +5048,14 @@ table {
   margin: 10px 0;
 }
 
-table > thead > tr > th,
+/* table > thead > tr > th,
 table > thead > tr > td,
 table > tbody > tr > th,
 table > tbody > tr > td,
 table > tfoot > tr > th,
 table > tfoot > tr > td {
   padding: 6px 13px;
-}
+} */
 
 table > tbody + tbody {
   border-top: 2px solid #f2f2f2;
@@ -5537,7 +5538,7 @@ pre .js .function {
   color: #8959a8;
 }
 
-pre,
+/* pre,
 .highlight {
   background: #fafafa;
   margin: 10px 0;
@@ -5546,14 +5547,20 @@ pre,
   font-size: 13px;
   color: #4d4d4c;
   line-height: 1.5;
-}
+} */
 
 .highlight .gutter pre,
 .gist .gist-file .gist-data .line-numbers {
   color: #666;
+  width: fit-content;
 }
 
-code {
+.highlight .gutter {
+ width: 10px
+}
+
+
+/* code {
   text-shadow: 0 1px #fff;
   padding: 0 0.3em;
 }
@@ -5562,15 +5569,15 @@ pre code {
   background: none;
   text-shadow: none;
   padding: 0;
-}
+} */
 
-.highlight {
+/* .highlight {
   position: relative;
   padding: 32px 10px 0 10px;
   border-radius: 4px;
-}
+} */
 
-.highlight:before {
+/* .highlight:before {
   display: block;
   content: ' ';
   height: 32px;
@@ -5582,9 +5589,9 @@ pre code {
   padding: 0 10px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-}
+} */
 
-.highlight:after {
+/* .highlight:after {
   content: " ";
   position: absolute;
   border-radius: 50%;
@@ -5647,7 +5654,7 @@ pre code {
   padding-right: 0;
   padding-left: 0;
   color: #ccc;
-}
+} */
 
 /*
  * Sidebar
@@ -8745,7 +8752,7 @@ body.okayNav-loaded {
     padding-top: 50px;
   }
 
-  .highlight table:before {
+  /* .highlight table:before {
     display: block;
     content: ' ';
     height: 38px;
@@ -8759,7 +8766,7 @@ body.okayNav-loaded {
     background-color: #f6f6f6;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-  }
+  } */
 
   .header {
     position: fixed;

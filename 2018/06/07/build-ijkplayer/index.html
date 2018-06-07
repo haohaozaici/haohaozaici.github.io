@@ -25,16 +25,16 @@
 <meta property="og:site_name" content="浩浩的被窝">
 <meta property="og:description" content="当项目中使用ijkplayer，而且还需要播放HTTPS链接的视频时，就比较蛋疼了 (￣.￣)，ijkplayer默认不支持HTTPS播放，但提供了编译OpenSSL的选项，可以自己编译so文件支持HTTPS播放。这篇文章的目的是引导不熟悉的人完成整个编译过程，提醒过程中的注意事项，还有各种选项的解释。  我的编译环境VMware + Ubuntu编译环境也可以参考，基本上只有命令不同，home">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a328671cly1fs2p78eh8lj20yc0xqwir.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a328671cly1fs2p78dwkmj20hq09vac5.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a328671cly1fs2p78cr4dj209602vgll.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a328671cly1fs2p78dgn4j20l50cgwfu.jpg">
-<meta property="og:updated_time" content="2018-06-07T08:43:38.232Z">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78eh8lj20yc0xqwir.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dwkmj20hq09vac5.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78cr4dj209602vgll.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dgn4j20l50cgwfu.jpg">
+<meta property="og:updated_time" content="2018-06-07T10:51:35.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac上编译ijkplayer so支持HTTPS">
 <meta name="twitter:description" content="当项目中使用ijkplayer，而且还需要播放HTTPS链接的视频时，就比较蛋疼了 (￣.￣)，ijkplayer默认不支持HTTPS播放，但提供了编译OpenSSL的选项，可以自己编译so文件支持HTTPS播放。这篇文章的目的是引导不熟悉的人完成整个编译过程，提醒过程中的注意事项，还有各种选项的解释。  我的编译环境VMware + Ubuntu编译环境也可以参考，基本上只有命令不同，home">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg">
+<meta name="twitter:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg">
   <!-- Canonical links -->
   <link rel="canonical" href="https://haohaozaici.github.io/2018/06/07/build-ijkplayer/index.html">
   
@@ -336,7 +336,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/07/build-ijkplayer/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 965(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 990(字)</span>
 	
 	
 
@@ -348,17 +348,21 @@
 <p>当项目中使用ijkplayer，而且还需要播放HTTPS链接的视频时，就比较蛋疼了 (￣.￣)，ijkplayer默认不支持HTTPS播放，但提供了编译OpenSSL的选项，可以自己编译so文件支持HTTPS播放。这篇文章的目的是<strong>引导不熟悉的人完成整个编译过程，提醒过程中的注意事项，还有各种选项的解释</strong>。</p>
 </blockquote>
 <h2 id="我的编译环境"><a href="#我的编译环境" class="headerlink" title="我的编译环境"></a>我的编译环境</h2><p>VMware + Ubuntu编译环境也可以参考，基本上只有命令不同，homebrew的安装这里不再赘述。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Mac 10.13.2</span><br><span class="line">iTerm2 + zsh</span><br><span class="line">HomeBrew</span><br><span class="line">NDK r10e</span><br><span class="line"></span><br><span class="line">NDK + 所有so大概需要10GB空间</span><br></pre></td></tr></table></figure></p>
+<p>相关链接:</p>
+<p><a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="noopener">Bilibili/ijkplayer</a></p>
+<p><a href="https://www.jianshu.com/p/bd289e25d272" target="_blank" rel="noopener">IJKPlayer编译so支持HTTPS的踩坑历程</a></p>
+<p><a href="https://blog.csdn.net/coder_pig/article/details/79134625" target="_blank" rel="noopener">ijkplayer编译so库真没那么难</a></p>
 <h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h2><h3 id="安装Git与yasm"><a href="#安装Git与yasm" class="headerlink" title="安装Git与yasm"></a>安装Git与yasm</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install yasm</span><br></pre></td></tr></table></figure>
 <h3 id="配置SDK、NDK"><a href="#配置SDK、NDK" class="headerlink" title="配置SDK、NDK"></a>配置SDK、NDK</h3><p>SDK都会有，NDK一般没有下载，建议去官网下载:<a href="https://developer.android.google.cn/ndk/downloads/older_releases" target="_blank" rel="noopener">https://developer.android.google.cn/ndk/downloads/older_releases</a></p>
 <p>需要注意的是最好下载官方lib使用的<strong>NDK r10e</strong>，使用其他版本的将无法编译。具体原因可以参考<a href="https://github.com/Bilibili/ijkplayer/issues/2752" target="_blank" rel="noopener">这篇issue</a></p>
 <p>SDK、NDK和准备完成后，在<code>.bash_profile</code>, 或者是<code>.zshrc</code>中添加配置。(<code>Command + shift + .</code> 显示隐藏文件)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 注意替换为自己的文件路径</span><br><span class="line">export ANDROID_SDK=/Users/haoyuan/Library/Android/sdk</span><br><span class="line">export PATH=$ANDROID_SDK/platform-tools:$PATH</span><br><span class="line">export PATH=$ANDROID_SDK/tools:$PATH</span><br><span class="line">export ANDROID_NDK=/Users/haoyuan/Library/Android/android-ndk-r10e</span><br><span class="line">export PATH=$ANDROID_NDK:$PATH</span><br></pre></td></tr></table></figure>
 <p>添加完成后，保存文件，然后<code>source .bash_profile</code>等相关文件，或者<strong>直接重启终端</strong>，通过 <code>ndk-build -v</code> 检查是否生效</p>
-<p><img src="http://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg" alt="img"></p>
+<p><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg" alt="img"></p>
 <h3 id="clone-ijkplayer源码"><a href="#clone-ijkplayer源码" class="headerlink" title="clone ijkplayer源码"></a>clone ijkplayer源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/Bilibili/ijkplayer.git ijkplayer-android</span><br><span class="line">cd ijkplayer-android</span><br><span class="line">git checkout -B latest k0.8.8</span><br></pre></td></tr></table></figure>
 <h2 id="2-编译之前"><a href="#2-编译之前" class="headerlink" title="2. 编译之前"></a>2. 编译之前</h2><h3 id="编译前选择你的配置"><a href="#编译前选择你的配置" class="headerlink" title="编译前选择你的配置"></a>编译前选择你的配置</h3><p>选择自动化编译时的一些配置选项，比如支持的协议，音视频类型等，官方给我们提供了三个模板。</p>
 <p>可以打开config/目录下config/module.sh看看，enable启用，disable禁用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module-default.sh</span><br><span class="line">module-lite-hevc.sh</span><br><span class="line">module-lite.sh</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://ww1.sinaimg.cn/large/a328671cly1fs2p78eh8lj20yc0xqwir.jpg" alt="img"></p>
+<p><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78eh8lj20yc0xqwir.jpg" alt="img"></p>
 <p>官方默认建议选择的是 <code>module-lite.sh</code>，可以根据自己的需求选择<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd config</span><br><span class="line">rm module.sh</span><br><span class="line">ln -s module-lite.sh module.sh</span><br></pre></td></tr></table></figure></p>
 <p>如果要选择<code>module-default.sh</code>的话，可能会编译失败，可以参考<a href="https://github.com/Bilibili/ijkplayer/issues/4043" target="_blank" rel="noopener">这篇issue</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">仔细阅读module-lite.h 原来在最下面有一行配置：</span><br><span class="line">export COMMON_FF_CFG_FLAGS=&quot;$COMMON_FF_CFG_FLAGS --disable-linux-perf&quot;</span><br><span class="line">把这行复制到module-default.sh 的最后面就可以了</span><br></pre></td></tr></table></figure></p>
 <h2 id="3-开始编译ヽ-｀⌒´-ﾉ"><a href="#3-开始编译ヽ-｀⌒´-ﾉ" class="headerlink" title="3. 开始编译ヽ(｀⌒´)ﾉ"></a>3. 开始编译ヽ(｀⌒´)ﾉ</h2><h3 id="执行初始化"><a href="#执行初始化" class="headerlink" title="执行初始化"></a>执行初始化</h3><p>初始化会下载各种包，尽量选择在良好的网络环境下╮(￣▽￣)╭<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">./init-android.sh</span><br></pre></td></tr></table></figure></p>
@@ -367,11 +371,11 @@
 <p>编译OpenSSL：可以选择不同版本，全量编译耗时更长，但最好选择全量编译，编译完成后再根据需求选择要使用的包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./compile-openssl.sh all</span><br></pre></td></tr></table></figure></p>
 <p>编译FFmpeg，同样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./compile-ffmpeg.sh all</span><br><span class="line"></span><br><span class="line">// 如果要选择特定的架构: ./compile-ffmpeg.sh armv7a | armv5</span><br></pre></td></tr></table></figure></p>
 <p>最后编译ijkplayer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./compile-ijk.sh all</span><br></pre></td></tr></table></figure></p>
-<p>经过漫长的等待终于完成了以上编译过程\（￣︶￣）/，在目录中生成了ijkplayer的工程<br><img src="http://ww1.sinaimg.cn/large/a328671cly1fs2p78dwkmj20hq09vac5.jpg" alt="IMG"></p>
+<p>经过漫长的等待终于完成了以上编译过程\（￣︶￣）/，在目录中生成了ijkplayer的工程<br><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dwkmj20hq09vac5.jpg" alt="IMG"></p>
 <h2 id="4-导入项目"><a href="#4-导入项目" class="headerlink" title="4. 导入项目"></a>4. 导入项目</h2><p>原有的项目一般是这样配置的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation &apos;tv.danmaku.ijk.media:ijkplayer-java:&apos; + gradle.ijkplayer_java</span><br><span class="line">implementation &apos;tv.danmaku.ijk.media:ijkplayer-armv7a:&apos; + gradle.ijkplayer_java</span><br></pre></td></tr></table></figure></p>
 <p>如果只需要修改so库的话，<strong>删除掉第二行对so库的引用，将自己编译好的so文件复制到项目的libs文件夹中</strong>。</p>
-<p>别忘了在gradle中配置，要不然会报错找不到so库<br><img src="http://ww1.sinaimg.cn/large/a328671cly1fs2p78cr4dj209602vgll.jpg" alt="IMG"></p>
-<p>还可以在release包中设置abi过滤<br><img src="http://ww1.sinaimg.cn/large/a328671cly1fs2p78dgn4j20l50cgwfu.jpg" alt="IMG"></p>
+<p>别忘了在gradle中配置，要不然会报错找不到so库<br><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78cr4dj209602vgll.jpg" alt="IMG"></p>
+<p>还可以在release包中设置abi过滤<br><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dgn4j20l50cgwfu.jpg" alt="IMG"></p>
 <p>最后大功告成啦\(^o^)/</p>
 <p>尾巴…</p>
 <p>如果项目中同时使用了HTTP和HTTPS的视频源的话，要注意如果视频源刚好是相同域名，会导致播放失败，这是由于dns缓存造成的，解决办法参考<a href="https://github.com/CarGuo/GSYVideoPlayer/issues/1175" target="_blank" rel="noopener">这篇issue</a><br>初始化<code>IjkMediaPlayer</code>时，设置清除<code>dns cache</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IjkMediaPlayer.OPT_CATEGORY_FORMAT, &quot;dns_cache_clear&quot;, 1</span><br></pre></td></tr></table></figure></p>
