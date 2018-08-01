@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>ConstraintLayout「最全总结」 | 浩浩的被窝</title>
+  <meta name="description" content="现在大家几乎都使用过ConstraintLayout，但与经常使用的布局相比，可能会面临不熟悉CL的API或者是逐渐增加的新特性，还有可能因为对CL具体行为的理解模糊而导致误用，这篇文章的目的更多的是，全面总结ConstraintLayout的用法和实际行为特性，并不断更新  基于ConstraintLayout 1.1，当前2.0版本处于测试阶段参考文章：ConstraintLayout入门指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConstraintLayout「最全总结」">
+<meta property="og:url" content="https://haohaozaici.github.io/2018/07/11/ConstraintLayout/index.html">
+<meta property="og:site_name" content="浩浩的被窝">
+<meta property="og:description" content="现在大家几乎都使用过ConstraintLayout，但与经常使用的布局相比，可能会面临不熟悉CL的API或者是逐渐增加的新特性，还有可能因为对CL具体行为的理解模糊而导致误用，这篇文章的目的更多的是，全面总结ConstraintLayout的用法和实际行为特性，并不断更新  基于ConstraintLayout 1.1，当前2.0版本处于测试阶段参考文章：ConstraintLayout入门指">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbyw9rj212c0z4af4.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nc04bdj213o16wwle.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbrn7yj20fy0dot9q.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbvh3uj20pa0dygml.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnva9j20ee0dagmk.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbngqij20nm08gdgc.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnttlj21340cot9z.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbyao7j21600tyq7z.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1600/1*dkCMb35o4HN7SVX8S1N3ig.gif">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbvcurj20pw08sdh1.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbpx54j20oc0heta2.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnpdwj20nq094jry.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnl5yj20r407ggm6.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbwsmtj21360kgdjl.jpg">
+<meta property="og:updated_time" content="2018-07-12T03:25:31.879Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConstraintLayout「最全总结」">
+<meta name="twitter:description" content="现在大家几乎都使用过ConstraintLayout，但与经常使用的布局相比，可能会面临不熟悉CL的API或者是逐渐增加的新特性，还有可能因为对CL具体行为的理解模糊而导致误用，这篇文章的目的更多的是，全面总结ConstraintLayout的用法和实际行为特性，并不断更新  基于ConstraintLayout 1.1，当前2.0版本处于测试阶段参考文章：ConstraintLayout入门指">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/a328671cly1ft63nbyw9rj212c0z4af4.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://haohaozaici.github.io/2018/07/11/ConstraintLayout/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="浩浩的被窝" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/ic_launcher.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+  <link rel="stylesheet" href="/css/typo.css">
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/haohaozaici" target="_blank">
+          <img class="img-circle img-rotate" src="/img/head_icon.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">浩浩在此</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Android 工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/haohaozaici" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title typo-h3">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>不写下来好像永远都记不住？！</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/播放器/">播放器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/08/01/Android-video-player/" class="title">「播放器」Android视频开发介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-08-01T10:05:07.000Z" itemprop="datePublished">2018-08-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/07/11/ConstraintLayout/" class="title">ConstraintLayout「最全总结」</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-07-11T06:14:50.000Z" itemprop="datePublished">2018-07-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/播放器/">播放器</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/11/player-orientation/" class="title">「播放器」处理界面旋转</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-11T11:49:06.000Z" itemprop="datePublished">2018-06-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/07/build-ijkplayer/" class="title">「播放器」Mac上编译ijkplayer so支持HTTPS</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-07T08:02:19.000Z" itemprop="datePublished">2018-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/04/24/Android Sound overlap/" class="title">「播放器」Android音频焦点</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-24T11:22:02.000Z" itemprop="datePublished">2018-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main typo" role="main">
+  <div class="content">
+  <article id="post-ConstraintLayout" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ConstraintLayout「最全总结」
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/07/11/ConstraintLayout/" class="article-date">
+	  <time datetime="2018-07-11T06:14:50.000Z" itemprop="datePublished">2018-07-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </span>
+
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/07/11/ConstraintLayout/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,636(字)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>现在大家几乎都使用过ConstraintLayout，但与经常使用的布局相比，可能会面临不熟悉CL的API或者是逐渐增加的新特性，还有可能因为对CL具体行为的理解模糊而导致误用，这篇文章的目的更多的是，<strong>全面总结ConstraintLayout的用法和实际行为特性，并不断更新</strong></p>
+</blockquote>
+<p>基于ConstraintLayout 1.1，当前2.0版本处于测试阶段<br>参考文章：<a href="https://mp.weixin.qq.com/s?__biz=MzI1NjEwMTM4OA==&amp;mid=2651232651&amp;idx=1&amp;sn=9ea7beb5c280cd05d192cd3df072a745&amp;chksm=f1d9e4e8c6ae6dfe3aafc910cfd2785249d777a998521047127c5beac2c4657bdd7b6c2a43ac&amp;mpshare=1&amp;scene=23&amp;srcid=0608A4Q2cmC8SaMeykxP1klT%23rd" target="_blank" rel="noopener">ConstraintLayout入门指南</a></p>
+<h2 id="为什么要引入ConstraintLayout"><a href="#为什么要引入ConstraintLayout" class="headerlink" title="为什么要引入ConstraintLayout"></a>为什么要引入ConstraintLayout</h2><ul>
+<li><strong>减少布局层级</strong>：常用的布局划分成了几个不同的类型，要组合不同的功能需要通过嵌套的形式实现，比如想要按比例布局就要使用layout_weight属性，想要使用layout_weight属性就要使用LinearLayout（以下简称LL）或者TableLayout，然后你在原先同级的每个布局外再嵌套一层布局以使用layout_weight。</li>
+<li><strong>更多的布局需求</strong>：要实现固定宽高比、百分比布局，灵活控制大小等更高阶的布局需求，原先的各类布局方式都不能很好的支持，可能需要通过Java代码，在运行中二次实现。</li>
+<li>想要通过ConstraintLayout来 <strong>优化性能</strong>，<del>可能并不明显</del></li>
+<li>亦或者你只是想尝试下这款Andorid官方力推的新布局，看看它有什么新特性。</li>
+</ul>
+<p>引入lib:<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//确保SDK Tools中已经下载了ConstraintLayout的支持库：</span></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    implementation <span class="string">'com.android.support.constraint:constraint-layout:1.1.2'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>开始之前，我们应该意识到在布局文件中Layout主要职责是什么，<strong>控制widgets的位置和大小</strong>。下面将从这两个方向出发，看看ConstraintLayout是怎么做的。</p>
+<h2 id="1-控制位置"><a href="#1-控制位置" class="headerlink" title="1. 控制位置"></a>1. 控制位置</h2><p>layout中的view都有四个方向<code>left(start), right(end), top, bottom</code>，通过这些方向在两个view之间建立约束来实现基础的位置控制，相对于RelativeLayout，RL中所有的属性CL中都有与之对应的项目，稍加熟悉即可完成转换：</p>
+<p><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbyw9rj212c0z4af4.jpg" alt="cl - rl"></p>
+<p>相对于父布局的相对布局属性，CL的规则是：将父布局当做一个id=”parent”的对象来对待：</p>
+<p><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nc04bdj213o16wwle.jpg" alt="cl parent - rl parent"></p>
+<h3 id="1-1-Margins"><a href="#1-1-Margins" class="headerlink" title="1.1 Margins"></a>1.1 Margins</h3><p>设置普通的margin：<br><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbrn7yj20fy0dot9q.jpg" width="320" alt="margin"></p>
+<h3 id="1-2-visibility-对约束的影响"><a href="#1-2-visibility-对约束的影响" class="headerlink" title="1.2 visibility 对约束的影响"></a>1.2 visibility 对约束的影响</h3><p>特殊的情况是：<strong>连接到visibility为GONE的view时的margin</strong>，在ConstraintLayout中，当widgets被设置<strong>View.GONE</strong>时进行了特殊处理。</p>
+<ul>
+<li>根据布局的传递，设置为GONE的view相当于大小被设置为0(实际上是被设置成了一个点)</li>
+<li>如果他们已经跟其他的组件产生了约束关系，约束关系还是会存在，但是所有的margin都会变成0<br><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbvh3uj20pa0dygml.jpg" alt="Visibility Behavior"></li>
+<li>也可以使用goneMargin来<strong>保持预期的边距</strong><!-- ![margin gone](https://ws1.sinaimg.cn/large/a328671cly1ft63nbnva9j20ee0dagmk.jpg) -->
+<img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnva9j20ee0dagmk.jpg" width="320" alt="margin gone"></li>
+</ul>
+<p>这种特殊的处理，可以在你临时的把view设置为GONE时，不破坏布局结构。</p>
+<h3 id="1-3-居中和偏移"><a href="#1-3-居中和偏移" class="headerlink" title="1.3 居中和偏移"></a>1.3 居中和偏移</h3><p>居中的设置参考之前于RelativeLayout的对应关系，CL增加了偏移属性，使用偏移可以更好的处理屏幕大小改变时的情景。<br><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbngqij20nm08gdgc.jpg" alt="center"><br><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnttlj21340cot9z.jpg" alt="bias"></p>
+<p>布局中设置：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.constraint.ConstraintLayout ...&gt;</span><br><span class="line">    &lt;Button android:id=<span class="string">"@+id/button"</span> ...</span><br><span class="line">        app:layout_constraintHorizontal_bias=<span class="string">"0.3"</span></span><br><span class="line">        app:layout_constraintLeft_toLeftOf=<span class="string">"parent"</span></span><br><span class="line">        app:layout_constraintRight_toRightOf=<span class="string">"parent/&gt;</span></span><br><span class="line"><span class="string">&lt;/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="1-4-圆形的位置"><a href="#1-4-圆形的位置" class="headerlink" title="1.4 圆形的位置"></a>1.4 圆形的位置</h3><p><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbyao7j21600tyq7z.jpg" alt="circle"><br>使用圆形约束，在创建圆形的菜单时非常有用<br><img src="https://cdn-images-1.medium.com/max/1600/1*dkCMb35o4HN7SVX8S1N3ig.gif" alt="circle menu"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button android:id=<span class="string">"@+id/buttonA"</span> ... /&gt;</span><br><span class="line">&lt;Button android:id=<span class="string">"@+id/buttonB"</span> ...</span><br><span class="line">    app:layout_constraintCircle=<span class="string">"@+id/buttonA"</span></span><br><span class="line">    app:layout_constraintCircleRadius=<span class="string">"100dp"</span></span><br><span class="line">    app:layout_constraintCircleAngle=<span class="string">"45"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-控制尺寸-大小"><a href="#2-控制尺寸-大小" class="headerlink" title="2. 控制尺寸(大小)"></a>2. 控制尺寸(大小)</h2><h3 id="2-1-给ConstraintLayout自己添加大小限制"><a href="#2-1-给ConstraintLayout自己添加大小限制" class="headerlink" title="2.1 给ConstraintLayout自己添加大小限制"></a>2.1 给ConstraintLayout自己添加大小限制</h3><p>当ConstraintLayout的大小设置为<strong>WRAP_CONTENT</strong>时，可以很方便的设置自己的最大宽高<br><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbvcurj20pw08sdh1.jpg" width="600" alt="max min"><br><!-- ![max min](https://ws1.sinaimg.cn/large/a328671cly1ft63nbvcurj20pw08sdh1.jpg) --></p>
+<h3 id="2-2-Widgets的尺寸-大小-约束"><a href="#2-2-Widgets的尺寸-大小-约束" class="headerlink" title="2.2 Widgets的尺寸(大小)约束"></a>2.2 Widgets的尺寸(大小)约束</h3><p>和我们在常用的布局中设置宽高一样，控制Widgets的宽度和高度一共有3种方式：</p>
+<ul>
+<li><strong>固定的大小</strong>，如123dp</li>
+<li><strong>WRAP_CONTENT</strong> 自适应</li>
+<li><strong>0dp</strong>，等于<strong>MATCH_CONSTRAINT</strong>，类似于match_parent，会利用所有可用的空间。注意，不建议使用match_parent</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbpx54j20oc0heta2.jpg" alt="dimension-constraints"></p>
+<h3 id="2-3-WRAP-CONTENT-强制约束"><a href="#2-3-WRAP-CONTENT-强制约束" class="headerlink" title="2.3 WRAP_CONTENT 强制约束"></a>2.3 WRAP_CONTENT 强制约束</h3><p>默认情况下，设置为WRAP_CONTENT的组件不会限制他们的大小，有时会导致超出约束条件的情况，如果需要强制他们满足约束条件的话，使用下面的强制约束<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constrainedWidth=&quot;true|false&quot;</span><br><span class="line">app:layout_constrainedHeight=&quot;true|false&quot;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-4-MATCH-CONSTRAINT-大小控制"><a href="#2-4-MATCH-CONSTRAINT-大小控制" class="headerlink" title="2.4 MATCH_CONSTRAINT 大小控制"></a>2.4 MATCH_CONSTRAINT 大小控制</h3><p>默认情况下，MATCH_CONSTRAINT 会利用所有可用的空间，通过下面的设置，可以自定义具体的行为</p>
+<ul>
+<li><code>layout_constraintWidth_min</code> and <code>layout_constraintHeight_min</code></li>
+<li><code>layout_constraintWidth_max</code> and <code>layout_constraintHeight_max</code></li>
+<li><code>layout_constraintWidth_percent</code> and <code>layout_constraintHeight_percent</code></li>
+<li>使用百分比大小时，对应方向的大小必须设置为 MATCH_CONSTRAINT</li>
+</ul>
+<h3 id="2-5-使用比例"><a href="#2-5-使用比例" class="headerlink" title="2.5 使用比例"></a>2.5 使用比例</h3><p>使用比例有两种情况，而且必须至少有一条边被设置为0dp：</p>
+<ul>
+<li>如果只有一条边被设置为0dp，设置比例时，将参考另外一条已经确定尺寸的边</li>
+<li>如果两条边都被设置为0dp，那么会在满足比例的条件下，设置为最大尺寸</li>
+<li>同样的支持直接设置<code>layout_constraintWidth_percent</code>和<code>layout_constraintHeight_percent</code>来使用百分比控制相对于parent的比例<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button</span><br><span class="line">    android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">    android:layout_height=<span class="string">"0dp"</span></span><br><span class="line">    app:layout_constraintDimensionRatio=<span class="string">"1.6"</span> /&gt;</span><br><span class="line">&lt;Button</span><br><span class="line">    android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">    android:layout_height=<span class="string">"0dp"</span></span><br><span class="line">    app:layout_constraintDimensionRatio=<span class="string">"1:1"</span> /&gt;</span><br><span class="line">&lt;Button</span><br><span class="line">    android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">    android:layout_height=<span class="string">"0dp"</span></span><br><span class="line">    app:layout_constraintBottom_toBottomOf=<span class="string">"parent"</span></span><br><span class="line">    app:layout_constraintDimensionRatio=<span class="string">"H,16:9"</span></span><br><span class="line">    app:layout_constraintTop_toTopOf=<span class="string">"parent"</span> /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-6-Chains"><a href="#2-6-Chains" class="headerlink" title="2.6 Chains"></a>2.6 Chains</h3><p>Chains能自定义在同一轴线上view的位置和大小，首先我们来创建一条链，当widgets之间在同一个方向上相互连接(相互约束)时，链就形成了。</p>
+<p><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnpdwj20nq094jry.jpg" alt="chain"></p>
+<h4 id="2-6-1-链的head"><a href="#2-6-1-链的head" class="headerlink" title="2.6.1 链的head"></a>2.6.1 链的head</h4><p>水平方向chain最左边的控件和垂直方向chain最顶部的控件被成为<code>head chain</code>。通过对head chain添加<code>chainStyle</code>属性，可以设置该条chain在水平或垂直方向上的chainStyle</p>
+<p><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbnl5yj20r407ggm6.jpg" alt="chain head"></p>
+<h4 id="2-6-2-Chain-Style"><a href="#2-6-2-Chain-Style" class="headerlink" title="2.6.2 Chain Style"></a>2.6.2 Chain Style</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_chainStyle</span><br><span class="line">layout_constraintVertical_chainStyle</span><br></pre></td></tr></table></figure>
+<p>chainStyle属性一共有三种：spread、spread_inside、packed。再配合其他属性，最终可以组成五种chain style：<br><img src="https://ws1.sinaimg.cn/large/a328671cly1ft63nbwsmtj21360kgdjl.jpg" alt="chainStyle"></p>
+<p>其他四种chain style的设置和效果都比较简单，重点介绍下<strong>Weighted Chain</strong>。</p>
+<ul>
+<li>默认的spread模式，每个元素获得同样的空间，如果一个元素使用了0dp，将会占用剩下的所有可用空间</li>
+<li><code>layout_constraintHorizontal_weight</code>和<code>layout_constraintVertical_weight</code>可以用来控制同样设置为0dp的控件的比例</li>
+<li>Weighted Chain中的控件也允许在chain方向上使用wrap_content自适应控件宽/高，且布局时<strong>优先满足设置为wrap_content的控件</strong>，相当于优先满足设置了指定宽高的控件</li>
+<li>当设置了margin时，margin生效的同时weight的比例不变，链上的控件实际占有布局会被压缩</li>
+</ul>
+<h2 id="3-不可见的辅助工具"><a href="#3-不可见的辅助工具" class="headerlink" title="3. 不可见的辅助工具"></a>3. 不可见的辅助工具</h2><h3 id="Guideline"><a href="#Guideline" class="headerlink" title="Guideline"></a>Guideline</h3><h3 id="barrier"><a href="#barrier" class="headerlink" title="barrier"></a>barrier</h3><h3 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h3><h2 id="4-用代码的方式操作"><a href="#4-用代码的方式操作" class="headerlink" title="4. 用代码的方式操作"></a>4. 用代码的方式操作</h2><h3 id="ps-选择优化类型"><a href="#ps-选择优化类型" class="headerlink" title="ps. 选择优化类型"></a>ps. 选择优化类型</h3><p>Package Index:<br>android.support.constraint<br>android.support.constraint.helper<br>android.support.constraint.motion<br>android.support.constraint.utils</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://haohaozaici.github.io/2018/07/11/ConstraintLayout/" title="ConstraintLayout「最全总结」" target="_blank" rel="external">https://haohaozaici.github.io/2018/07/11/ConstraintLayout/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+<!-- 
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/haohaozaici" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/img/head_icon.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <p class="media-heading"><a href="https://github.com/haohaozaici" target="_blank"><span class="text-dark">浩浩在此</span><small class="ml-1x">Android 工程师</small></a></p>
+        <small>疯狂修仙~</small>
+      </div>
+    </figure>
+  </div>
+</div>
+ -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/08/01/Android-video-player/" title="「播放器」Android视频开发介绍"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/06/11/player-orientation/" title="「播放器」处理界面旋转"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/haohaozaici" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+    
+
+
+
+</body>
+</html>

@@ -17,10 +17,10 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Mac上编译ijkplayer so支持HTTPS | 浩浩的被窝</title>
+  <title>「播放器」Mac上编译ijkplayer so支持HTTPS | 浩浩的被窝</title>
   <meta name="description" content="当项目中使用ijkplayer，而且还需要播放HTTPS链接的视频时，就比较蛋疼了 (￣.￣)，ijkplayer默认不支持HTTPS播放，但提供了编译OpenSSL的选项，可以自己编译so文件支持HTTPS播放。这篇文章的目的是引导不熟悉的人完成整个编译过程，提醒过程中的注意事项，还有各种选项的解释。  我的编译环境VMware + Ubuntu编译环境也可以参考，基本上只有命令不同，home">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac上编译ijkplayer so支持HTTPS">
+<meta property="og:title" content="「播放器」Mac上编译ijkplayer so支持HTTPS">
 <meta property="og:url" content="https://haohaozaici.github.io/2018/06/07/build-ijkplayer/index.html">
 <meta property="og:site_name" content="浩浩的被窝">
 <meta property="og:description" content="当项目中使用ijkplayer，而且还需要播放HTTPS链接的视频时，就比较蛋疼了 (￣.￣)，ijkplayer默认不支持HTTPS播放，但提供了编译OpenSSL的选项，可以自己编译so文件支持HTTPS播放。这篇文章的目的是引导不熟悉的人完成整个编译过程，提醒过程中的注意事项，还有各种选项的解释。  我的编译环境VMware + Ubuntu编译环境也可以参考，基本上只有命令不同，home">
@@ -30,9 +30,9 @@
 <meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dwkmj20hq09vac5.jpg">
 <meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78cr4dj209602vgll.jpg">
 <meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dgn4j20l50cgwfu.jpg">
-<meta property="og:updated_time" content="2018-06-08T01:27:33.445Z">
+<meta property="og:updated_time" content="2018-07-11T12:29:44.559Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac上编译ijkplayer so支持HTTPS">
+<meta name="twitter:title" content="「播放器」Mac上编译ijkplayer so支持HTTPS">
 <meta name="twitter:description" content="当项目中使用ijkplayer，而且还需要播放HTTPS链接的视频时，就比较蛋疼了 (￣.￣)，ijkplayer默认不支持HTTPS播放，但提供了编译OpenSSL的选项，可以自己编译so文件支持HTTPS播放。这篇文章的目的是引导不熟悉的人完成整个编译过程，提醒过程中的注意事项，还有各种选项的解释。  我的编译环境VMware + Ubuntu编译环境也可以参考，基本上只有命令不同，home">
 <meta name="twitter:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs2p78ggb9j20ug084dpy.jpg">
   <!-- Canonical links -->
@@ -66,7 +66,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">浩浩在此</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">Android 工程师</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -194,7 +194,7 @@
   <div class="widget">
     <h3 class="widget-title typo-h3">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/播放器/">播放器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/播放器/">播放器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -204,7 +204,7 @@
   <div class="widget">
     <h3 class="widget-title typo-h3">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -216,6 +216,36 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/08/01/Android-video-player/" class="title">「播放器」Android视频开发介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-08-01T10:05:07.000Z" itemprop="datePublished">2018-08-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/07/11/ConstraintLayout/" class="title">ConstraintLayout「最全总结」</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-07-11T06:14:50.000Z" itemprop="datePublished">2018-07-11</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -238,7 +268,7 @@
                 <a class="category-link" href="/categories/Android/">Android</a>
               </p>
               <p class="item-title">
-                <a href="/2018/06/07/build-ijkplayer/" class="title">Mac上编译ijkplayer so支持HTTPS</a>
+                <a href="/2018/06/07/build-ijkplayer/" class="title">「播放器」Mac上编译ijkplayer so支持HTTPS</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-06-07T08:02:19.000Z" itemprop="datePublished">2018-06-07</time>
@@ -253,40 +283,10 @@
                 <a class="category-link" href="/categories/Android/">Android</a>
               </p>
               <p class="item-title">
-                <a href="/2018/04/24/Android Sound overlap/" class="title">Android音频焦点与声音重叠</a>
+                <a href="/2018/04/24/Android Sound overlap/" class="title">「播放器」Android音频焦点</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-04-24T11:22:02.000Z" itemprop="datePublished">2018-04-24</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/Java/">Java</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/Java/Effective-Java/">Effective Java</a>
-              </p>
-              <p class="item-title">
-                <a href="/2017/12/19/create-and-destroy-objects/" class="title">创建和销毁对象</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2017-12-19T07:12:41.000Z" itemprop="datePublished">2017-12-19</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/生活/">生活</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a>
-              </p>
-              <p class="item-title">
-                <a href="/2017/12/13/M1 card/" class="title">Mifare 1k S50卡</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2017-12-13T08:41:43.000Z" itemprop="datePublished">2017-12-13</time>
               </p>
             </div>
           </li>
@@ -311,7 +311,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Mac上编译ijkplayer so支持HTTPS
+      「播放器」Mac上编译ijkplayer so支持HTTPS
     </h1>
   
 
@@ -336,7 +336,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/07/build-ijkplayer/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,004(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,096(字)</span>
 	
 	
 
@@ -367,6 +367,7 @@
 <p><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78eh8lj20yc0xqwir.jpg" alt="img"></p>
 <p>官方默认建议选择的是 <code>module-lite.sh</code>，可以根据自己的需求选择<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd config</span><br><span class="line">rm module.sh</span><br><span class="line">ln -s module-lite.sh module.sh</span><br></pre></td></tr></table></figure></p>
 <p>如果要选择<code>module-default.sh</code>的话，可能会编译失败，可以参考<a href="https://github.com/Bilibili/ijkplayer/issues/4043" target="_blank" rel="noopener">这篇issue</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">仔细阅读module-lite.h 原来在最下面有一行配置：</span><br><span class="line">export COMMON_FF_CFG_FLAGS=&quot;$COMMON_FF_CFG_FLAGS --disable-linux-perf&quot;</span><br><span class="line">把这行复制到module-default.sh 的最后面就可以了</span><br></pre></td></tr></table></figure></p>
+<p>在编译配置中可以增减需要的模块，选择需要支持的<strong>封装格式、编解码类型、协议</strong>能有效减小so库的体积。可以参考<a href="https://github.com/CarGuo/GSYVideoPlayer/blob/master/doc/DECODERS.md" target="_blank" rel="noopener">CarGuo/GSYVideoPlayer DECODERS.md</a></p>
 <h2 id="3-开始编译ヽ-｀⌒´-ﾉ"><a href="#3-开始编译ヽ-｀⌒´-ﾉ" class="headerlink" title="3. 开始编译ヽ(｀⌒´)ﾉ"></a>3. 开始编译ヽ(｀⌒´)ﾉ</h2><h3 id="执行初始化"><a href="#执行初始化" class="headerlink" title="执行初始化"></a>执行初始化</h3><p>初始化会下载各种包，尽量选择在良好的网络环境下╮(￣▽￣)╭<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">./init-android.sh</span><br></pre></td></tr></table></figure></p>
 <p>初始化OpenSSL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./init-android-openssl.sh</span><br></pre></td></tr></table></figure></p>
 <h3 id="编译OpenSSL和FFmpeg"><a href="#编译OpenSSL和FFmpeg" class="headerlink" title="编译OpenSSL和FFmpeg"></a>编译OpenSSL和FFmpeg</h3><p>首先清除一波<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd android/contrib</span><br><span class="line">./compile-openssl.sh clean</span><br><span class="line">./compile-ffmpeg.sh clean</span><br></pre></td></tr></table></figure></p>
@@ -380,7 +381,7 @@
 <p>还可以在release包中设置abi过滤<br><img src="https://ww1.sinaimg.cn/large/a328671cly1fs2p78dgn4j20l50cgwfu.jpg" alt="IMG"></p>
 <p>最后大功告成啦\(^o^)/</p>
 <p>尾巴…</p>
-<p>如果项目中同时使用了HTTP和HTTPS的视频源的话，要注意如果视频源刚好是相同域名，会导致播放失败，这是由于dns缓存造成的，解决办法参考<a href="https://github.com/CarGuo/GSYVideoPlayer/issues/1175" target="_blank" rel="noopener">这篇issue</a><br>初始化<code>IjkMediaPlayer</code>时，设置清除<code>dns cache</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IjkMediaPlayer.OPT_CATEGORY_FORMAT, &quot;dns_cache_clear&quot;, 1</span><br></pre></td></tr></table></figure></p>
+<p>如果项目中同时使用了HTTP和HTTPS的视频源的话，要注意如果视频源刚好是相同域名，会导致播放失败，这是由于dns缓存造成的，解决办法参考<a href="https://github.com/CarGuo/GSYVideoPlayer/issues/1175" target="_blank" rel="noopener">这篇issue</a><br>初始化<code>IjkMediaPlayer</code>时，设置清除<code>dns cache</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">IjkMediaPlayer.OPT_CATEGORY_FORMAT, &quot;dns_cache_clear&quot;, 1</span><br><span class="line"></span><br><span class="line">//还要注意开启相关支持的协议</span><br><span class="line">IjkMediaPlayer.OPT_CATEGORY_FORMAT, &quot;protocol_whitelist&quot;, </span><br><span class="line">&quot;async,cache,crypto,file,http,https,ijkhttphook,ijkinject,</span><br><span class="line">ijklivehook,ijklongurl,ijksegment,ijktcphook,</span><br><span class="line">pipe,rtp,tcp,tls,udp,ijkurlhook,data&quot;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -390,7 +391,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://haohaozaici.github.io/2018/06/07/build-ijkplayer/" title="Mac上编译ijkplayer so支持HTTPS" target="_blank" rel="external">https://haohaozaici.github.io/2018/06/07/build-ijkplayer/</a>
+      <a href="https://haohaozaici.github.io/2018/06/07/build-ijkplayer/" title="「播放器」Mac上编译ijkplayer so支持HTTPS" target="_blank" rel="external">https://haohaozaici.github.io/2018/06/07/build-ijkplayer/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -451,7 +452,7 @@
     
     
     <li class="next">
-      <a href="/2018/04/24/Android Sound overlap/" title="Android音频焦点与声音重叠"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/04/24/Android Sound overlap/" title="「播放器」Android音频焦点"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
