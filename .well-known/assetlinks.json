@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.haohaozaici.diagram",
+    "sha256_cert_fingerprints":
+    ["DF:27:66:3D:62:09:7E:5E:7E:6A:89:BB:B2:F6:21:28:49:FE:95:1D:BF:77:77:21:FA:9D:21:68:4D:2C:CD:0D"]
+  }
+}]
