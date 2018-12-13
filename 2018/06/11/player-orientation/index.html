@@ -17,21 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>「播放器」处理界面旋转 | 浩浩的被窝</title>
-  <meta name="description" content="屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是视频播放画面跟随手机的方向旋转，达到比较好的用户体验。但是细节往往决定成败┐(ﾟ～ﾟ)┌。我主动点击了全屏按钮屏幕会不会自己又转回来了？两个方向横屏的情况点击回到竖屏处理的是不是正确的？blablabla…今天就好好把这一切捋清楚&amp;lt;(￣︶￣)&amp;gt;  这篇文章的目的是：如果你对屏幕旋转逻辑不够清晰，还对屏幕旋转的功能细节不够满">
+  <title>「播放器」不自由的旋转 | 浩浩的被窝</title>
+  <meta name="description" content="屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是接管手机方向的旋转控制，那为啥不直接用默认的旋转功能呢，主要是  播放页面有其他的显示内容，而这些内容的布局不适合在横屏下显示 有特殊需求，比如在软件中锁定方向、未播放时不允许旋转等等 在系统锁定方向时，依旧可以旋转   在不同的使用场景下对旋转的约束变的复杂起来，旋转也越来越”不自由”，这篇文章的目的是：如果你对屏幕旋转逻辑不够清晰">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「播放器」处理界面旋转">
+<meta property="og:title" content="「播放器」不自由的旋转">
 <meta property="og:url" content="https://haohaozaici.github.io/2018/06/11/player-orientation/index.html">
 <meta property="og:site_name" content="浩浩的被窝">
-<meta property="og:description" content="屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是视频播放画面跟随手机的方向旋转，达到比较好的用户体验。但是细节往往决定成败┐(ﾟ～ﾟ)┌。我主动点击了全屏按钮屏幕会不会自己又转回来了？两个方向横屏的情况点击回到竖屏处理的是不是正确的？blablabla…今天就好好把这一切捋清楚&amp;lt;(￣︶￣)&amp;gt;  这篇文章的目的是：如果你对屏幕旋转逻辑不够清晰，还对屏幕旋转的功能细节不够满">
+<meta property="og:description" content="屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是接管手机方向的旋转控制，那为啥不直接用默认的旋转功能呢，主要是  播放页面有其他的显示内容，而这些内容的布局不适合在横屏下显示 有特殊需求，比如在软件中锁定方向、未播放时不允许旋转等等 在系统锁定方向时，依旧可以旋转   在不同的使用场景下对旋转的约束变的复杂起来，旋转也越来越”不自由”，这篇文章的目的是：如果你对屏幕旋转逻辑不够清晰">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs7iv2gkuwj20eg0eowg8.jpg">
 <meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs7iv2gs7xj20lz0bpq5c.jpg">
 <meta property="og:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs7iv2gu1sj20ja07iwg9.jpg">
-<meta property="og:updated_time" content="2018-06-12T02:43:35.541Z">
+<meta property="og:updated_time" content="2018-09-13T01:40:36.779Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「播放器」处理界面旋转">
-<meta name="twitter:description" content="屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是视频播放画面跟随手机的方向旋转，达到比较好的用户体验。但是细节往往决定成败┐(ﾟ～ﾟ)┌。我主动点击了全屏按钮屏幕会不会自己又转回来了？两个方向横屏的情况点击回到竖屏处理的是不是正确的？blablabla…今天就好好把这一切捋清楚&amp;lt;(￣︶￣)&amp;gt;  这篇文章的目的是：如果你对屏幕旋转逻辑不够清晰，还对屏幕旋转的功能细节不够满">
+<meta name="twitter:title" content="「播放器」不自由的旋转">
+<meta name="twitter:description" content="屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是接管手机方向的旋转控制，那为啥不直接用默认的旋转功能呢，主要是  播放页面有其他的显示内容，而这些内容的布局不适合在横屏下显示 有特殊需求，比如在软件中锁定方向、未播放时不允许旋转等等 在系统锁定方向时，依旧可以旋转   在不同的使用场景下对旋转的约束变的复杂起来，旋转也越来越”不自由”，这篇文章的目的是：如果你对屏幕旋转逻辑不够清晰">
 <meta name="twitter:image" content="https://ww1.sinaimg.cn/large/a328671cly1fs7iv2gkuwj20eg0eowg8.jpg">
   <!-- Canonical links -->
   <link rel="canonical" href="https://haohaozaici.github.io/2018/06/11/player-orientation/index.html">
@@ -192,7 +192,7 @@
   <div class="widget">
     <h3 class="widget-title typo-h3">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/播放器/">播放器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/播放器/">播放器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -202,7 +202,7 @@
   <div class="widget">
     <h3 class="widget-title typo-h3">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -218,13 +218,28 @@
             
             <div class="item-inner">
               <p class="item-category">
+                <a class="category-link" href="/categories/生活/">生活</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/13/鸣鸣小喵日记/" class="title">鸣鸣小喵日记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-13T11:34:38.000Z" itemprop="datePublished">2018-12-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
                 <a class="category-link" href="/categories/Android/">Android</a>
               </p>
               <p class="item-title">
-                <a href="/2018/08/01/Android-video-player/" class="title">「播放器」Android视频开发介绍</a>
+                <a href="/2018/08/02/media-player/" class="title">「播放器」使用MediaPlayer</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-08-01T10:05:07.000Z" itemprop="datePublished">2018-08-01</time>
+                <time datetime="2018-08-02T02:07:15.000Z" itemprop="datePublished">2018-08-02</time>
               </p>
             </div>
           </li>
@@ -251,7 +266,7 @@
                 <a class="category-link" href="/categories/播放器/">播放器</a>
               </p>
               <p class="item-title">
-                <a href="/2018/06/11/player-orientation/" class="title">「播放器」处理界面旋转</a>
+                <a href="/2018/06/11/player-orientation/" class="title">「播放器」不自由的旋转</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-06-11T11:49:06.000Z" itemprop="datePublished">2018-06-11</time>
@@ -270,21 +285,6 @@
               </p>
               <p class="item-date">
                 <time datetime="2018-06-07T08:02:19.000Z" itemprop="datePublished">2018-06-07</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/Android/">Android</a>
-              </p>
-              <p class="item-title">
-                <a href="/2018/04/24/Android Sound overlap/" class="title">「播放器」Android音频焦点</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-04-24T11:22:02.000Z" itemprop="datePublished">2018-04-24</time>
               </p>
             </div>
           </li>
@@ -309,7 +309,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      「播放器」处理界面旋转
+      「播放器」不自由的旋转
     </h1>
   
 
@@ -334,7 +334,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/11/player-orientation/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,366(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2,270(字)</span>
 	
 	
 
@@ -342,14 +342,52 @@
     </div>
     <div class="article-entry markdown-body" itemprop="articleBody">
       
-        <p>屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是视频播放画面跟随手机的方向旋转，<br>达到比较好的用户体验。但是细节往往决定成败┐(ﾟ～ﾟ)┌。我主动点击了全屏按钮屏幕会不会自己又转回来了？<br>两个方向横屏的情况点击回到竖屏处理的是不是正确的？blablabla…今天就好好把这一切捋清楚&lt;(￣︶￣)&gt;</p>
-<blockquote>
-<p>这篇文章的目的是：<strong>如果你对屏幕旋转逻辑不够清晰，还对屏幕旋转的功能细节不够满意的话，一起来将整个逻辑思考清楚吧。</strong></p>
-</blockquote>
-<h2 id="基础回顾"><a href="#基础回顾" class="headerlink" title="基础回顾"></a>基础回顾</h2><ul>
-<li>通过<code>activity.setRequestedOrientation(@ActivityInfo.ScreenOrientation)</code>方法实现控制界面的方向</li>
-<li>通过<code>OrientationEventListener(activity)</code>来监听屏幕方向(角度)的变化</li>
+        <p>屏幕旋转是开发播放器过程中大家都会实现的基础功能，简单的说，就是接管手机方向的旋转控制，那为啥不直接用默认的旋转功能呢，主要是</p>
+<ul>
+<li>播放页面有其他的显示内容，而这些内容的布局不适合在横屏下显示</li>
+<li>有特殊需求，比如在软件中锁定方向、未播放时不允许旋转等等</li>
+<li>在系统锁定方向时，依旧可以旋转</li>
 </ul>
+<blockquote>
+<p>在不同的使用场景下对旋转的约束变的复杂起来，旋转也越来越”不自由”，这篇文章的目的是：<strong>如果你对屏幕旋转逻辑不够清晰，还对屏幕旋转的功能细节不够满意的话，一起来将整个逻辑思考清楚吧。</strong></p>
+</blockquote>
+<p>废话不多说先简单回顾一下基础知识。</p>
+<h2 id="基础回顾"><a href="#基础回顾" class="headerlink" title="基础回顾"></a>基础回顾</h2><ol>
+<li><p>设置屏幕方向<br>很简单，通过<code>activity.setRequestedOrientation(@ActivityInfo.ScreenOrientation)</code>方法实现控制界面的方向（还可以控制旋转模式），具体的参数意义可以在文档中查看。</p>
+</li>
+<li><p>获取当前屏幕方向<br>只能设置方向可不行，先得知道当前是什么方向。<br>通过<code>activity.getWindowManager().getDefaultDisplay().getRotation()</code>方法来获取当前方向，注意返回值为<code>@Surface.Rotation</code>类型。<code>WindowManager</code>也可以通过<code>Context</code>获取。</p>
+</li>
+<li><p>自动旋转<br>如果要实现更复杂的控制，还需要知道当前手机的角度。<br>通过<code>OrientationEventListener(activity)</code>来监听屏幕方向(角度)的变化，监听的<code>onOrientationChanged(int rotation)</code>方法中，实时返回了当前设备的角度。</p>
+</li>
+<li><p>处理旋转导致的activity变更<br>大家都知道旋转会导致<code>activity</code>重建，可以在<code>AndroidManifest</code>文件中修改<code>activity</code>的<code>configChanges</code>配置，即可在<code>onConfigurationChanged(newConfig: Configuration?)</code>方法中自行处理旋转变更，具体参考<a href="https://developer.android.com/guide/topics/resources/runtime-changes?hl=zh-cn" target="_blank" rel="noopener">处理运行时变更。</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 视频播放中常用的配置</span><br><span class="line">android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="功能分析"><a href="#功能分析" class="headerlink" title="功能分析"></a>功能分析</h2><p>旋转功能可以实现的非常简单，也可以相对复杂，具体要看应用的场景，下面分析几个常见应用。</p>
+<ol>
+<li><p>抖音<br>最简单，没有旋转^_^ ，值得一提的是适配了视频源的方向，让视频看起来更舒服。</p>
+</li>
+<li><p>YouTube<br>整个应用都支持旋转，播放页面多了一个全屏和非全屏的切换按钮。旋转的逻辑比较简单，但横竖屏切换对布局处理的逻辑复杂，也暂时不在本文的介绍范围。</p>
+</li>
+<li><p>bilbili点播页面<br>旋转逻辑相对于YouTube复杂了一些，比如视频未播放时不支持自动旋转，支持屏幕锁，显示菜单时不允许旋转，可能还有很多我没发现的细节。</p>
+</li>
+<li><p>bilbili离线播放<br>更简单一点，只支持横屏，但上面的功能也没少。</p>
+</li>
+</ol>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><p>Android系统既提供了预设的旋转模式，也提供完全自由的控制，分别通过<code>activity.setRequestedOrientation(@ActivityInfo.ScreenOrientation)</code>方法，<code>OrientationEventListener(activity)</code>监听器来实现。因此这就为解决问题提供了两种思路，</p>
+<ol>
+<li>通过组合系统的预设模式来达到预期效果</li>
+<li>通过监听角度变化，配合需要的限制来完全自定义旋转效果</li>
+</ol>
+<p>不管使用哪种方式，两个API都要结合使用，基础的旋转大家都能轻松做到，但要达到比较好的用户体验，细节往往决定成败┐(ﾟ～ﾟ)┌。</p>
+<ul>
+<li>主动点击了全屏按钮屏幕会不会自己又转回来了？</li>
+<li>全屏状态下点击返回键是直接退出当前页面，还是回到竖屏？</li>
+<li>两个方向横屏的情况点击回到竖屏处理的是不是正确的？</li>
+<li>有没有适配默认方向为横向的Android平板?<br>blablabla…今天就好好把这一切捋清楚&lt;(￣︶￣)&gt;，接下来分析一下常见的错误和如何优化。</li>
+</ul>
+<p>值得注意的是，参数<code>rotation</code>的意义。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Called when the orientation of the device has changed.</span></span><br><span class="line"><span class="comment"> * orientation parameter is in degrees, ranging from 0 to 359.</span></span><br><span class="line"><span class="comment"> * orientation is 0 degrees when the device is oriented in its natural position,</span></span><br><span class="line"><span class="comment"> * 90 degrees when its left side is at the top, 180 degrees when it is upside down, </span></span><br><span class="line"><span class="comment"> * and 270 degrees when its right side is to the top.</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> #ORIENTATION_UNKNOWN&#125; is returned when the device is close to flat</span></span><br><span class="line"><span class="comment"> * and the orientation cannot be determined.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> orientation The new orientation of the device.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  <span class="doctag">@see</span> #ORIENTATION_UNKNOWN</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOrientationChanged</span><span class="params">(<span class="keyword">int</span> orientation)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>就这么简单，就这一个方法和一个监听器。旁白君：这么简单还讲毛线哇 (⊙ˍ⊙)，散了散了…！！！大家慢走，<br>的确就这两个东东，但还要组合4个方向，两个操作，两个状态，还有balabala… 旁白君：有人装神弄鬼啦，大家快走！。</p>
 <p>哈哈，言归正传~这些状态和操作一开始组合起来真的把我弄晕了，不过冷静下来思考之后，回归了简单。</p>
 <h2 id="情景分析"><a href="#情景分析" class="headerlink" title="情景分析"></a>情景分析</h2><p>首先看看手机方向示意图：</p>
@@ -399,7 +437,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://haohaozaici.github.io/2018/06/11/player-orientation/" title="「播放器」处理界面旋转" target="_blank" rel="external">https://haohaozaici.github.io/2018/06/11/player-orientation/</a>
+      <a href="https://haohaozaici.github.io/2018/06/11/player-orientation/" title="「播放器」不自由的旋转" target="_blank" rel="external">https://haohaozaici.github.io/2018/06/11/player-orientation/</a>
     </li>
     
     <li class="post-copyright-license">

@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://haohaozaici.github.io/2018/08/01/Android-video-player/</loc>
+    <loc>https://haohaozaici.github.io/2018/12/13/%E9%B8%A3%E9%B8%A3%E5%B0%8F%E5%96%B5%E6%97%A5%E8%AE%B0/</loc>
     
-    <lastmod>2018-08-01T11:55:04.941Z</lastmod>
+    <lastmod>2018-12-13T11:41:14.677Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://haohaozaici.github.io/2018/06/11/player-orientation/</loc>
+    
+    <lastmod>2018-09-13T01:40:36.779Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://haohaozaici.github.io/2018/08/02/media-player/</loc>
+    
+    <lastmod>2018-08-09T08:41:46.859Z</lastmod>
     
   </url>
   
@@ -26,13 +40,6 @@
     <loc>https://haohaozaici.github.io/2018/06/07/build-ijkplayer/</loc>
     
     <lastmod>2018-07-11T12:29:44.559Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://haohaozaici.github.io/2018/06/11/player-orientation/</loc>
-    
-    <lastmod>2018-06-12T02:43:35.541Z</lastmod>
     
   </url>
   
