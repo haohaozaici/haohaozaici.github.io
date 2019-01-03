@@ -6,4 +6,13 @@
     "sha256_cert_fingerprints":
     ["40:2F:90:C6:E8:30:87:87:D4:25:D9:1E:94:62:A9:02:A8:21:AB:05:34:34:0E:1A:D9:50:97:F0:DB:AF:F6:66"]
   }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.haohaozaici.diagram",
+    "sha256_cert_fingerprints":
+    ["DF:27:66:3D:62:09:7E:5E:7E:6A:89:BB:B2:F6:21:28:49:FE:95:1D:BF:77:77:21:FA:9D:21:68:4D:2C:CD:0D"]
+  }
 }]
