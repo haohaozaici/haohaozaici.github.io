@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>「播放器」初识ExoPlayer | 浩浩的被窝</title>
+  <meta name="description" content="这只是一篇记录  又爱又恨的ijkplayer刚开始准备改造视频播放器的时候，对比了ijkplayer和ExoPlayer，我们的用例是HLS源点播，因为ijkplayer中文资料更多，支持更多的格式，而且b站这么多的用户，”兼容性”应该更好，所以毫不犹豫选择了ijkplayer。实际使用起来也并不复杂，简单封装修改了IjkVideoView，根据需要修改编译配置，编译so库，API使用非常方便">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「播放器」初识ExoPlayer">
+<meta property="og:url" content="https://haohaozaici.github.io/2019/07/15/exoplayer_1/index.html">
+<meta property="og:site_name" content="浩浩的被窝">
+<meta property="og:description" content="这只是一篇记录  又爱又恨的ijkplayer刚开始准备改造视频播放器的时候，对比了ijkplayer和ExoPlayer，我们的用例是HLS源点播，因为ijkplayer中文资料更多，支持更多的格式，而且b站这么多的用户，”兼容性”应该更好，所以毫不犹豫选择了ijkplayer。实际使用起来也并不复杂，简单封装修改了IjkVideoView，根据需要修改编译配置，编译so库，API使用非常方便">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-15T13:15:49.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「播放器」初识ExoPlayer">
+<meta name="twitter:description" content="这只是一篇记录  又爱又恨的ijkplayer刚开始准备改造视频播放器的时候，对比了ijkplayer和ExoPlayer，我们的用例是HLS源点播，因为ijkplayer中文资料更多，支持更多的格式，而且b站这么多的用户，”兼容性”应该更好，所以毫不犹豫选择了ijkplayer。实际使用起来也并不复杂，简单封装修改了IjkVideoView，根据需要修改编译配置，编译so库，API使用非常方便">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://haohaozaici.github.io/2019/07/15/exoplayer_1/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="浩浩的被窝" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/ic_launcher.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+  <link rel="stylesheet" href="/css/typo.css">
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/haohaozaici" target="_blank">
+          <img class="img-circle img-rotate" src="/img/head_icon.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">浩浩在此</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Android 工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/haohaozaici" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title typo-h3">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>不写下来好像永远都记不住？！</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Effective-Java/">Effective Java</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/生活/乱七八糟的技巧/">乱七八糟的技巧</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/情感/">情感</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/电影/">电影</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title typo-h3">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/07/15/exoplayer_1/" class="title">「播放器」初识ExoPlayer</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-07-15T08:45:27.000Z" itemprop="datePublished">2019-07-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/生活/">生活</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/生活/情感/">情感</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/30/拔智齿/" class="title">拔智齿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-06-30T08:02:39.000Z" itemprop="datePublished">2019-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/生活/">生活</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/生活/电影/">电影</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/01/26/白蛇 缘起/" class="title">白蛇 缘起</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-01-26T11:40:11.000Z" itemprop="datePublished">2019-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/生活/">生活</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/13/鸣鸣小喵日记/" class="title">鸣鸣小喵日记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-13T11:34:38.000Z" itemprop="datePublished">2018-12-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/07/11/ConstraintLayout/" class="title">ConstraintLayout「最全总结」</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-07-11T06:14:50.000Z" itemprop="datePublished">2018-07-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main typo" role="main">
+  <div class="content">
+  <article id="post-exoplayer_1" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      「播放器」初识ExoPlayer
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/07/15/exoplayer_1/" class="article-date">
+	  <time datetime="2019-07-15T08:45:27.000Z" itemprop="datePublished">2019-07-15</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </span>
+
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/07/15/exoplayer_1/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,670(字)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>这只是一篇记录</p>
+</blockquote>
+<h2 id="又爱又恨的ijkplayer"><a href="#又爱又恨的ijkplayer" class="headerlink" title="又爱又恨的ijkplayer"></a>又爱又恨的<a href="https://github.com/bilibili/ijkplayer" target="_blank" rel="noopener">ijkplayer</a></h2><p>刚开始准备改造视频播放器的时候，对比了<code>ijkplayer</code>和<code>ExoPlayer</code>，我们的用例是HLS源点播，因为ijkplayer中文资料更多，支持更多的格式，而且b站这么多的用户，”兼容性”应该更好，所以毫不犹豫选择了ijkplayer。实际使用起来也并不复杂，简单封装修改了IjkVideoView，根据需要修改编译配置，编译so库，API使用非常方便。但是在使用了大半年ijkplayer后，被几个问题一直困扰，导致现在不得不考虑更换。</p>
+<p>遇到的问题：</p>
+<ol>
+<li>经常出现加载失败，一直在加载</li>
+<li>错误状态不清晰，比较难定位问题</li>
+<li>IjkMediaPlayer不保证复用安全</li>
+<li>在某些4.4机型上频繁创建IjkMediaPlayer会崩溃</li>
+</ol>
+<p>加载失败的问题最严重，虽然用户量不算大，但经常收到反馈，出现的情况比如<strong>播放时频繁加载、播放一段时间就卡住了，一直显示在加载</strong>，由于IjkMediaPlayer不保证复用安全，只能重新创建MediaPlayer。起初我以为只是用户的网络问题，或者是视频服务、CDN问题。但随着类似的反馈越来越多，问题肯定出在播放器上，我也尝试过各种设置，修改了各种参数，还有类似<code>ijkhttphook</code>等等，都无法解决。加载慢还带来了seek慢问题，<strong>seek之后需要等待很长时间才生效</strong>，当然这和视频源也有很大的关系，但在iOS、web端都正常。</p>
+<p>错误状态不清晰也让我逐渐对她失去信心，视频源、播放设备都可能会出现问题，因为无法定位问题，浪费了很多时间联系用户，错误内容也没有直观的信息，每次收到出错日志都慌的一匹。</p>
+<p>其他的如在某些4.4机型上频繁创建IjkMediaPlayer会崩溃，不断累积的native异常等，可靠性也不算好。不能确定是否是硬解软解与显示surface的问题，在Profiler里观察到播放效率(耗电量)明显偏高，内存占用也不少。</p>
+<p>我并不擅长FFmpeg和c语言，没有信心在ijkplayer的基础上修改好，再加上一些安全性问题，需要修改之前的自定义协议方式，综合以上，在前段时间开始准备迁移到ExoPlayer。</p>
+<h2 id="迁移到ExoPlayer"><a href="#迁移到ExoPlayer" class="headerlink" title="迁移到ExoPlayer"></a>迁移到<a href="https://github.com/google/ExoPlayer" target="_blank" rel="noopener">ExoPlayer</a></h2><h3 id="首先想好做什么"><a href="#首先想好做什么" class="headerlink" title="首先想好做什么"></a>首先想好做什么</h3><p>目标很清晰，替换<code>IjkMediaPlayer -&gt; Player</code>、<code>IjkVideoView -&gt; PlayerView</code>，因为并不打算继续使用ijkplayer，而且两个播放器API差异不算小，所以没有使用接口抽象继续兼容ijkplayer，播放器与业务相关的API改动不大，只需要替换player即可。除此之外我还需要加入部分解密算法，实现自定义协议、支持解密，native代码混淆。</p>
+<h3 id="研究原理"><a href="#研究原理" class="headerlink" title="研究原理"></a>研究原理</h3><p>ExoPlayer资料非常丰富详细，包含官方文档、google io视频、丰富的github issue。通过这些方法解决了我遇到的所有问题，并且让我了解了很多相关知识，后面会介绍我涉及到的部分。解密的部分可以通过<code>OpenSSL</code>配合自定义<code>DataSource</code>实现，native代码混淆可以使用<code>ollvm</code>，他们的用法资料也非常多。</p>
+<h3 id="选择方案"><a href="#选择方案" class="headerlink" title="选择方案"></a>选择方案</h3><p>得益于ExoPlayer清晰灵活的结构，很明确，ExoPlayer自定义数据源 + OpenSSL解密数据源 + ollvm native代码混淆。</p>
+<h3 id="初步实现"><a href="#初步实现" class="headerlink" title="初步实现"></a>初步实现</h3><p>生产环境的大项目可不适合试错，打开配置好的模板demo，编写简单可播放sample的示例，自定义数据源参考<code>ExoPlayer OkHttp extension</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建数据源</span></span><br><span class="line">HttpDataSource</span><br><span class="line">HttpDataSourceFactory</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改数据加载方法，处理请求和响应，满足自定义协议</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">open</span><span class="params">(DataSpec dataSpec)</span> <span class="keyword">throws</span> HttpDataSourceException </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>OpenSSL解密数据源，配置native开发环境，编译OpenSSL动态(静态)链接库，导入头文件，参考官方demo实现AES解密的相关jni方法</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">jbyte *key = (*env)-&gt;GetByteArrayElements(env, decryptKey, JNI_FALSE);</span><br><span class="line">jbyte *iv = (*env)-&gt;GetByteArrayElements(env, encryptionIv, JNI_FALSE);</span><br><span class="line"></span><br><span class="line">EVP_CIPHER_CTX *ctx;</span><br><span class="line"><span class="comment">/* Create and initialise the context */</span></span><br><span class="line"><span class="keyword">if</span> (!(ctx = EVP_CIPHER_CTX_new())) &#123;</span><br><span class="line">    LOGE(<span class="string">"initialise context failed -1"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Initialise the decryption operation. IMPORTANT - ensure you use a key</span></span><br><span class="line"><span class="comment"> * and IV size appropriate for your cipher</span></span><br><span class="line"><span class="comment"> * In this example we are using 256 bit AES (i.e. a 256 bit key). The</span></span><br><span class="line"><span class="comment"> * IV size for *most* modes is the same as the block size. For AES this</span></span><br><span class="line"><span class="comment"> * is 128 bits</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span> (<span class="number">1</span> != EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), <span class="literal">NULL</span>,</span><br><span class="line">                            (<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *) key,</span><br><span class="line">                            (<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *) iv)) &#123;</span><br><span class="line">    LOGE(<span class="string">"DecryptInit failed -2"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(*env)-&gt;ReleaseByteArrayElements(env, decryptKey, key, JNI_FALSE);</span><br><span class="line">(*env)-&gt;ReleaseByteArrayElements(env, encryptionIv, iv, JNI_FALSE);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> (jlong) ctx;</span><br></pre></td></tr></table></figure>
+<p>使用FFmpeg准备好加密的HLS源，验证sample正确播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0_blv.mp4 \</span><br><span class="line">-c copy -bsf:v h264_mp4toannexb -hls_time 5 -hls_list_size 0 \</span><br><span class="line">-hls_key_info_file key.info \</span><br><span class="line">encryptionM3U8/output.m3u8</span><br></pre></td></tr></table></figure>
+<p>ollvm native代码混淆，编译支持混淆的llvm，修改ndk toolchain，配置支持混淆的ndk路径，因为native代码并不多，支持的混淆方式都加上了，最后用IDA Pro查看是否混淆成功，一行简单的return代码被加上了几十层循环。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">    cmake &#123;</span><br><span class="line">        <span class="comment">// 添加各种混淆方式</span></span><br><span class="line">        cFlags <span class="string">"-mllvm -sub -mllvm -bcf -mllvm -fla -mllvm -sobf"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="优化细节"><a href="#优化细节" class="headerlink" title="优化细节"></a>优化细节</h3><p>在应用到项目之前，可以尝试优化一些细节，比如在线播放的时候加上<code>CacheDataSource</code>作为临时缓存，能极大提升拖动进度条的体验，减少流量消耗</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SimpleCache(downloadContentDirectory, LeastRecentlyUsedCacheEvictor(CACHE_MAX_SIZE))</span><br></pre></td></tr></table></figure>
+<p>提前尝试好各种参数配置，如<code>loadControl</code>，<code>LoadErrorHandlingPolicy</code>，整理好一些工具、辅助类方便处理<code>MediaSession</code>、<code>PlayerNotification</code>、截图、状态栏等等。清晰的错误报告这次不会错过了，处理好方法的异常，返回值，关键点日志，API，注释，混淆配置。</p>
+<h3 id="应用到项目"><a href="#应用到项目" class="headerlink" title="应用到项目"></a>应用到项目</h3><p>最后就需要耐心的接入到项目中了，发布SDK到maven仓库，细心的修改不同功能模块，细粒度的对比检查、提交代码。经过几周的测试，生产环境试用，最终优雅的解决了之前自定义协议带来的问题，网络加载问题得到了极大的改善，内存消耗减少，性能也显著提升。</p>
+<p>通过使用ijkplayer了解到很多视频播放相关的知识，但每当我想一窥究竟的时候，里面的内容却是不熟悉的c代码。亲切的Java代码，加上ExoPlayer清晰的结构，把里面复杂的模块拆分展现出来，终于认识到我写的一串<code>newSimpleInstance</code>代码到底是什么了。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://exoplayer.dev/" target="_blank" rel="noopener">exoplayer.dev</a></li>
+<li><a href="https://medium.com/google-exoplayer" target="_blank" rel="noopener">google-exoplayer blog</a></li>
+<li><a href="https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption#Decrypting_the_Message" target="_blank" rel="noopener">openssl Decrypting the Message</a></li>
+<li><a href="https://heroims.github.io/2019/01/06/OLLVM%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86%E7%A7%BB%E6%A4%8D%E4%B8%8E%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener">OLLVM代码混淆移植与使用</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://haohaozaici.github.io/2019/07/15/exoplayer_1/" title="「播放器」初识ExoPlayer" target="_blank" rel="external">https://haohaozaici.github.io/2019/07/15/exoplayer_1/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+<!-- 
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/haohaozaici" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/img/head_icon.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <p class="media-heading"><a href="https://github.com/haohaozaici" target="_blank"><span class="text-dark">浩浩在此</span><small class="ml-1x">Android 工程师</small></a></p>
+        <small>疯狂修仙~</small>
+      </div>
+    </figure>
+  </div>
+</div>
+ -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/06/30/拔智齿/" title="拔智齿"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/haohaozaici" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+    
+
+
+
+</body>
+</html>
